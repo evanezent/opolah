@@ -1,7 +1,11 @@
-import 'package:carousel_pro/carousel_pro.dart';
+import 'dart:ffi';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/ui/components/CardIcon.dart';
+import 'package:opolah/ui/components/CardItem.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -15,31 +19,41 @@ class _LandingPageState extends State<LandingPage> {
     super.initState();
   }
 
+  List images = [
+    Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: colorPrimary)),
+    Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.white)),
+    Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: colorSecondary)),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: ListView(
+        scrollDirection: Axis.vertical,
         children: [
-          // Container(
-          //   height: 250,
-          //   padding: EdgeInsets.all(15),
-          //   child: Carousel(
-          //     images: [
-          //       Container(decoration: BoxDecoration(color: colorPrimary)),
-          //       Container(decoration: BoxDecoration(color: Colors.white)),
-          //       Container(decoration: BoxDecoration(color: colorSecondary)),
-          //     ],
-          //     autoplay: true,
-          //     animationCurve: Curves.fastOutSlowIn,
-          //     animationDuration: Duration(milliseconds: 1000),
-          //     dotBgColor: Colors.transparent,
-          //     dotPosition: DotPosition.bottomCenter,
-          //     dotIncreasedColor: colorPrimary,
-          //     dotSpacing: 12,
-          //   ),
-          // ),
+          Container(
+            child: CarouselSlider.builder(
+              itemCount: 3,
+              options: CarouselOptions(
+                autoPlay: true,
+                autoPlayAnimationDuration: Duration(seconds: 2),
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 2.0,
+                initialPage: 1,
+              ),
+              itemBuilder: (context, index) => images[index],
+            ),
+          ),
+          SizedBox(height: 10),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -68,171 +82,92 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(10),
-            // child: Carousel.s,
-          )
-          // child: Row(
-          //   children: [
-          //     CardItem(
-          //       size: size,
-          //       imgUrl:
-          //           'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
-          //       nStar: 5,
-          //       name: 'Space-Star Art Tshirt',
-          //       price: '75.000',
-          //     ),
-          //     CardItem(
-          //       size: size,
-          //       imgUrl:
-          //           'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
-          //       nStar: 5,
-          //       name: 'Space-Star Art Tshirt',
-          //       price: '75.000',
-          //     ),
-          //     CardItem(
-          //       size: size,
-          //       imgUrl:
-          //           'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
-          //       nStar: 5,
-          //       name: 'Space-Star Art Tshirt',
-          //       price: '75.000',
-          //     ),
-          //     CardItem(
-          //       size: size,
-          //       imgUrl:
-          //           'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
-          //       nStar: 5,
-          //       name: 'Space-Star Art Tshirt',
-          //       price: '75.000',
-          //     ),
-          //   ],
-          // ),
-          // )
-        ],
-      ),
-    );
-  }
-}
-
-class CardItem extends StatelessWidget {
-  const CardItem({
-    Key key,
-    @required this.size,
-    this.nStar,
-    this.name,
-    this.price,
-    this.imgUrl,
-  }) : super(key: key);
-
-  final Size size;
-  final int nStar;
-  final String name, price, imgUrl;
-
-  Widget loopStar(nStar) {
-    return Row(
-      children: [
-        for (var i = 0; i < 5; i++)
-          i < nStar
-              ? FaIcon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.yellow[700],
-                  size: 15,
-                )
-              : FaIcon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.grey[200],
-                  size: 15,
-                )
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size.width * 0.4,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: darkShadow,
-          borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            child: Image.network(imgUrl),
-          ),
-          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
             padding: EdgeInsets.all(10),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: colorPrimary, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 5),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    loopStar(nStar),
+                    Text(
+                      "Newcomer",
+                      style: TextStyle(
+                          color: colorPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: colorPrimary,
+                        ),
+                        child: Text(
+                          "See all",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-                SizedBox(height: 5),
-                Text(
-                  price,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: colorSecondary),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      CardItem(
+                        size: size,
+                        imgUrl:
+                            'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
+                        nStar: 5,
+                        name: 'Space-Star Art Tshirt',
+                        price: '75.000',
+                      ),
+                      CardItem(
+                        size: size,
+                        imgUrl:
+                            'https://i.ebayimg.com/images/i/252607971933-0-1/s-l1000.jpg',
+                        nStar: 4.5,
+                        name: 'Uzi Japan Sweater',
+                        price: '275.000',
+                      ),
+                      CardItem(
+                        size: size,
+                        imgUrl:
+                            'https://vipoutlet.com/contents/uploads/2019/06/127c9c3e0158474591a0c2a79d2d65eb.jpg',
+                        nStar: 5,
+                        name: 'Oddgod A1-Blue',
+                        price: '500.000',
+                      ),
+                      CardItem(
+                        size: size,
+                        imgUrl:
+                            'https://ssl.quiksilver.com/www/store.quiksilver.eu/html/images/catalogs/global/dcshoes-products/all/default/hi-res/adys100319_plazatcs,p_bda_frt1.jpg',
+                        nStar: 4.8,
+                        name: 'DC-Shoes Shielder',
+                        price: '347.000',
+                      ),
+                      CardItem(
+                        size: size,
+                        imgUrl:
+                            'https://cdn.cultofmac.com/wp-content/uploads/2019/07/iPhone-11R-11Max-Fence.jpg',
+                        nStar: 5,
+                        name: 'Iphone 11 PRO',
+                        price: '10.755.000',
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
-    );
-  }
-}
-
-class CardIcon extends StatelessWidget {
-  const CardIcon({
-    Key key,
-    this.icon,
-    this.title,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-          width: 63,
-          height: 63,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-              boxShadow: darkShadow),
-          child: Column(
-            children: [
-              FaIcon(
-                icon,
-                color: colorPrimary,
-              ),
-              SizedBox(height: 5),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 10,
-                ),
-              )
-            ],
-          )),
     );
   }
 }
