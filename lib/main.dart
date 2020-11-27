@@ -1,6 +1,7 @@
 import 'package:custom_splash/custom_splash.dart';
 import 'package:flutter/material.dart';
-import 'package:opolah/ui/pages/landing_page.dart';
+import 'package:opolah/ui/screens/home/home_screen.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         body: CustomSplash(
           imagePath: 'assets/images/logo.png',
-          home: LandingPage(),
+          home: MainScreen(),
           animationEffect: 'zoom-in',
           duration: 2500,
           type: CustomSplashType.StaticDuration,

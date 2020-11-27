@@ -32,6 +32,7 @@ dependencies:
   carousel_slider:
   custom_splash:
   font_awesome_flutter:
+  bottom_navy_bar:
 
 dev_dependencies:
   flutter_test:
