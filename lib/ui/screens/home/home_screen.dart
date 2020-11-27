@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/card_icon.dart';
 import 'package:opolah/ui/components/home/search_bar.dart';
 import 'package:opolah/ui/components/home/slider_item.dart';
@@ -18,15 +17,40 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List images = [
-    Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: colorPrimary)),
-    Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.white)),
-    Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: colorSecondary)),
+    ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+        bottomRight: Radius.circular(10),
+        bottomLeft: Radius.circular(10),
+      ),
+      child: Image.asset(
+        'assets/images/banner1.jpg',
+        fit: BoxFit.cover,
+      ),
+    ),
+    ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+        ),
+        child: Image.asset(
+          'assets/images/banner2.jpg',
+          fit: BoxFit.cover,
+        )),
+    ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+        ),
+        child: Image.asset(
+          'assets/images/banner3.jpg',
+          fit: BoxFit.cover,
+        )),
   ];
 
   @override
