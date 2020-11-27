@@ -1,16 +1,19 @@
-# opolah
+# RS Tingkat Akhir smkdev
 
-A new Flutter project.
+SMKDEV Hackathon Competition.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Make sure you have flutter install on your machine, then run the app on connected device or emulator.
+1. Clone this repository
+`git clone https://github.com/evanezcent/opolah`
 
-A few resources to get you started if this is your first Flutter project:
+2. Install dependencies
+`flutter packages get` or  `pub get`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+3. Run this project
+`flutter run` or `f5`
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Note: Run this command if there is some error
+`flutter upgrade` but if you was in the latest version of flutter just run
+`flutter clean`
