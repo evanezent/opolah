@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/ui/components/CardItem.dart';
+import 'package:opolah/ui/components/card_item.dart';
 
 class SliderItem extends StatelessWidget {
   const SliderItem({

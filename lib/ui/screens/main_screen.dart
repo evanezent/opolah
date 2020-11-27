@@ -13,7 +13,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
   List<Widget> pagesList = [
     HomeScreen(),
     ShopScreen(),

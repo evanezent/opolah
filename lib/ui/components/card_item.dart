@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/constant/utils.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
@@ -16,27 +16,9 @@ class CardItem extends StatelessWidget {
   final double nStar;
   final String name, price, imgUrl;
 
-  Widget loopStar(nStar) {
-    return Row(
-      children: [
-        for (var i = 1; i <= 5; i++)
-          i <= nStar
-              ? FaIcon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.yellow[700],
-                  size: 15,
-                )
-              : FaIcon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.grey[200],
-                  size: 15,
-                )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    Utils util = Utils();
     return Container(
       width: size.width * 0.4,
       margin: EdgeInsets.all(10),
@@ -69,11 +51,7 @@ class CardItem extends StatelessWidget {
                       color: colorPrimary, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 5),
-                Row(
-                  children: [
-                    loopStar(nStar),
-                  ],
-                ),
+                util.loopStar(nStar),
                 SizedBox(height: 5),
                 Text(
                   price,
