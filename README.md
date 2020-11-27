@@ -15,5 +15,5 @@ Make sure you have flutter install on your machine, then run the app on connecte
 `flutter run` or `f5`
 
 Note: Run this command if there is some error
-**`flutter upgrade`** but if you was in the latest version of flutter just run
+**`flutter upgrade`**, but if you was in the latest version of flutter just run
 **`flutter clean`**
