@@ -67,7 +67,7 @@ flutter:
   fonts:
     - family: KosugiMaru
       fonts:
-        - asset: assets\fonts\KosugiMaru-Regular.ttf
+        - asset: assets\fonts\Barlow-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -17,8 +17,8 @@ class CardIcon extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-          width: 63,
-          height: 63,
+          width: 65,
+          height: 65,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
