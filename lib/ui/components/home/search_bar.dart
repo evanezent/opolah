@@ -16,19 +16,20 @@ class SearchBar extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: 35,
-              padding: EdgeInsets.all(3),
+              height: 40,
+              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 7),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
               ),
               child: TextField(
+                style: TextStyle(fontSize: 15),
                 textInputAction: TextInputAction.search,
                 onSubmitted: (value) {
                   print(value);
                 },
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10),
+                    // contentPadding: EdgeInsets.symmetric(vertical: 10),
                     hintText: "Search",
                     hintStyle: TextStyle(color: colorPrimary.withOpacity(0.3)),
                     enabledBorder: InputBorder.none,
