@@ -46,7 +46,7 @@ class CardItem extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  // overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: colorPrimary, fontWeight: FontWeight.w600),
                 ),
