@@ -29,7 +29,6 @@ class SearchBar extends StatelessWidget {
                   print(value);
                 },
                 decoration: InputDecoration(
-                    // contentPadding: EdgeInsets.symmetric(vertical: 10),
                     hintText: "Search",
                     hintStyle: TextStyle(color: colorPrimary.withOpacity(0.3)),
                     enabledBorder: InputBorder.none,
