@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_counter/flutter_counter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
 
 class DetailItem extends StatefulWidget {
   @override
@@ -271,43 +272,7 @@ class _DetailItemState extends State<DetailItem> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        color: colorPrimary,
-        height: 60,
-        child: Row(
-          children: [
-            InkWell(
-                onTap: () {
-                  print('BUY NOW');
-                },
-                child: Container(
-                    height: 60,
-                    width: size.width * 0.7,
-                    color: Colors.white,
-                    child: Center(
-                      child: Text(
-                        "BUY NOW",
-                        style: TextStyle(
-                            color: colorPrimary,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ))),
-            InkWell(
-                onTap: () {
-                  print('ADD TO CHART');
-                },
-                child: Container(
-                    width: size.width * 0.3,
-                    height: 60,
-                    child: Center(
-                        child: FaIcon(
-                      FontAwesomeIcons.cartPlus,
-                      color: Colors.white,
-                    )))),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavItem(size: size),
     );
   }
 }
