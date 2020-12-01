@@ -9,7 +9,7 @@ Make sure you have flutter install on your machine, then run the app on connecte
 `git clone https://github.com/evanezcent/opolah`
 
 2. Install dependencies
-`flutter packages get` or  `pub get`
+`flutter packages get` or  `flutter pub get`
 
 3. Run this project
 `flutter run` or `f5`
