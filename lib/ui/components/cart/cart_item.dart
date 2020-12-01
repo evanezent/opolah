@@ -95,7 +95,6 @@ class CartItem extends StatelessWidget {
                                   size: 15,
                                 ),
                                 onPressed: () {
-                                  print('--- ${localQty}');
                                   callbackClick('decrease');
                                 }),
                             Container(
@@ -123,7 +122,6 @@ class CartItem extends StatelessWidget {
                                   size: 15,
                                 ),
                                 onPressed: () {
-                                  print('+++ ${localQty}');
                                   callbackClick('increase');
                                 })
                           ],

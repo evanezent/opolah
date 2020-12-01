@@ -34,7 +34,6 @@ class _MainScreenState extends State<MainScreen> {
         itemCornerRadius: 25,
         curve: Curves.easeIn,
         onItemSelected: (index) {
-          print(index);
           setState(() {
             _currentPageIndex = index;
           });
