@@ -17,14 +17,22 @@ class _CartScreenState extends State<CartScreen> {
   List<int> totalPerItem = List<int>();
   int res = 0;
 
-  void updateTotal(listItem, listChecked) {
+  void updateTotal(List<int> listItem, List<bool> listChecked) {
     for (var i = 0; i < listItem.length; i++) {
+      print(listChecked[i]);
+      print(listItem[i]);
       if (listChecked[i]) {
         setState(() {
-          res = listItem.reduce((a, b) => a + b);
+          res = res + listItem[i];
         });
       }
     }
+  }
+
+  void unCheck(int itemIndex, List<int> listItem) {
+    setState(() {
+      res = res - listItem[itemIndex];
+    });
   }
 
   @override
@@ -95,9 +103,10 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 isCheck[0] = value;
               });
-              if (isCheck[0]) {
-                updateTotal(totalPerItem, isCheck);
+              if (!isCheck[0]) {
+                unCheck(0, totalPerItem);
               }
+              updateTotal(totalPerItem, isCheck);
             },
           ),
           CartItem(
@@ -142,9 +151,11 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 isCheck[1] = value;
               });
-              if (isCheck[1]) {
-                updateTotal(totalPerItem, isCheck);
+
+              if (!isCheck[1]) {
+                unCheck(1, totalPerItem);
               }
+              updateTotal(totalPerItem, isCheck);
             },
           ),
         ],
