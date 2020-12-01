@@ -123,7 +123,7 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: Colors.white,
         title: Text(
           "MY CART",
-          style: TextStyle(color: colorPrimary),
+          style: TextStyle(color: colorPrimary, fontWeight: FontWeight.bold),
         ),
       ),
       backgroundColor: Colors.grey[100],
