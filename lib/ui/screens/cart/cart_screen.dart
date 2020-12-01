@@ -11,14 +11,31 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   int qty = 0;
   int total;
-  bool isCheck = false;
+  List<bool> isCheck = [false, false];
   List<int> counter = [1, 1];
+  List<int> price = [100000, 100000];
+  List<int> totalPerItem = List<int>();
+  int res = 0;
+
+  void updateTotal(listItem, listChecked) {
+    for (var i = 0; i < listItem.length; i++) {
+      if (listChecked[i]) {
+        setState(() {
+          res = listItem.reduce((a, b) => a + b);
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    total = qty;
+    for (var item in price) {
+      totalPerItem.add(item);
+    }
+    updateTotal(totalPerItem, isCheck);
+    print("AAAAAAAAAAAAAA${res}");
+    total = price[0];
   }
 
   @override
@@ -37,41 +54,103 @@ class _CartScreenState extends State<CartScreen> {
       body: Container(
           child: ListView(
         children: [
-          // CallbackF(
-          //   callback: () {
-          //     setState(() {
-          //       total++;
-          //     });
-          //   },
-          // ),
           CartItem(
             size: size,
-            isCheck: isCheck,
+            isCheck: isCheck[0],
             qty: counter[0],
-            callbackDecrease: (value, newQty) {
+            price: price[0],
+            callbackDecrease: (value) {
               if (total > 0) {
                 setState(() {
-                  total = total - value;
-                  counter[0] = newQty;
+                  counter[0]--;
+                  totalPerItem[0] = totalPerItem[0] - value;
                 });
+                if (isCheck[0]) {
+                  updateTotal(totalPerItem, isCheck);
+                }
               }
             },
-            callbackIncrease: (value, newQty) {
+            callbackType: (value, price) {
+              print('$value ,,,,,,,, $price');
+              if (value >= 0) {
+                setState(() {
+                  counter[0] = value;
+                  totalPerItem[0] = value * price;
+                });
+                if (isCheck[0]) {
+                  updateTotal(totalPerItem, isCheck);
+                }
+              }
+            },
+            callbackIncrease: (value) {
               setState(() {
-                total = total + value;
-                counter[0] = newQty;
+                counter[0]++;
+                totalPerItem[0] = totalPerItem[0] + value;
               });
+              if (isCheck[0]) {
+                updateTotal(totalPerItem, isCheck);
+              }
             },
             callbackChecked: (value) {
               setState(() {
-                isCheck = value;
+                isCheck[0] = value;
               });
+              if (isCheck[0]) {
+                updateTotal(totalPerItem, isCheck);
+              }
+            },
+          ),
+          CartItem(
+            size: size,
+            isCheck: isCheck[1],
+            qty: counter[1],
+            price: price[1],
+            callbackDecrease: (value) {
+              if (total > 0) {
+                setState(() {
+                  counter[1]--;
+                  totalPerItem[1] = totalPerItem[1] - value;
+                });
+
+                if (isCheck[1]) {
+                  updateTotal(totalPerItem, isCheck);
+                }
+              }
+            },
+            callbackType: (value, price) {
+              print('$value ,,,,,,,, $price');
+              if (value >= 0) {
+                setState(() {
+                  counter[1] = value;
+                  totalPerItem[1] = value * price;
+                });
+                if (isCheck[1]) {
+                  updateTotal(totalPerItem, isCheck);
+                }
+              }
+            },
+            callbackIncrease: (value) {
+              setState(() {
+                counter[1]++;
+                totalPerItem[1] = totalPerItem[1] + value;
+              });
+              if (isCheck[1]) {
+                updateTotal(totalPerItem, isCheck);
+              }
+            },
+            callbackChecked: (value) {
+              setState(() {
+                isCheck[1] = value;
+              });
+              if (isCheck[1]) {
+                updateTotal(totalPerItem, isCheck);
+              }
             },
           ),
         ],
       )),
       bottomNavigationBar: Container(
-        child: Text('TOTAL : $total'),
+        child: Text('TOTAL : $res'),
       ),
     );
   }
@@ -87,6 +166,8 @@ class CartItem extends StatelessWidget {
     this.callbackIncrease,
     this.callbackDecrease,
     this.callbackChecked,
+    this.price,
+    this.callbackType,
   }) : super(key: key);
 
   final Size size;
@@ -95,10 +176,11 @@ class CartItem extends StatelessWidget {
 
   final Function callbackIncrease;
   final Function callbackDecrease;
+  final Function callbackType;
   final Function callbackChecked;
 
   TextEditingController txtQty;
-  int price = 100000;
+  final int price;
   int localQty;
 
   @override
@@ -170,14 +252,7 @@ class CartItem extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   print('--- ${localQty}');
-                                  localQty = int.parse(txtQty.text);
-                                  if (qty > 0) {
-                                    localQty--;
-                                    this.txtQty.text = localQty.toString();
-
-                                    int result = price * localQty;
-                                    callbackDecrease(result, localQty);
-                                  }
+                                  callbackDecrease(price);
                                 }),
                             Container(
                               width: 30,
@@ -185,6 +260,9 @@ class CartItem extends StatelessWidget {
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 controller: txtQty,
+                                onChanged: (value) {
+                                  callbackType(value, price);
+                                },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
                                       RegExp("[0-9]")),
@@ -201,13 +279,8 @@ class CartItem extends StatelessWidget {
                                   size: 15,
                                 ),
                                 onPressed: () {
-                                  localQty++;
                                   print('+++ ${localQty}');
-                                  localQty = int.parse(txtQty.text);
-                                  this.txtQty.text = localQty.toString();
-
-                                  int result = price * localQty;
-                                  callbackIncrease(result, localQty);
+                                  callbackIncrease(price);
                                 })
                           ],
                         ))
