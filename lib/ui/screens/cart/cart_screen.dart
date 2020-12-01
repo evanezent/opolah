@@ -20,9 +20,12 @@ class _CartScreenState extends State<CartScreen> {
   void updateTotal(List<int> listItem, List<bool> listChecked) {
     /*
       Update total price of items that checked
+      Update if all item checked, then the "all's" checkbox is check
     */
+
     int temp = 0;
     bool isAllCheck = true;
+
     for (var i = 0; i < listItem.length; i++) {
       if (listChecked[i]) {
         temp = temp + listItem[i];
@@ -39,6 +42,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void isCheckedAll(value) {
+    /*
+      Calculation if the "all's" checkbox is checked
+    */
+
     for (var i = 0; i < isCheck.length; i++) {
       setState(() {
         isCheck[i] = value;
