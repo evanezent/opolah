@@ -18,21 +18,65 @@ class _CartScreenState extends State<CartScreen> {
   int res = 0;
 
   void updateTotal(List<int> listItem, List<bool> listChecked) {
+    /*
+      Update total price of items that checked
+    */
+    int temp = 0;
     for (var i = 0; i < listItem.length; i++) {
-      print(listChecked[i]);
-      print(listItem[i]);
       if (listChecked[i]) {
+        temp = temp + listItem[i];
+      }
+    }
+    setState(() {
+      res = temp;
+    });
+  }
+
+  void unCheck(int itemIndex) {
+    /*
+      Update when item is un-checked
+    */
+    setState(() {
+      res = res - totalPerItem[itemIndex];
+    });
+
+    updateTotal(totalPerItem, isCheck);
+  }
+
+  void updateTotalEachItem(int index, String callbackType, int value,
+      {int optionalValue}) {
+    /*
+      update total each item, curly braces params or {params} above is optional parameter that not should be use
+
+      First IF - for function when click for increase
+      Second IF - for function when click for decrease
+      Third IF - for function when type on the text field
+    */
+
+    if (callbackType == 'increase') {
+      setState(() {
+        counter[index]++;
+        totalPerItem[index] = totalPerItem[index] + value;
+      });
+    } else if (callbackType == 'decrease') {
+      if (totalPerItem[index] > 0) {
         setState(() {
-          res = res + listItem[i];
+          counter[index]--;
+          totalPerItem[index] = totalPerItem[index] - value;
+        });
+      }
+    } else {
+      if (value >= 0) {
+        setState(() {
+          counter[index] = value;
+          totalPerItem[index] = value * optionalValue;
         });
       }
     }
-  }
 
-  void unCheck(int itemIndex, List<int> listItem) {
-    setState(() {
-      res = res - listItem[itemIndex];
-    });
+    if (isCheck[index]) {
+      updateTotal(totalPerItem, isCheck);
+    }
   }
 
   @override
@@ -67,46 +111,21 @@ class _CartScreenState extends State<CartScreen> {
             isCheck: isCheck[0],
             qty: counter[0],
             price: price[0],
-            callbackDecrease: (value) {
-              if (total > 0) {
-                setState(() {
-                  counter[0]--;
-                  totalPerItem[0] = totalPerItem[0] - value;
-                });
-                if (isCheck[0]) {
-                  updateTotal(totalPerItem, isCheck);
-                }
-              }
+            callbackClick: (value) {
+              updateTotalEachItem(0, value, price[0]);
             },
-            callbackType: (value, price) {
-              print('$value ,,,,,,,, $price');
-              if (value >= 0) {
-                setState(() {
-                  counter[0] = value;
-                  totalPerItem[0] = value * price;
-                });
-                if (isCheck[0]) {
-                  updateTotal(totalPerItem, isCheck);
-                }
-              }
-            },
-            callbackIncrease: (value) {
-              setState(() {
-                counter[0]++;
-                totalPerItem[0] = totalPerItem[0] + value;
-              });
-              if (isCheck[0]) {
-                updateTotal(totalPerItem, isCheck);
-              }
+            callbackType: (value) {
+              updateTotalEachItem(0, 'type', value, optionalValue: price[0]);
             },
             callbackChecked: (value) {
               setState(() {
                 isCheck[0] = value;
               });
-              if (!isCheck[0]) {
-                unCheck(0, totalPerItem);
+              if (isCheck[0]) {
+                unCheck(0);
+              } else {
+                updateTotal(totalPerItem, isCheck);
               }
-              updateTotal(totalPerItem, isCheck);
             },
           ),
           CartItem(
@@ -114,48 +133,21 @@ class _CartScreenState extends State<CartScreen> {
             isCheck: isCheck[1],
             qty: counter[1],
             price: price[1],
-            callbackDecrease: (value) {
-              if (total > 0) {
-                setState(() {
-                  counter[1]--;
-                  totalPerItem[1] = totalPerItem[1] - value;
-                });
-
-                if (isCheck[1]) {
-                  updateTotal(totalPerItem, isCheck);
-                }
-              }
+            callbackClick: (value) {
+              updateTotalEachItem(1, value, price[1]);
             },
-            callbackType: (value, price) {
-              print('$value ,,,,,,,, $price');
-              if (value >= 0) {
-                setState(() {
-                  counter[1] = value;
-                  totalPerItem[1] = value * price;
-                });
-                if (isCheck[1]) {
-                  updateTotal(totalPerItem, isCheck);
-                }
-              }
-            },
-            callbackIncrease: (value) {
-              setState(() {
-                counter[1]++;
-                totalPerItem[1] = totalPerItem[1] + value;
-              });
-              if (isCheck[1]) {
-                updateTotal(totalPerItem, isCheck);
-              }
+            callbackType: (value) {
+              updateTotalEachItem(1, 'type', value, optionalValue: price[1]);
             },
             callbackChecked: (value) {
               setState(() {
                 isCheck[1] = value;
               });
-
-              if (!isCheck[1]) {
-                unCheck(1, totalPerItem);
+              if (isCheck[1]) {
+                unCheck(1);
+              } else {
+                updateTotal(totalPerItem, isCheck);
               }
-              updateTotal(totalPerItem, isCheck);
             },
           ),
         ],
@@ -174,8 +166,7 @@ class CartItem extends StatelessWidget {
     @required this.size,
     @required this.isCheck,
     @required this.qty,
-    this.callbackIncrease,
-    this.callbackDecrease,
+    this.callbackClick,
     this.callbackChecked,
     this.price,
     this.callbackType,
@@ -185,8 +176,7 @@ class CartItem extends StatelessWidget {
   final bool isCheck;
   final int qty;
 
-  final Function callbackIncrease;
-  final Function callbackDecrease;
+  final Function callbackClick;
   final Function callbackType;
   final Function callbackChecked;
 
@@ -263,7 +253,7 @@ class CartItem extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   print('--- ${localQty}');
-                                  callbackDecrease(price);
+                                  callbackClick('decrease');
                                 }),
                             Container(
                               width: 30,
@@ -272,7 +262,7 @@ class CartItem extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 controller: txtQty,
                                 onChanged: (value) {
-                                  callbackType(value, price);
+                                  callbackType(value);
                                 },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
@@ -291,7 +281,7 @@ class CartItem extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   print('+++ ${localQty}');
-                                  callbackIncrease(price);
+                                  callbackClick('increase');
                                 })
                           ],
                         ))
