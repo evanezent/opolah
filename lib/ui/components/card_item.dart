@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
-import 'package:opolah/ui/components/shop/detail_item.dart';
+import 'package:opolah/ui/screens/shop/detail_item.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
