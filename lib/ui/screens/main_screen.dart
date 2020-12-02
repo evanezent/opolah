@@ -21,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
   int _currentPageIndex = 0;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
