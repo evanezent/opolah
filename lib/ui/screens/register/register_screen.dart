@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/ui/components/login-register/button_ok.dart';
+import 'package:opolah/ui/components/login-register/change_login_register.dart';
+import 'package:opolah/ui/components/login-register/header.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -37,35 +41,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 50, left: 20),
-                  child: Row(
-                    children: [
-                      RotatedBox(
-                          quarterTurns: 3,
-                          child: Text("Register",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 60))),
-                      SizedBox(width: 20),
-                      Container(
-                        width: size.width * 0.7,
-                        height: 200,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('You can start something new !',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 36)),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                HeaderLoginRegister(
+                    size: size,
+                    title: 'Register',
+                    word: 'You can start something new !'),
                 SizedBox(height: 60),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40),
@@ -154,67 +133,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 SizedBox(height: 30),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  width: size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      RaisedButton(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                        onPressed: () {},
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        child: Container(
-                          width: 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Ok",
-                                  style: TextStyle(
-                                      color: colorPrimary,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 20)),
-                              SizedBox(width: 10),
-                              FaIcon(
-                                FontAwesomeIcons.longArrowAltRight,
-                                color: colorPrimary,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                ButtonOk(
+                    size: size,
+                    onClick: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainScreen()));
+                    }),
                 SizedBox(height: 50),
-                Container(
-                  margin: EdgeInsets.only(left: 40),
-                  child: Row(
-                    children: [
-                      Text("Have an account ?",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 17)),
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },
-                        child: Text("Login",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17)),
-                      )
-                    ],
-                  ),
+                ChangePageLoginRegister(
+                  question: 'Have an account ?',
+                  change: 'Login',
+                  onClick: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
                 )
               ],
             ),
