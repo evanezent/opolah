@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
+import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -234,7 +235,7 @@ class _CartScreenState extends State<CartScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CartScreen()));
+                              builder: (context) => ShippingScreen()));
                     },
                     child: Text(
                       'Checkout',

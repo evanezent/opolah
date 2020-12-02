@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/ui/screens/cart/cart_screen.dart';
+import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class BottomNavItem extends StatelessWidget {
   const BottomNavItem({
@@ -19,7 +21,8 @@ class BottomNavItem extends StatelessWidget {
         children: [
           InkWell(
               onTap: () {
-                print('BUY NOW');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ShippingScreen()));
               },
               child: Container(
                   height: 60,
