@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/ui/screens/register/register_screen.dart';
+import 'package:opolah/ui/screens/login/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController textEmailUsername = new TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController textName = new TextEditingController();
+  TextEditingController textEmail = new TextEditingController();
+  TextEditingController textPhone = new TextEditingController();
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
 
@@ -33,42 +36,43 @@ class _LoginScreenState extends State<LoginScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 60, left: 20),
+                  margin: EdgeInsets.only(top: 50, left: 20),
                   child: Row(
                     children: [
                       RotatedBox(
                           quarterTurns: 3,
-                          child: Text("Log in",
+                          child: Text("Register",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 60))),
                       SizedBox(width: 20),
                       Container(
-                        width: size.width * 0.6,
+                        width: size.width * 0.7,
                         height: 200,
-                        child: Center(
-                          child: Text('Shop now and start here !',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 32)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('You can start something new !',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 36)),
+                          ],
                         ),
                       )
                     ],
                   ),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 60),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       TextFormField(
-                        controller: textEmailUsername,
+                        controller: textName,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w300,
@@ -76,13 +80,48 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Email / No Hp',
+                            hintText: 'Name',
                             hintStyle: TextStyle(color: Colors.white),
                             focusColor: Colors.white,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
+                      TextFormField(
+                        controller: textEmail,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 18),
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelStyle: TextStyle(color: Colors.white),
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.white),
+                            focusColor: Colors.white,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none),
+                      ),
+                      SizedBox(height: 5),
+                      TextFormField(
+                        controller: textPhone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                        ],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 18),
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            labelStyle: TextStyle(color: Colors.white),
+                            hintText: 'Phone Number',
+                            hintStyle: TextStyle(color: Colors.white),
+                            focusColor: Colors.white,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none),
+                      ),
+                      SizedBox(height: 5),
                       TextFormField(
                         controller: textPassword,
                         style: TextStyle(
@@ -111,16 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             )),
                       ),
-                      SizedBox(height: 20),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                            child: Text("Forgot password",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 16))),
-                      ),
                     ],
                   ),
                 ),
@@ -131,7 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(height: 50),
                       RaisedButton(
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -161,12 +189,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 50),
                 Container(
                   margin: EdgeInsets.only(left: 40),
                   child: Row(
                     children: [
-                      Text("Your first time ?",
+                      Text("Have an account ?",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w200,
@@ -177,9 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterScreen()));
+                                  builder: (context) => LoginScreen()));
                         },
-                        child: Text("Register",
+                        child: Text("Login",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
