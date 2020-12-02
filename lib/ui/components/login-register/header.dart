@@ -19,7 +19,7 @@ class HeaderLoginRegister extends StatelessWidget {
         children: [
           RotatedBox(
               quarterTurns: 3,
-              child: Text("Register",
+              child: Text(title,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class HeaderLoginRegister extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('You can start something new !',
+                Text(word,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
