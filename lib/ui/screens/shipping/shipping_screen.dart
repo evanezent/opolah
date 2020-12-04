@@ -5,7 +5,7 @@ import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
 import 'package:opolah/ui/components/shipping/address_card.dart';
 import 'package:opolah/ui/components/shipping/shipping_item.dart';
-import 'package:opolah/ui/components/shipping/text_from.dart';
+import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class ShippingScreen extends StatefulWidget {
   @override
@@ -214,7 +214,10 @@ class _ShippingScreenState extends State<ShippingScreen> {
         text: "CONFIRM",
         bgColor: colorPrimary,
         textColor: Colors.white,
-        onClick: () {},
+        onClick: () {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => PaymentScreen()));
+        },
       ),
     );
   }

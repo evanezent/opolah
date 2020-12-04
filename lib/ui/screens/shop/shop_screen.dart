@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/card_item.dart';
 import 'package:opolah/ui/components/home/search_bar.dart';
 

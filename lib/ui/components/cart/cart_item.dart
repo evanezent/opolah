@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 
+// ignore: must_be_immutable
 class CartItem extends StatelessWidget {
   CartItem({
     Key key,

@@ -57,7 +57,6 @@ class _DetailItemState extends State<DetailItem> {
   TextEditingController txtQty = TextEditingController(text: '0');
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(txtQty.text);
   }
@@ -191,7 +190,7 @@ class _DetailItemState extends State<DetailItem> {
                                   textAlign: TextAlign.center,
                                   controller: txtQty,
                                   inputFormatters: [
-                                    WhitelistingTextInputFormatter(
+                                    FilteringTextInputFormatter.allow(
                                         RegExp("[0-9]")),
                                   ],
                                   decoration: InputDecoration(
