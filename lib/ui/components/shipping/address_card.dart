@@ -8,11 +8,15 @@ class AddressCard extends StatelessWidget {
     @required this.size,
     this.choose,
     this.onChoose,
+    this.name,
+    this.address,
+    this.phone,
   }) : super(key: key);
 
   final Size size;
   final bool choose;
   final Function onChoose;
+  final String name, address, phone;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +34,21 @@ class AddressCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pratama Yoga',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14)),
-            Text('(0811111111)',
+            Expanded(
+              child: Text(name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14)),
+            ),
+            Text('($phone)',
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w300,
                     fontSize: 14)),
             SizedBox(height: 8),
-            Text(
-                'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 40278',
+            Text(address,
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,

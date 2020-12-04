@@ -35,7 +35,8 @@ class _ShippingScreenState extends State<ShippingScreen> {
             Center(
               child: Container(
                 height: size.height * 0.7,
-                margin: EdgeInsets.symmetric(horizontal: 30),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -62,15 +63,12 @@ class _ShippingScreenState extends State<ShippingScreen> {
                       width: 70,
                     ),
                     SizedBox(height: 20),
-                    Center(
-                      child: Text('Delivery Address',
-                          style: TextStyle(
-                              color: colorPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16)),
-                    ),
+                    Text('Delivery Address',
+                        style: TextStyle(
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
                           InkWell(
@@ -93,21 +91,32 @@ class _ShippingScreenState extends State<ShippingScreen> {
                           ),
                           Container(
                             width: size.width * 0.65,
-                            // padding: EdgeInsets.symmetric(vertical: 10),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
                                   AddressCard(
                                       size: size,
+                                      name: 'Pratama Yoga',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
                                       choose: true,
                                       onChoose: () {}),
                                   AddressCard(
                                       size: size,
+                                      name: 'Santosa Mike',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
                                       choose: false,
                                       onChoose: () {}),
                                   AddressCard(
                                       size: size,
+                                      name: 'Billie Joe',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
                                       choose: false,
                                       onChoose: () {}),
                                 ],
