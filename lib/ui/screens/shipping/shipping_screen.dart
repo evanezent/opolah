@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/constant/utils.dart';
+import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
+import 'package:opolah/ui/components/shipping/address_card.dart';
 import 'package:opolah/ui/components/shipping/shipping_item.dart';
 import 'package:opolah/ui/components/shipping/text_from.dart';
 
@@ -34,9 +35,10 @@ class _ShippingScreenState extends State<ShippingScreen> {
             Center(
               child: Container(
                 height: size.height * 0.7,
-                margin: EdgeInsets.symmetric(horizontal: 30),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                    color: colorPrimary,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: darkShadow),
                 child: Column(
@@ -50,7 +52,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                             TextSpan(
                               text: "Your Shipping",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: colorPrimary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 23),
                             ),
@@ -61,45 +63,73 @@ class _ShippingScreenState extends State<ShippingScreen> {
                       width: 70,
                     ),
                     SizedBox(height: 20),
-                    TextFrom(
-                        keyword: "From : ",
-                        width: size.width,
-                        value: "The Shop"),
+                    Text('Delivery Address',
+                        style: TextStyle(
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)),
                     Container(
-                      width: size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("To : ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14)),
-                          Container(
-                            width: 200,
-                            child: Text(
-                                'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 40278',
-                                style: TextStyle(
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                                height: 150,
+                                margin: EdgeInsets.only(right: 10),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: colorPrimary,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: FaIcon(
+                                    FontAwesomeIcons.plus,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14)),
+                                  ),
+                                )),
                           ),
-                          IconButton(
-                            icon: FaIcon(FontAwesomeIcons.pen,
-                                size: 17, color: Colors.white),
-                            onPressed: () {
-                              print("CHANGE ADDRESS");
-                            },
-                          )
+                          Container(
+                            width: size.width * 0.65,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  AddressCard(
+                                      size: size,
+                                      name: 'Pratama Yoga',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
+                                      choose: true,
+                                      onChoose: () {}),
+                                  AddressCard(
+                                      size: size,
+                                      name: 'Santosa Mike',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
+                                      choose: false,
+                                      onChoose: () {}),
+                                  AddressCard(
+                                      size: size,
+                                      name: 'Billie Joe',
+                                      phone: '0812378234',
+                                      address:
+                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
+                                      choose: false,
+                                      onChoose: () {}),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Container(
                       color: Colors.white,
-                      height: 300,
+                      height: 200,
                       child: SingleChildScrollView(
                           child: Column(
                         children: [
@@ -118,14 +148,19 @@ class _ShippingScreenState extends State<ShippingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FaIcon(
+                            FontAwesomeIcons.bars,
+                            color: colorPrimary,
+                            size: 12,
+                          ),
+                          FaIcon(
                             FontAwesomeIcons.truck,
-                            color: Colors.white,
+                            color: colorPrimary,
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Shipping costs : Rp 20.000.00",
+                            "Rp 20.000.00",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: colorPrimary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
@@ -142,7 +177,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                         FaIcon(
                           FontAwesomeIcons.plus,
                           size: 15,
-                          color: Colors.white,
+                          color: colorPrimary,
                         ),
                       ],
                     ),
@@ -177,42 +212,10 @@ class _ShippingScreenState extends State<ShippingScreen> {
       ),
       bottomNavigationBar: MainBottomNav(
         text: "CONFIRM",
-        textColor: colorPrimary,
-        bgColor: Colors.white,
+        bgColor: colorPrimary,
+        textColor: Colors.white,
         onClick: () {},
       ),
     );
-  }
-}
-
-class MainBottomNav extends StatelessWidget {
-  const MainBottomNav({
-    Key key,
-    this.text,
-    this.onClick,
-    this.bgColor,
-    this.textColor,
-  }) : super(key: key);
-
-  final String text;
-  final Function onClick;
-  final Color bgColor, textColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-        onTap: onClick,
-        child: Container(
-            height: 60,
-            color: bgColor,
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                    color: textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-            )));
   }
 }

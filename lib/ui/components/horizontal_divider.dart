@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opolah/constant/constans.dart';
 
 class HorizontalDivider extends StatelessWidget {
   const HorizontalDivider({
@@ -12,7 +13,7 @@ class HorizontalDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        color: Colors.white,
+        color: colorPrimary,
         height: 1,
         width: width,
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opolah/constant/constans.dart';
 
 class TextFrom extends StatelessWidget {
   const TextFrom({
@@ -21,12 +22,12 @@ class TextFrom extends StatelessWidget {
           TextSpan(
             text: keyword,
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                color: colorPrimary, fontWeight: FontWeight.bold, fontSize: 14),
           ),
           TextSpan(
             text: value,
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w400, fontSize: 14),
+                color: colorPrimary, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ])));
   }
