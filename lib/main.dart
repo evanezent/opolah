@@ -1,7 +1,6 @@
 import 'package:custom_splash/custom_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
-import 'package:opolah/ui/screens/main_screen.dart';
 
 void main() {
   runApp(MyApp());

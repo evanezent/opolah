@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 
+// ignore: must_be_immutable
 class ShippingItem extends StatelessWidget {
   ShippingItem({
     Key key,
