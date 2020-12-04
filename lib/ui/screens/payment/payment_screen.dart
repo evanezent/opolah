@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/payment_card.dart';
@@ -47,34 +48,108 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
   }
 
+  double _currentPageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dragon Ball"),
-        backgroundColor: Colors.black54,
+        body: SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CarouselSlider.builder(
+              itemCount: 3,
+              options: CarouselOptions(
+                autoPlay: false,
+                autoPlayAnimationDuration: Duration(seconds: 2),
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 2,
+                initialPage: 0,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentPageIndex = index.toDouble();
+                  });
+                },
+              ),
+              itemBuilder: (context, index) => Container(
+                    child: ListItem(
+                      character: cards[index],
+                      onTap: () {},
+                    ),
+                  )),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: darkShadow,
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PaymentTextItem(
+                  text1: "The Shop Master ",
+                  text2: "1388 90123 8231 2",
+                ),
+                SizedBox(height: 30),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PaymentTextItem(
+                      text1: "Ammount ",
+                      text2: "Rp 600.291",
+                    ),
+                    Container(
+                      // alignment: Alignment.bottomRight,
+                      child: Text(
+                        "Don't forget about 3 unique code",
+                        style: TextStyle(
+                            color: colorSecondary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      body: Container(
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            controller: _controller,
-            itemCount: cards.length,
-            itemBuilder: (context, index) {
-              double currentPage = 0;
-              // try {
-              //   currentPage = _controller.page;
-              // } catch (_) {}
+    ));
+  }
+}
 
-              // final resizeFactor =
-              //     (1 - (((currentPage - index).abs() * 0.3).clamp(0.0, 1.0)));
-              final currentCharacter = cards[index];
-              return ListItem(
-                character: currentCharacter,
-                onTap: () {},
-              );
-            }),
-      ),
-    );
+class PaymentTextItem extends StatelessWidget {
+  const PaymentTextItem({
+    Key key,
+    this.text1,
+    this.text2,
+  }) : super(key: key);
+
+  final String text1, text2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          text1,
+          style: TextStyle(
+              color: colorPrimary, fontSize: 20, fontWeight: FontWeight.w400),
+        ),
+        SizedBox(height: 10),
+        Text(
+          text2,
+          style: TextStyle(
+              color: colorPrimary, fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ));
   }
 }
 
@@ -92,52 +167,29 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.85;
     return InkWell(
-      onTap: onTap,
-      child: Container(
+        onTap: onTap,
+        child: Container(
           width: width,
-          // height: 200,
-          margin: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Hero(
-                tag: "background_${character.title}",
-                child: Card(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        color: Colors.white, boxShadow: darkShadow),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Image.network(
-                            character.image,
-                            height: 200,
-                          ),
-                        ),
-                        // Container(
-                        //   alignment: Alignment.bottomLeft,
-                        //   margin: EdgeInsets.only(
-                        //     left: 20,
-                        //     bottom: 10,
-                        //   ),
-                        //   child: Text(
-                        //     character.title,
-                        //     style: TextStyle(
-                        //       fontSize: 20,
-                        //       fontWeight: FontWeight.w600,
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: Hero(
+            tag: "background_${character.title}",
+            child: Card(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Image.network(
+                    character.image,
+                    height: 200,
                   ),
                 ),
               ),
-            ],
-          )),
-    );
+            ),
+          ),
+        ));
   }
 }
