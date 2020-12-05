@@ -37,6 +37,8 @@ dependencies:
   dots_indicator:
   custom_radio_grouped_button:
   flutter_counter:
+  image_picker:
+  fluttertoast:
   
 dev_dependencies:
   flutter_test:
