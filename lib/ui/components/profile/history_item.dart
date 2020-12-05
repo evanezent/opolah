@@ -9,7 +9,7 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils util = Utils();
+    StarCounter util = StarCounter(nStar: 5);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(boxShadow: darkShadow),
@@ -55,7 +55,7 @@ class HistoryItem extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 7),
-                        util.loopStar(5),
+                        util.build(),
                         SizedBox(height: 7),
                         Container(
                           child: Text(

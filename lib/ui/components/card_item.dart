@@ -19,7 +19,6 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils util = Utils();
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -57,7 +56,7 @@ class CardItem extends StatelessWidget {
                         color: colorPrimary, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 5),
-                  util.loopStar(nStar),
+                  StarCounter(nStar: nStar).build(),
                   SizedBox(height: 5),
                   Text(
                     price,

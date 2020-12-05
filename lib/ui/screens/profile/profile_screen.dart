@@ -9,7 +9,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  Utils util = Utils();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -7,8 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/payment_card.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
+import 'package:opolah/ui/components/payment/payment_item.dart';
+import 'package:opolah/ui/components/payment/payment_text_item.dart';
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -85,43 +88,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: Colors.white,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 6,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(cards[_currentPageIndex.toInt()].color),
+                        child: Row(
+                          children: [
+                            VerticalLineMarker(
+                              width: 6,
+                              height: 60,
+                              color:
+                                  Color(cards[_currentPageIndex.toInt()].color),
+                            ).build(),
+                            SizedBox(width: 10),
+                            PaymentTextItem(
+                                text1: "The Shop Master ",
+                                text2:
+                                    cards[_currentPageIndex.toInt()].accNumber),
+                            // SizedBox(width: 80),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 10),
-                      PaymentTextItem(
-                          text1: "The Shop Master ",
-                          text2: cards[_currentPageIndex.toInt()].accNumber),
-                      IconButton(
-                          icon: FaIcon(
-                            FontAwesomeIcons.copy,
-                            color: colorPrimary,
-                          ),
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(
-                                    text:
-                                        '${cards[_currentPageIndex.toInt()].accNumber}'))
-                                .then((value) => Fluttertoast.showToast(
-                                      msg: "Coppied to clipboard !",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.green[300],
-                                      textColor: Colors.white,
-                                    ));
-                            // showToast(
-                            //       msg: "Coppied to clipboard !",
-                            //       toastLength: Toast.LENGTH_SHORT,
-                            //       gravity: ToastGravity.BOTTOM,
-                            //       backgroundColor: Colors.green[300],
-                            //       textColor: Colors.white,
-                            //     ));
-                          })
+                      IconCopy(
+                              word:
+                                  '${cards[_currentPageIndex.toInt()].accNumber}')
+                          .build()
                     ],
                   ),
                 ),
@@ -133,35 +123,39 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: Colors.white,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 6,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: colorSecondary,
+                        child: Row(
+                          children: [
+                            VerticalLineMarker(
+                              width: 6,
+                              height: 80,
+                              color: colorSecondary,
+                            ).build(),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PaymentTextItem(
+                                  text1: "Ammount ",
+                                  text2: "Rp 600.291",
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Don't forget about 3 unique code",
+                                    style: TextStyle(
+                                        color: colorSecondary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PaymentTextItem(
-                            text1: "Ammount ",
-                            text2: "Rp 600.291",
-                          ),
-                          Container(
-                            // alignment: Alignment.bottomRight,
-                            child: Text(
-                              "Don't forget about 3 unique code",
-                              style: TextStyle(
-                                  color: colorSecondary,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )
-                        ],
-                      ),
+                      IconCopy(word: '600.291').build()
                     ],
                   ),
                 ),
@@ -214,77 +208,5 @@ class _PaymentScreenState extends State<PaymentScreen> {
         text: "DONE",
       ),
     );
-  }
-}
-
-class PaymentTextItem extends StatelessWidget {
-  const PaymentTextItem({
-    Key key,
-    this.text1,
-    this.text2,
-  }) : super(key: key);
-
-  final String text1, text2;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(text1,
-            style: TextStyle(
-                color: colorPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.bold)),
-        SizedBox(height: 10),
-        Text(
-          text2,
-          style: TextStyle(
-              color: colorPrimary, fontSize: 25, fontWeight: FontWeight.w300),
-        ),
-      ],
-    ));
-  }
-}
-
-class PaymentCardItem extends StatelessWidget {
-  final PaymentCard card;
-  final VoidCallback onTap;
-
-  const PaymentCardItem({
-    Key key,
-    @required this.card,
-    @required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.85;
-    return InkWell(
-        onTap: onTap,
-        child: Container(
-          width: width,
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          child: Hero(
-            tag: "background_${card.title}",
-            child: Card(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: Colors.white),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Image.network(
-                    card.image,
-                    // height: 500,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ));
   }
 }
