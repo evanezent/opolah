@@ -24,10 +24,24 @@ class HistoryList extends StatelessWidget {
                 color: colorPrimary, fontWeight: FontWeight.bold, fontSize: 23),
           ),
           SizedBox(height: 10),
-          HistoryItem(),
-          HistoryItem(),
-          HistoryItem(),
-          HistoryItem()
+          HistoryItem(
+              bgColor: Colors.white,
+              textColor: colorPrimary,
+              shadow: darkShadow,
+              name: 'Space Milk T-Shirt',
+              price: '99.500,00'),
+          HistoryItem(
+              bgColor: Colors.white,
+              textColor: colorPrimary,
+              shadow: darkShadow,
+              name: 'Space Milk T-Shirt',
+              price: '99.500,00'),
+          HistoryItem(
+              bgColor: Colors.white,
+              textColor: colorPrimary,
+              shadow: darkShadow,
+              name: 'Space Milk T-Shirt',
+              price: '99.500,00'),
         ],
       ),
     );

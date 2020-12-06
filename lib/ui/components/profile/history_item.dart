@@ -5,19 +5,29 @@ import 'package:opolah/constant/utils.dart';
 class HistoryItem extends StatelessWidget {
   const HistoryItem({
     Key key,
+    this.bgColor,
+    this.textColor,
+    this.name,
+    this.price,
+    // ignore: avoid_init_to_null
+    this.shadow = null,
   }) : super(key: key);
+
+  final List<BoxShadow> shadow;
+  final Color bgColor, textColor;
+  final String name, price;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(boxShadow: darkShadow),
+      decoration: BoxDecoration(boxShadow: shadow),
       child: Stack(
         children: [
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
+                borderRadius: BorderRadius.circular(10), color: bgColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -45,7 +55,7 @@ class HistoryItem extends StatelessWidget {
                       children: [
                         Container(
                           child: Text(
-                            'Space-Star Art Tshirt',
+                            name,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: colorPrimary,
@@ -58,7 +68,7 @@ class HistoryItem extends StatelessWidget {
                         SizedBox(height: 7),
                         Container(
                           child: Text(
-                            'Rp 75.000',
+                            'Rp $price',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 15,

@@ -12,9 +12,24 @@ class HistoryList extends StatelessWidget {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            HistoryItem(),
-            HistoryItem(),
-            HistoryItem(),
+            HistoryItem(
+                bgColor: Colors.white,
+                textColor: colorPrimary,
+                shadow: darkShadow,
+                name: 'Space Milk T-Shirt',
+                price: '99.500,00'),
+            HistoryItem(
+                bgColor: Colors.white,
+                textColor: colorPrimary,
+                shadow: darkShadow,
+                name: 'Space Milk T-Shirt',
+                price: '99.500,00'),
+            HistoryItem(
+                bgColor: Colors.white,
+                textColor: colorPrimary,
+                shadow: darkShadow,
+                name: 'Space Milk T-Shirt',
+                price: '99.500,00'),
           ],
         ),
       ),
