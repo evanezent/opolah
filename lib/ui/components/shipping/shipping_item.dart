@@ -8,8 +8,6 @@ class ShippingItem extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  StarCounter util = StarCounter(nStar: 5, size: 10);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +48,7 @@ class ShippingItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 7),
-                  util.build(),
+                  Util.starCounter(nStar: 5, size: 10),
                   SizedBox(height: 7),
                   Container(
                     child: Text(
