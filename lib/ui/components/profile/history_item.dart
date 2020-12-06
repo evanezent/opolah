@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
+import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class HistoryItem extends StatelessWidget {
   const HistoryItem({
@@ -11,11 +12,13 @@ class HistoryItem extends StatelessWidget {
     this.price,
     // ignore: avoid_init_to_null
     this.shadow = null,
+    this.tab = 'history',
   }) : super(key: key);
 
   final List<BoxShadow> shadow;
   final Color bgColor, textColor;
   final String name, price;
+  final String tab;
 
   @override
   Widget build(BuildContext context) {
@@ -83,41 +86,92 @@ class HistoryItem extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            top: 0,
-            right: 20,
-            child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: colorPrimary, boxShadow: bottomDarkShadow),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "22",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "NOV",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "2020",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
+          if (tab == 'history')
+            Positioned(
+              top: 0,
+              right: 20,
+              child: Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: colorPrimary, boxShadow: bottomDarkShadow),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "22",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      "NOV",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      "2020",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
+          if (tab == 'preparation')
+            Positioned(
+                top: 20,
+                right: 20,
+                child: RaisedButton(
+                    color: colorPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen()));
+                    },
+                    child: Text(
+                      'Pay',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ))),
+          if (tab == 'delivery')
+            Positioned(
+              top: 20,
+              right: 20,
+              child: Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: colorPrimary, boxShadow: bottomDarkShadow),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "ON",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      "GOING",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w200),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
