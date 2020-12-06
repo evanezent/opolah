@@ -87,7 +87,7 @@ class PorfileHeader extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FaIcon(FontAwesomeIcons.gift),
-                            Text("Preparation")
+                            Text("Payments")
                           ],
                         ),
                       ),
@@ -96,7 +96,8 @@ class PorfileHeader extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TransactionScreen()));
+                                  builder: (context) =>
+                                      TransactionScreen(tabIndex: 1)));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

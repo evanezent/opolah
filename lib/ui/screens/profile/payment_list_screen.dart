@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/ui/components/profile/history_item.dart';
+import 'package:opolah/ui/components/history_item.dart';
 
 class PaymentList extends StatelessWidget {
   @override
@@ -17,21 +17,21 @@ class PaymentList extends StatelessWidget {
               textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00',
-              tab: 'preparation',
+              tab: 'payment',
             ),
             HistoryItem(
               bgColor: Colors.transparent,
               textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00',
-              tab: 'preparation',
+              tab: 'payment',
             ),
             HistoryItem(
               bgColor: Colors.transparent,
               textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00',
-              tab: 'preparation',
+              tab: 'payment',
             ),
           ],
         ),

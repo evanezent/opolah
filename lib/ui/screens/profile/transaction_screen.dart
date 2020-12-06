@@ -6,8 +6,12 @@ import 'package:opolah/ui/screens/profile/history_list_screen.dart';
 import 'package:opolah/ui/screens/profile/payment_list_screen.dart';
 
 class TransactionScreen extends StatefulWidget {
+  const TransactionScreen({Key key, this.tabIndex = 0}) : super(key: key);
+
   @override
   _TransactionScreenState createState() => _TransactionScreenState();
+
+  final int tabIndex;
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
@@ -17,7 +21,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         FontAwesomeIcons.gift,
         size: 18,
       ),
-      text: 'Preparation',
+      text: 'Payments',
     ),
     Tab(
       icon: FaIcon(FontAwesomeIcons.truck, size: 18),
@@ -32,6 +36,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: widget.tabIndex,
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/card_item.dart';
+import 'package:opolah/ui/components/see_all.dart';
 
 class SliderItem extends StatelessWidget {
   const SliderItem({
@@ -21,36 +22,7 @@ class SliderItem extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                    color: colorPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23),
-              ),
-              InkWell(
-                onTap: openMore,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: colorPrimary,
-                  ),
-                  child: Text(
-                    "See all",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13),
-                  ),
-                ),
-              )
-            ],
-          ),
+          SeeAll(title: title, openMore: openMore),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

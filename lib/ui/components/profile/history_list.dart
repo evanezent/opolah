@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/ui/components/profile/history_item.dart';
+import 'package:opolah/ui/components/history_item.dart';
+import 'package:opolah/ui/components/see_all.dart';
+import 'package:opolah/ui/screens/profile/transaction_screen.dart';
 
 class HistoryList extends StatelessWidget {
   const HistoryList({
@@ -18,11 +20,14 @@ class HistoryList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "HISTORY",
-            style: TextStyle(
-                color: colorPrimary, fontWeight: FontWeight.bold, fontSize: 23),
-          ),
+          SeeAll(
+              title: 'History',
+              openMore: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TransactionScreen(tabIndex: 2)));
+              }),
           SizedBox(height: 10),
           HistoryItem(
               bgColor: Colors.white,

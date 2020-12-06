@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/ui/components/profile/history_item.dart';
+import 'package:opolah/ui/components/history_item.dart';
 
 class HistoryList extends StatelessWidget {
   @override

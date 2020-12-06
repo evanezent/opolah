@@ -122,7 +122,7 @@ class HistoryItem extends StatelessWidget {
                 ),
               ),
             ),
-          if (tab == 'preparation')
+          if (tab == 'payment')
             Positioned(
                 top: 20,
                 right: 20,
