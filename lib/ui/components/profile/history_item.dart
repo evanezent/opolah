@@ -9,7 +9,6 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StarCounter util = StarCounter(nStar: 5);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(boxShadow: darkShadow),
@@ -18,15 +17,15 @@ class HistoryItem extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: colorPrimary),
+                borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 60,
+                      height: 60,
                       child: ClipRRect(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -49,20 +48,20 @@ class HistoryItem extends StatelessWidget {
                             'Space-Star Art Tshirt',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
+                                color: colorPrimary,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
                         SizedBox(height: 7),
-                        util.build(),
+                        StarCounter(nStar: 5, size: 12).build(),
                         SizedBox(height: 7),
                         Container(
                           child: Text(
                             'Rp 75.000',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: colorSecondary),
                           ),
@@ -79,29 +78,29 @@ class HistoryItem extends StatelessWidget {
             right: 20,
             child: Container(
               padding: EdgeInsets.all(5),
-              decoration:
-                  BoxDecoration(color: Colors.white, boxShadow: lightShadow),
+              decoration: BoxDecoration(
+                  color: colorPrimary, boxShadow: bottomDarkShadow),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "22",
                     style: TextStyle(
-                        color: colorBackup,
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
                     "NOV",
                     style: TextStyle(
-                        color: colorBackup,
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
                     "2020",
                     style: TextStyle(
-                        color: colorBackup,
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700),
                   ),

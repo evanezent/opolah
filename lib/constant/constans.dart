@@ -8,6 +8,10 @@ List<BoxShadow> darkShadow = [
   BoxShadow(color: colorPrimary, offset: Offset(0, 0), blurRadius: 6)
 ];
 
+List<BoxShadow> bottomDarkShadow = [
+  BoxShadow(color: colorPrimary, offset: Offset(0, 5), blurRadius: 6)
+];
+
 List<BoxShadow> wideShadow = [
   BoxShadow(
     color: colorPrimary,
