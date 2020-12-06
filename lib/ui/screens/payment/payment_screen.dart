@@ -93,12 +93,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Container(
                         child: Row(
                           children: [
-                            VerticalLineMarker(
-                              width: 6,
-                              height: 60,
-                              color:
-                                  Color(cards[_currentPageIndex.toInt()].color),
-                            ).build(),
+                            Util.verticalLineMarker(
+                                width: 6,
+                                height: 60,
+                                color: Color(
+                                    cards[_currentPageIndex.toInt()].color)),
                             SizedBox(width: 10),
                             PaymentTextItem(
                                 text1: "The Shop Master ",
@@ -108,10 +107,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
-                      IconCopy(
-                              word:
-                                  '${cards[_currentPageIndex.toInt()].accNumber}')
-                          .build()
+                      Util.copyIcon(
+                          targetCopy:
+                              '${cards[_currentPageIndex.toInt()].accNumber}')
                     ],
                   ),
                 ),
@@ -128,18 +126,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Container(
                         child: Row(
                           children: [
-                            VerticalLineMarker(
-                              width: 6,
-                              height: 80,
-                              color: colorSecondary,
-                            ).build(),
+                            Util.verticalLineMarker(
+                                width: 6, height: 80, color: colorSecondary),
                             SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PaymentTextItem(
                                   text1: "Ammount ",
-                                  text2: "Rp 600.291",
+                                  text2: "Rp 600.291,00",
                                 ),
                                 Container(
                                   child: Text(
@@ -155,7 +150,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
-                      IconCopy(word: '600.291').build()
+                      Util.copyIcon(targetCopy: '600.291,00')
                     ],
                   ),
                 ),

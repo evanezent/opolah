@@ -56,7 +56,7 @@ class CardItem extends StatelessWidget {
                         color: colorPrimary, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 5),
-                  StarCounter(nStar: nStar).build(),
+                  Util.starCounter(nStar: nStar),
                   SizedBox(height: 5),
                   Text(
                     price,

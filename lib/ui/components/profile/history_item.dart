@@ -67,7 +67,7 @@ class HistoryItem extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 7),
-                        StarCounter(nStar: 5, size: 12).build(),
+                        Util.starCounter(nStar: 5),
                         SizedBox(height: 7),
                         Container(
                           child: Text(
