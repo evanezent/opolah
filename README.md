@@ -4,7 +4,7 @@ It just another hands-on project flutter in ecommerce version.
 
 ## Getting Started
 
-Make sure you have flutter install on your machine, then run the app on connected device or emulator.
+Make sure you have installing **flutter** on your machine, then run the app on connected device or emulator.
 1. Clone this repository
 `git clone https://github.com/evanezcent/opolah`
 
