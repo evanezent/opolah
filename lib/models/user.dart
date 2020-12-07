@@ -3,7 +3,7 @@ class User {
   // int id, price, star;
   // DateTime date;
 
-  User(this._name, this._email, this._image, this._password, this._phone);
+  User(this._name, this._email, this._password, this._phone);
   User.withId(this._id, this._name, this._email, this._image, this._password,
       this._phone);
 
@@ -45,15 +45,19 @@ class User {
   }
 
   // Convert a Note object into a Map object
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson(User data) {
     var map = Map<String, dynamic>();
 
-    map['id'] = _id;
-    map['name'] = _name;
-    map['email'] = _email;
-    map['password'] = _password;
-    map['phone'] = _phone;
-    map['image'] = image;
+    if (data.id != null) {
+      map['id'] = data.id;
+    }
+    if (data.image == null) {
+      map['image'] = '';
+    }
+    map['name'] = data.name;
+    map['email'] = data.email;
+    map['password'] = data.password;
+    map['phone'] = data.phone;
 
     return map;
   }

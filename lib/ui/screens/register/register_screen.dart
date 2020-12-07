@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/user.dart';
+import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/login-register/button_ok.dart';
 import 'package:opolah/ui/components/login-register/change_login_register.dart';
 import 'package:opolah/ui/components/login-register/header.dart';
@@ -20,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
 
+  DataRepository repository = DataRepository();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -136,10 +139,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ButtonOk(
                     size: size,
                     onClick: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()));
+                      User newUser = User(textName.text, textEmail.text,
+                          textPhone.text, textPassword.text);
+                      repository.registerUser(newUser);
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => MainScreen()));
                     }),
                 SizedBox(height: 50),
                 ChangePageLoginRegister(
