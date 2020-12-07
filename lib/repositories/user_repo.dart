@@ -11,8 +11,10 @@ class DataRepository {
   }
 
   // 3
-  Future<DocumentReference> registerUser(User data) {
-    return collection.add(data.toJson(data));
+  Future<DocumentReference> registerUser(User data) async {
+    return await collection.add(data.toJson(data)).then((value) {
+      print(value);
+    });
   }
 
   // 4

@@ -139,6 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ButtonOk(
                     size: size,
                     onClick: () {
+                      
                       User newUser = User(textName.text, textEmail.text,
                           textPhone.text, textPassword.text);
                       repository.registerUser(newUser);
