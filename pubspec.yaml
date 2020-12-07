@@ -39,6 +39,8 @@ dependencies:
   flutter_counter:
   image_picker:
   fluttertoast:
+  cloud_firestore:
+  firebase_core:
   
 dev_dependencies:
   flutter_test:

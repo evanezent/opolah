@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "345623949045",
+    "firebase_url": "https://flut-crud.firebaseio.com",
+    "project_id": "flut-crud",
+    "storage_bucket": "flut-crud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345623949045:android:b3d70f38c91d7e0f785fbc",
+        "android_client_info": {
+          "package_name": "com.example.opolah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345623949045-lf89rk0rickniv7jaadpfntpsr0tqjo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpzi1YP6GTNh0-E-1N8TMhL6BeAf9jpi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345623949045-lf89rk0rickniv7jaadpfntpsr0tqjo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
