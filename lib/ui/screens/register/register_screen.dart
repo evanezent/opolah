@@ -139,14 +139,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ButtonOk(
                     size: size,
                     onClick: () {
-                      
                       User newUser = User(textName.text, textEmail.text,
                           textPhone.text, textPassword.text);
                       repository.registerUser(newUser);
-                      // Navigator.pushReplacement(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => MainScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainScreen()));
                     }),
                 SizedBox(height: 50),
                 ChangePageLoginRegister(
