@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/login-register/button_ok.dart';
 import 'package:opolah/ui/components/login-register/change_login_register.dart';
 import 'package:opolah/ui/components/login-register/header.dart';
@@ -16,6 +17,30 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController textEmailUsername = new TextEditingController();
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
+
+  DataRepository repository = DataRepository();
+  String _passValidator, _emailValidator = '';
+
+  void login() {
+    var res = repository.loginUser(textEmailUsername.text, textPassword.text);
+    res.then((value) {
+      var checker = value.toString();
+      if (checker != 'pass') {
+        if (checker.contains('Password')) {
+          setState(() {
+            _passValidator = checker;
+          });
+        } else {
+          setState(() {
+            _emailValidator = checker;
+          });
+        }
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 18),
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
+                            errorText:
+                                _emailValidator == '' ? null : _emailValidator,
                             labelStyle: TextStyle(color: Colors.white),
                             hintText: 'Email / No Hp',
                             hintStyle: TextStyle(color: Colors.white),
@@ -73,6 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 18),
                         obscureText: _obscureText,
                         decoration: InputDecoration(
+                            errorText:
+                                _passValidator == '' ? null : _passValidator,
                             labelStyle: TextStyle(color: Colors.white),
                             hintText: 'Password',
                             hintStyle: TextStyle(color: Colors.white),
@@ -107,14 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 50),
-                ButtonOk(
-                    size: size,
-                    onClick: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()));
-                    }),
+                ButtonOk(size: size, onClick: login),
                 SizedBox(height: 100),
                 ChangePageLoginRegister(
                   question: 'Your first time ?',

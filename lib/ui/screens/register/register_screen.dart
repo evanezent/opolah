@@ -22,6 +22,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
 
+  final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+
+  void _showAlertDialog(String title, String message) {
+    AlertDialog alertDialog = AlertDialog(
+      title: Text(
+        title,
+        style: TextStyle(
+            color: colorSecondary, fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      content: Text(
+        message,
+        style: TextStyle(
+            color: colorSecondary, fontSize: 15, fontWeight: FontWeight.w400),
+      ),
+    );
+    showDialog(context: context, builder: (_) => alertDialog);
+  }
+
+  void register() {
+    if (_formKey.currentState.validate()) {
+      User newUser = User(
+          textName.text, 
+          textEmail.text, 
+          textPassword.text, 
+          textPhone.text);
+          
+      var res = repository.registerUser(newUser);
+      res.then((value) {
+        print(value.runtimeType);
+        if (value == true) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+        } else {
+          _showAlertDialog('Failed !', "Email or Phone number has been exists");
+        }
+      });
+    } else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+
   DataRepository repository = DataRepository();
   @override
   Widget build(BuildContext context) {
@@ -49,104 +93,128 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     title: 'Register',
                     word: 'You can start something new !'),
                 SizedBox(height: 60),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: textName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18),
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Name',
-                            hintStyle: TextStyle(color: Colors.white),
-                            focusColor: Colors.white,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none),
-                      ),
-                      SizedBox(height: 5),
-                      TextFormField(
-                        controller: textEmail,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18),
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Email',
-                            hintStyle: TextStyle(color: Colors.white),
-                            focusColor: Colors.white,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none),
-                      ),
-                      SizedBox(height: 5),
-                      TextFormField(
-                        controller: textPhone,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-                        ],
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Phone Number',
-                            hintStyle: TextStyle(color: Colors.white),
-                            focusColor: Colors.white,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none),
-                      ),
-                      SizedBox(height: 5),
-                      TextFormField(
-                        controller: textPassword,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18),
-                        obscureText: _obscureText,
-                        decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Password',
-                            hintStyle: TextStyle(color: Colors.white),
-                            focusColor: Colors.white,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            suffixIcon: IconButton(
-                              icon: FaIcon(
-                                _obscureText
-                                    ? FontAwesomeIcons.solidEye
-                                    : FontAwesomeIcons.eye,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              },
-                            )),
-                      ),
-                    ],
+                Form(
+                  autovalidate: _autoValidate,
+                  key: _formKey,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: textName,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value.length < 6)
+                              return "Name is too short";
+                            else
+                              return null;
+                          },
+                          decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: 'Name',
+                              hintStyle: TextStyle(color: Colors.white),
+                              focusColor: Colors.white,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: textEmail,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (val) {
+                            Pattern pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regex = new RegExp(pattern);
+
+                            if (!regex.hasMatch(val))
+                              return "Email doesn't valid";
+                            else if (val.length < 7)
+                              return "Email doesn't valid";
+                            else
+                              return null;
+                          },
+                          decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: 'Email',
+                              hintStyle: TextStyle(color: Colors.white),
+                              focusColor: Colors.white,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: textPhone,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                          ],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value.length < 9)
+                              return "Phone number doesn't valid";
+                            else
+                              return null;
+                          },
+                          decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: 'Phone Number',
+                              hintStyle: TextStyle(color: Colors.white),
+                              focusColor: Colors.white,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: textPassword,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18),
+                          validator: (value) {
+                            if (value.length < 6)
+                              return "Password is too short";
+                            else
+                              return null;
+                          },
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: 'Password',
+                              hintStyle: TextStyle(color: Colors.white),
+                              focusColor: Colors.white,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              suffixIcon: IconButton(
+                                icon: FaIcon(
+                                  _obscureText
+                                      ? FontAwesomeIcons.solidEye
+                                      : FontAwesomeIcons.eye,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 30),
-                ButtonOk(
-                    size: size,
-                    onClick: () {
-                      User newUser = User(textName.text, textEmail.text,
-                          textPhone.text, textPassword.text);
-                      repository.registerUser(newUser);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()));
-                    }),
+                ButtonOk(size: size, onClick: register),
                 SizedBox(height: 50),
                 ChangePageLoginRegister(
                   question: 'Have an account ?',
