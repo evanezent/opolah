@@ -49,7 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       var res = repository.registerUser(newUser);
       res.then((value) {
-        print(value.runtimeType);
         if (value == true) {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MainScreen()));
