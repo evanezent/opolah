@@ -7,13 +7,16 @@ class ButtonOk extends StatelessWidget {
     Key key,
     @required this.size,
     this.onClick,
+    this.isLoading,
   }) : super(key: key);
 
   final Size size;
   final Function onClick;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
+    print(isLoading);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       width: size.width,
@@ -26,24 +29,29 @@ class ButtonOk extends StatelessWidget {
             color: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-            child: Container(
-              width: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Ok",
-                      style: TextStyle(
-                          color: colorPrimary,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20)),
-                  SizedBox(width: 10),
-                  FaIcon(
-                    FontAwesomeIcons.longArrowAltRight,
-                    color: colorPrimary,
+            child: isLoading
+                ? CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation(colorPrimary),
                   )
-                ],
-              ),
-            ),
+                : Container(
+                    width: 70,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Ok",
+                            style: TextStyle(
+                                color: colorPrimary,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 20)),
+                        SizedBox(width: 10),
+                        FaIcon(
+                          FontAwesomeIcons.longArrowAltRight,
+                          color: colorPrimary,
+                        )
+                      ],
+                    ),
+                  ),
           )
         ],
       ),

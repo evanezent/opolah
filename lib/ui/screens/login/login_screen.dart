@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController textEmailUsername = new TextEditingController();
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
+  bool loading;
 
   DataRepository repository = DataRepository();
   String _passValidator, _emailValidator = '';
@@ -24,22 +25,31 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     var res = repository.loginUser(textEmailUsername.text, textPassword.text);
     res.then((value) {
-      var checker = value.toString();
-      if (checker != 'pass') {
-        if (checker.contains('Password')) {
+      print(value);
+      if (value != 'pass') {
+        if (value.contains('Password')) {
           setState(() {
-            _passValidator = checker;
+            _passValidator = value;
           });
         } else {
           setState(() {
-            _emailValidator = checker;
+            _emailValidator = value;
           });
         }
+        setState(() {
+          this.loading = false;
+        });
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loading = false;
   }
 
   @override
@@ -136,7 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 50),
-                ButtonOk(size: size, onClick: login),
+                ButtonOk(
+                    size: size,
+                    onClick: () {
+                      setState(() {
+                        this.loading = true;
+                      });
+                      if (loading) login();
+                    },
+                    isLoading: loading),
                 SizedBox(height: 100),
                 ChangePageLoginRegister(
                   question: 'Your first time ?',
