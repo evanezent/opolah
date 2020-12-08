@@ -21,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController textPhone = new TextEditingController();
   TextEditingController textPassword = new TextEditingController();
   bool _obscureText = true;
+  bool loading = false;
 
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
@@ -44,11 +45,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void register() {
     if (_formKey.currentState.validate()) {
       User newUser = User(
-          textName.text, 
-          textEmail.text, 
-          textPassword.text, 
-          textPhone.text);
-          
+          textName.text, textEmail.text, textPassword.text, textPhone.text);
+
       var res = repository.registerUser(newUser);
       res.then((value) {
         print(value.runtimeType);
@@ -57,10 +55,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               context, MaterialPageRoute(builder: (context) => MainScreen()));
         } else {
           _showAlertDialog('Failed !', "Email or Phone number has been exists");
+          setState(() {
+            this.loading = false;
+          });
         }
       });
     } else {
       setState(() {
+        this.loading = false;
         _autoValidate = true;
       });
     }
@@ -214,7 +216,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 SizedBox(height: 30),
-                ButtonOk(size: size, onClick: register),
+                ButtonOk(
+                    size: size,
+                    onClick: () {
+                      setState(() {
+                        this.loading = true;
+                      });
+                      register();
+                    },
+                    isLoading: loading),
                 SizedBox(height: 50),
                 ChangePageLoginRegister(
                   question: 'Have an account ?',
