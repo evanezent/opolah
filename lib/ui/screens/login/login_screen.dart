@@ -25,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     var res = repository.loginUser(textEmailUsername.text, textPassword.text);
     res.then((value) {
-      print(value);
       if (value != 'pass') {
         if (value.contains('Password')) {
           setState(() {

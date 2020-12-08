@@ -16,43 +16,45 @@ class ButtonOk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(isLoading);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       width: size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-            onPressed: onClick,
-            color: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-            child: isLoading
-                ? CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(colorPrimary),
-                  )
-                : Container(
-                    width: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Ok",
-                            style: TextStyle(
-                                color: colorPrimary,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 20)),
-                        SizedBox(width: 10),
-                        FaIcon(
-                          FontAwesomeIcons.longArrowAltRight,
-                          color: colorPrimary,
-                        )
-                      ],
-                    ),
-                  ),
-          )
+          AnimatedContainer(
+              width: isLoading ? 100 : 150,
+              duration: Duration(milliseconds: 700),
+              curve: Curves.fastOutSlowIn,
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                onPressed: onClick,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                child: isLoading
+                    ? CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                        valueColor: AlwaysStoppedAnimation(colorPrimary),
+                      )
+                    : Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Ok",
+                                style: TextStyle(
+                                    color: colorPrimary,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 20)),
+                            SizedBox(width: 10),
+                            FaIcon(
+                              FontAwesomeIcons.longArrowAltRight,
+                              color: colorPrimary,
+                            )
+                          ],
+                        ),
+                      ),
+              ))
         ],
       ),
     );
