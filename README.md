@@ -1,6 +1,6 @@
 # OPOLAH
 
-It just another hands-on project flutter in ecommerce version.
+It just another hands-on project **Flutter** and **Firebase** in ecommerce version.
 
 ## Getting Started
 
