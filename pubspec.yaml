@@ -41,6 +41,7 @@ dependencies:
   fluttertoast:
   cloud_firestore:
   firebase_core:
+  flutter_money_formatter:
   
 dev_dependencies:
   flutter_test:
