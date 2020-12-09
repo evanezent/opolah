@@ -1,21 +1,21 @@
 class Item {
-  String _name, image;
-  int id, price, star;
+  String name, image, id;
+  int price, star;
   DateTime date;
 
-  Item(this._name, this.image, this.star, this.date);
-  Item.withId(this.id, this._name, this.image, this.star, this.date);
+  Item(this.name, this.image, this.star, this.price);
+  Item.withId(this.id, this.name, this.image, this.star, this.date);
 
-  int get getID => id;
+  String get getID => id;
   int get getPrice => price;
-  int get getStar => price;
-  String get getName => _name;
+  int get getStar => star;
+  String get getName => name;
   String get getImage => image;
   DateTime get getDate => date;
 
   set setName(String newName) {
     if (100 >= newName.length && newName.length > 0) {
-      this._name = newName;
+      this.name = newName;
     }
   }
 
@@ -50,20 +50,18 @@ class Item {
     if (id != null) {
       map['id'] = id;
     }
-    map['name'] = _name;
+    map['name'] = name;
     map['image'] = image;
     map['price'] = price;
-    map['star'] = star;
-    map['date'] = date;
+    map['rating'] = star;
     return map;
   }
 
   Item.fromJson(Map<String, dynamic> map) {
-    this.id = map['id'];
-    this._name = map['name'];
-    this.price = map['price'];
+    this.id = map['itemID'];
+    this.name = map['name'];
+    this.price = map['price'] as int;
     this.image = map['image'];
-    this.star = map['star'];
-    this.date = map['date'];
+    this.star = map['price'] as int;
   }
 }
