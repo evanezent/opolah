@@ -15,7 +15,6 @@ class ShopScreen extends StatefulWidget {
 class _ShopScreenState extends State<ShopScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.itemList.length);
   }
