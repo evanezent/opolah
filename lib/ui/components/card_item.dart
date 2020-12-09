@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/ui/screens/shop/detail_item.dart';
+import 'package:opolah/models/item.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
@@ -11,14 +12,18 @@ class CardItem extends StatelessWidget {
     this.name,
     this.price,
     this.imgUrl,
+    this.item,
   }) : super(key: key);
 
   final Size size;
   final double nStar;
-  final String name, price, imgUrl;
+  final int price;
+  final String name, imgUrl;
+  final Item item;
 
   @override
   Widget build(BuildContext context) {
+    double rate = item != null ? item.star.toDouble() : nStar;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -39,7 +44,7 @@ class CardItem extends StatelessWidget {
                 topRight: Radius.circular(10),
               ),
               child: Image.network(
-                imgUrl,
+                item != null ? item.image : imgUrl,
                 height: 170.0,
                 fit: BoxFit.cover,
               ),
@@ -50,16 +55,16 @@ class CardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    item != null ? item.name : name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: colorPrimary, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 5),
-                  Util.starCounter(nStar: nStar),
+                  Util.starCounter(nStar: rate),
                   SizedBox(height: 5),
                   Text(
-                    price,
+                    item != null ? item.price.toString() : price.toString(),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: colorSecondary),
                   ),

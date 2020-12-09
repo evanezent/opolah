@@ -45,12 +45,13 @@ class _ShopScreenState extends State<ShopScreen> {
                   crossAxisCount: 2,
                   itemBuilder: (context, index) {
                     return CardItem(
+                      item:itemList[index],
                       size: size,
                       imgUrl:
                           'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
                       nStar: 5,
                       name: 'Space-Star Art Tshirt',
-                      price: '75.000',
+                      price: 75000,
                     );
                   },
                   staggeredTileBuilder: (int index) =>

@@ -60,8 +60,8 @@ class Item {
   Item.fromJson(Map<String, dynamic> map) {
     this.id = map['itemID'];
     this.name = map['name'];
-    this.price = map['price'] as int;
+    this.price = int.parse(map['price']);
     this.image = map['image'];
-    this.star = map['price'] as int;
+    this.star = int.parse(map['rating']);
   }
 }
