@@ -39,10 +39,6 @@ class CardItem extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
               child: Image.network(
                 item != null ? item.image : imgUrl,
                 height: 170.0,
