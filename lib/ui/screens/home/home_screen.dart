@@ -1,13 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/models/item.dart';
 import 'package:opolah/ui/components/card_icon.dart';
 import 'package:opolah/ui/components/home/search_bar.dart';
 import 'package:opolah/ui/components/home/slider_item.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key key, this.listItem}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
+  final List<Item> listItem;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -112,11 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   SliderItem(
                     size: size,
                     title: "Newcomer",
+                    listItem: widget.listItem,
                     openMore: () {},
                   ),
                   SliderItem(
                     size: size,
                     title: "Popular",
+                    listItem: widget.listItem,
                     openMore: () {},
                   )
                 ],

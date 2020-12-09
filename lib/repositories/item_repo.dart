@@ -10,13 +10,10 @@ class ItemRepository {
 
     await collection.get().then((value) {
       value.docs.forEach((element) {
-        print(element['price']);
         Item item = Item.fromJson(element.data());
         itemList.add(item);
       });
     });
-
-    print(itemList[0]);
 
     return itemList;
   }

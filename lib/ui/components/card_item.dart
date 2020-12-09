@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/ui/screens/shop/detail_item.dart';
 import 'package:opolah/models/item.dart';
 
+// ignore: must_be_immutable
 class CardItem extends StatelessWidget {
-  const CardItem({
+  CardItem({
     Key key,
     @required this.size,
     this.nStar,
@@ -16,14 +18,19 @@ class CardItem extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final double nStar;
-  final int price;
-  final String name, imgUrl;
-  final Item item;
+  double nStar;
+  double price;
+  String name, imgUrl;
+  Item item;
 
   @override
   Widget build(BuildContext context) {
-    double rate = item != null ? item.star.toDouble() : nStar;
+    imgUrl = item != null ? item.image : imgUrl;
+    name = item != null ? item.name : name;
+    double rate = item != null ? item.star : nStar;
+    price = item != null ? item.price : price;
+    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(amount: price);
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -40,7 +47,7 @@ class CardItem extends StatelessWidget {
           children: [
             ClipRRect(
               child: Image.network(
-                item != null ? item.image : imgUrl,
+                imgUrl,
                 height: 170.0,
                 fit: BoxFit.cover,
               ),
@@ -51,7 +58,7 @@ class CardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item != null ? item.name : name,
+                    name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: colorPrimary, fontWeight: FontWeight.w600),
@@ -60,7 +67,7 @@ class CardItem extends StatelessWidget {
                   Util.starCounter(nStar: rate),
                   SizedBox(height: 5),
                   Text(
-                    item != null ? item.price.toString() : price.toString(),
+                    "RP ${fmf.output.nonSymbol}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: colorSecondary),
                   ),
