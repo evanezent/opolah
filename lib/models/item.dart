@@ -20,7 +20,7 @@ class Item {
   }
 
   set setImage(String newImage) {
-    if (100 >= newImage.length && newImage.length > 0) {
+    if (newImage.length > 0) {
       this.image = newImage;
     }
   }
