@@ -6,7 +6,7 @@ class ItemTypeRepository {
       FirebaseFirestore.instance.collection('type-item');
 
   Future getItemType(String itemID) async {
-    List<ItemType> listType;
+    List<ItemType> listType = [];
 
     var res = await collection.where('itemID', isEqualTo: itemID).get();
     if (res.docs.length > 0) {
@@ -14,8 +14,6 @@ class ItemTypeRepository {
         ItemType type = ItemType.fromJson(element.data());
         listType.add(type);
       });
-      print(
-          '---------------------------------------------------- ${listType.length}');
       return listType;
     } else {
       return null;

@@ -25,6 +25,14 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         itemList = value;
       });
+      buildPage();
+    });
+  }
+
+  void buildPage() {
+    setState(() {
+      pagesList[0] = HomeScreen(listItem: itemList);
+      pagesList[1] = ShopScreen(itemList: itemList);
     });
   }
 
@@ -35,12 +43,10 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     getShopItem();
-    if (itemList.length > 0) {
-      pagesList.add(HomeScreen(listItem: itemList));
-      pagesList.add(ShopScreen(itemList: itemList));
-      pagesList.add(CartScreen());
-      pagesList.add(ProfileScreen());
-    }
+    pagesList.add(HomeScreen(listItem: itemList));
+    pagesList.add(ShopScreen(itemList: itemList));
+    pagesList.add(CartScreen());
+    pagesList.add(ProfileScreen());
   }
 
   @override
