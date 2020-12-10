@@ -9,6 +9,7 @@ class ItemTypeRepository {
     List<ItemType> listType = [];
 
     var res = await collection.where('itemID', isEqualTo: itemID).get();
+    
     if (res.docs.length > 0) {
       res.docs.forEach((element) {
         ItemType type = ItemType.fromJson(element.data());

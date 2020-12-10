@@ -20,10 +20,6 @@ class DetailItem extends StatefulWidget {
 }
 
 class _DetailItemState extends State<DetailItem> {
-  ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
-  List<ItemType> typeList = [];
-  List<String> types = [];
-
   void getItemTypes() async {
     var data = _itemTypeRepository.getItemType(widget.item.getID);
 
@@ -32,9 +28,8 @@ class _DetailItemState extends State<DetailItem> {
         typeList = value;
       });
     });
-    buildTypeChooser();
 
-    // print(typeList.length);
+    buildTypeChooser();
   }
 
   void buildCardSlider() {
@@ -62,6 +57,7 @@ class _DetailItemState extends State<DetailItem> {
     typeList.forEach((element) {
       temp.add(element.getValue);
     });
+
     temp.sort();
     setState(() {
       types = temp;
@@ -69,12 +65,15 @@ class _DetailItemState extends State<DetailItem> {
     });
   }
 
+  ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
+  List<ItemType> typeList = [];
+  List<String> types = [];
   List images = [];
 
-  double _currentPageIndex;
   int qty = 0;
-  TextEditingController txtQty = TextEditingController(text: '0');
   String type;
+  double _currentPageIndex;
+  TextEditingController txtQty = TextEditingController(text: '0');
 
   @override
   void initState() {

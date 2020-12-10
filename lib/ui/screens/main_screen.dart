@@ -25,8 +25,8 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         itemList = value;
       });
-      buildPage();
     });
+    buildPage();
   }
 
   void buildPage() {

@@ -25,10 +25,10 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    imgUrl = item != null ? item.image : imgUrl;
     name = item != null ? item.name : name;
-    double rate = item != null ? item.star : nStar;
     price = item != null ? item.price : price;
+    imgUrl = item != null ? item.image : imgUrl;
+    double rate = item != null ? item.star : nStar;
     FlutterMoneyFormatter fmf = FlutterMoneyFormatter(amount: price);
 
     return InkWell(
