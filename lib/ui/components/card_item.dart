@@ -33,8 +33,8 @@ class CardItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => DetailItem()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailItem(item: item)));
       },
       child: Container(
         width: size.width * 0.4,

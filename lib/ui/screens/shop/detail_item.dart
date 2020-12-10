@@ -5,14 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/item-type.dart';
+import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
 
 class DetailItem extends StatefulWidget {
+  const DetailItem({Key key, this.item}) : super(key: key);
+
   @override
   _DetailItemState createState() => _DetailItemState();
+  final Item item;
 }
 
 class _DetailItemState extends State<DetailItem> {
+  ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
+  List<ItemType> typeList;
+
+  void getItemTypes() {
+    var data = _itemTypeRepository.getItemType(widget.item.getID);
+
+    data.then((value) {
+      setState(() {
+        typeList = value;
+      });
+    });
+  }
+
   List images = [
     ClipRRect(
       borderRadius: BorderRadius.only(

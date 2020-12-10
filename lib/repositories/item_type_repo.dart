@@ -14,6 +14,8 @@ class ItemTypeRepository {
         ItemType type = ItemType.fromJson(element.data());
         listType.add(type);
       });
+      print(
+          '---------------------------------------------------- ${listType.length}');
       return listType;
     } else {
       return null;
