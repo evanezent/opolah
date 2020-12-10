@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     getShopItem();
-    if (pagesList.length > 0) {
+    if (itemList.length > 0) {
       pagesList.add(HomeScreen(listItem: itemList));
       pagesList.add(ShopScreen(itemList: itemList));
       pagesList.add(CartScreen());
