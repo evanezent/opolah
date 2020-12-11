@@ -22,49 +22,49 @@ class _MainScreenState extends State<MainScreen> {
   List<Item> itemList = [];
   List<Cart> cartList = [];
 
-  void getShopItem() {
+  void getShopItem() async {
     var data = _itemRepository.getStream();
 
-    data.then((value) {
+    await data.then((value) {
       setState(() {
         itemList = value;
       });
     });
+    buildPage();
   }
 
   void buildPage() {
+    print("======================");
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
       pagesList[1] = ShopScreen(itemList: itemList);
-      pagesList[2] = CartScreen(cartList: cartList);
     });
   }
 
-  void getAllCart() {
-    var data = _cartRepository.getAllCart();
+  void getAllCart() async {
+    var data = await _cartRepository.getAllCart();
 
-    data.then((value) async {
-      await setState(() {
-        cartList = value;
-      });
+    setState(() {
+      cartList = data;
+      pagesList[2] = CartScreen(cartList: cartList);
     });
+
+    print("ASDASDADS");
+    print(cartList.length);
   }
 
   List<Widget> pagesList = [];
   int _currentPageIndex = 0;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen(cartList: cartList));
     pagesList.add(ProfileScreen());
-    // ignore: await_only_futures
-    await getShopItem();
-    // ignore: await_only_futures
-    await getAllCart();
-    buildPage();
+    getShopItem();
+    getAllCart();
   }
 
   @override

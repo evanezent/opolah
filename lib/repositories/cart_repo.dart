@@ -1,31 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/item_repo.dart';
 
 class CartRepository {
   final CollectionReference cartCollection =
       FirebaseFirestore.instance.collection('cart');
-  final CollectionReference itemCollection =
-      FirebaseFirestore.instance.collection('item');
+  final ItemRepository _itemRepository = ItemRepository();
 
   Future<List<Cart>> getAllCart() async {
     List<Cart> cartList = [];
 
     await cartCollection.get().then((value) {
+      print("1");
       value.docs.forEach((element) async {
-        await itemCollection
-            .where('itemID', isEqualTo: element['itemID'])
-            .get()
-            .then((value) {
-          Item tempItem = Item.fromJson(value.docs[0].data());
+        print("2");
+        _itemRepository.getItem(element['itemID']).then((value) {
+          print("3");
+          Item tempItem = Item.fromJson(value.docs.data());
           Cart cart = Cart.fromJson(element.data(), tempItem);
+          print("ASDDAS AD AF  FGHG");
           cartList.add(cart);
-    
         });
       });
     });
 
-
+    print('asd asd asf f s ${cartList.length}');
     return cartList;
   }
 }

@@ -15,12 +15,26 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<bool> isCheck = [false, false];
-  List<int> counter = [1, 1];
-  List<int> price = [100000, 100000];
+  List<bool> isCheck = [];
+  List<int> counter = [];
+  List<int> price = [];
   List<int> totalPerItem = List<int>();
   int res = 0;
   bool allCheck = false;
+
+  void initAllData() {
+    print("CART");
+    print(widget.cartList.length);
+    for (var i = 0; i < widget.cartList.length; i++) {
+      setState(() {
+        isCheck.add(false);
+        counter.add(int.parse(widget.cartList[i].qty));
+        int priceTemp = int.parse(widget.cartList[i].qty) *
+            widget.cartList[i].getItem.getPrice.toInt();
+        price.add(priceTemp);
+      });
+    }
+  }
 
   void updateTotal(List<int> listItem, List<bool> listChecked) {
     /*
@@ -113,10 +127,13 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    initAllData();
     for (var item in price) {
       totalPerItem.add(item);
     }
     updateTotal(totalPerItem, isCheck);
+    print("*****");
+    print(widget.cartList.length);
   }
 
   @override
@@ -140,55 +157,32 @@ class _CartScreenState extends State<CartScreen> {
               ),
             )
           : Container(
-              child: ListView(
-              children: [
-                CartItem(
-                  size: size,
-                  isCheck: isCheck[0],
-                  qty: counter[0],
-                  price: price[0],
-                  callbackClick: (value) {
-                    updateTotalEachItem(0, value, price[0]);
-                  },
-                  callbackType: (value) {
-                    updateTotalEachItem(0, 'type', value,
-                        optionalValue: price[0]);
-                  },
-                  callbackChecked: (value) {
-                    setState(() {
-                      isCheck[0] = value;
-                    });
-                    if (isCheck[0]) {
-                      unCheck(0);
-                    } else {
-                      updateTotal(totalPerItem, isCheck);
-                    }
-                  },
-                ),
-                CartItem(
-                  size: size,
-                  isCheck: isCheck[1],
-                  qty: counter[1],
-                  price: price[1],
-                  callbackClick: (value) {
-                    updateTotalEachItem(1, value, price[1]);
-                  },
-                  callbackType: (value) {
-                    updateTotalEachItem(1, 'type', value,
-                        optionalValue: price[1]);
-                  },
-                  callbackChecked: (value) {
-                    setState(() {
-                      isCheck[1] = value;
-                    });
-                    if (isCheck[1]) {
-                      unCheck(1);
-                    } else {
-                      updateTotal(totalPerItem, isCheck);
-                    }
-                  },
-                ),
-              ],
+              child: ListView.builder(
+              itemCount: widget.cartList.length,
+              itemBuilder: (context, index) => CartItem(
+                item: widget.cartList[index].getItem,
+                size: size,
+                isCheck: isCheck[index],
+                qty: counter[index],
+                price: price[index],
+                callbackClick: (value) {
+                  updateTotalEachItem(index, value, price[index]);
+                },
+                callbackType: (value) {
+                  updateTotalEachItem(index, 'type', value,
+                      optionalValue: price[index]);
+                },
+                callbackChecked: (value) {
+                  setState(() {
+                    isCheck[index] = value;
+                  });
+                  if (isCheck[index]) {
+                    unCheck(index);
+                  } else {
+                    updateTotal(totalPerItem, isCheck);
+                  }
+                },
+              ),
             )),
       bottomNavigationBar: Container(
         height: 100,

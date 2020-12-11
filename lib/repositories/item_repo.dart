@@ -12,10 +12,14 @@ class ItemRepository {
       value.docs.forEach((element) {
         Item item = Item.fromJson(element.data());
         itemList.add(item);
-        print(itemList.length);
       });
     });
 
     return itemList;
+  }
+
+  Future getItem(String id) async {
+    var res = await collection.where('itemID', isEqualTo: id).get();
+    return Item.fromJson(res.docs[0].data());
   }
 }
