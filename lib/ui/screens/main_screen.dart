@@ -2,7 +2,9 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
@@ -16,7 +18,9 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
+  CartRepository _cartRepository = CartRepository();
   List<Item> itemList = [];
+  List<Cart> cartList = [];
 
   void getShopItem() {
     var data = _itemRepository.getStream();
@@ -26,13 +30,23 @@ class _MainScreenState extends State<MainScreen> {
         itemList = value;
       });
     });
-    buildPage();
   }
 
   void buildPage() {
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
       pagesList[1] = ShopScreen(itemList: itemList);
+      pagesList[2] = CartScreen(cartList: cartList);
+    });
+  }
+
+  void getAllCart() {
+    var data = _cartRepository.getAllCart();
+
+    data.then((value) async {
+      await setState(() {
+        cartList = value;
+      });
     });
   }
 
@@ -40,13 +54,17 @@ class _MainScreenState extends State<MainScreen> {
   int _currentPageIndex = 0;
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    getShopItem();
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
-    pagesList.add(CartScreen());
+    pagesList.add(CartScreen(cartList: cartList));
     pagesList.add(ProfileScreen());
+    // ignore: await_only_futures
+    await getShopItem();
+    // ignore: await_only_futures
+    await getAllCart();
+    buildPage();
   }
 
   @override

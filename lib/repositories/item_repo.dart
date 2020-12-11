@@ -12,6 +12,7 @@ class ItemRepository {
       value.docs.forEach((element) {
         Item item = Item.fromJson(element.data());
         itemList.add(item);
+        print(itemList.length);
       });
     });
 

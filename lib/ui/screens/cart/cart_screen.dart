@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/cart.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({Key key, this.cartList}) : super(key: key);
+
   @override
   _CartScreenState createState() => _CartScreenState();
+
+  final List<Cart> cartList;
 }
 
 class _CartScreenState extends State<CartScreen> {
@@ -127,55 +132,64 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: Container(
-          child: ListView(
-        children: [
-          CartItem(
-            size: size,
-            isCheck: isCheck[0],
-            qty: counter[0],
-            price: price[0],
-            callbackClick: (value) {
-              updateTotalEachItem(0, value, price[0]);
-            },
-            callbackType: (value) {
-              updateTotalEachItem(0, 'type', value, optionalValue: price[0]);
-            },
-            callbackChecked: (value) {
-              setState(() {
-                isCheck[0] = value;
-              });
-              if (isCheck[0]) {
-                unCheck(0);
-              } else {
-                updateTotal(totalPerItem, isCheck);
-              }
-            },
-          ),
-          CartItem(
-            size: size,
-            isCheck: isCheck[1],
-            qty: counter[1],
-            price: price[1],
-            callbackClick: (value) {
-              updateTotalEachItem(1, value, price[1]);
-            },
-            callbackType: (value) {
-              updateTotalEachItem(1, 'type', value, optionalValue: price[1]);
-            },
-            callbackChecked: (value) {
-              setState(() {
-                isCheck[1] = value;
-              });
-              if (isCheck[1]) {
-                unCheck(1);
-              } else {
-                updateTotal(totalPerItem, isCheck);
-              }
-            },
-          ),
-        ],
-      )),
+      body: widget.cartList.length == 0
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(colorPrimary),
+              ),
+            )
+          : Container(
+              child: ListView(
+              children: [
+                CartItem(
+                  size: size,
+                  isCheck: isCheck[0],
+                  qty: counter[0],
+                  price: price[0],
+                  callbackClick: (value) {
+                    updateTotalEachItem(0, value, price[0]);
+                  },
+                  callbackType: (value) {
+                    updateTotalEachItem(0, 'type', value,
+                        optionalValue: price[0]);
+                  },
+                  callbackChecked: (value) {
+                    setState(() {
+                      isCheck[0] = value;
+                    });
+                    if (isCheck[0]) {
+                      unCheck(0);
+                    } else {
+                      updateTotal(totalPerItem, isCheck);
+                    }
+                  },
+                ),
+                CartItem(
+                  size: size,
+                  isCheck: isCheck[1],
+                  qty: counter[1],
+                  price: price[1],
+                  callbackClick: (value) {
+                    updateTotalEachItem(1, value, price[1]);
+                  },
+                  callbackType: (value) {
+                    updateTotalEachItem(1, 'type', value,
+                        optionalValue: price[1]);
+                  },
+                  callbackChecked: (value) {
+                    setState(() {
+                      isCheck[1] = value;
+                    });
+                    if (isCheck[1]) {
+                      unCheck(1);
+                    } else {
+                      updateTotal(totalPerItem, isCheck);
+                    }
+                  },
+                ),
+              ],
+            )),
       bottomNavigationBar: Container(
         height: 100,
         child: Column(

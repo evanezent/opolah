@@ -20,13 +20,11 @@ class CartRepository {
           Item tempItem = Item.fromJson(value.docs[0].data());
           Cart cart = Cart.fromJson(element.data(), tempItem);
           cartList.add(cart);
+    
         });
       });
     });
 
-    print(cartList.length);
-    print(cartList[0].getItemID);
-    print(cartList[0].getItem.getName);
 
     return cartList;
   }
