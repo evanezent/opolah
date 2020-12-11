@@ -15,12 +15,13 @@ class CartRepository {
       print("1");
       value.docs.forEach((element) async {
         print("2");
-        _itemRepository.getItem(element['itemID']).then((value) {
+        await _itemRepository.getItem(element['itemID']).then((value) {
           print("3");
-          Item tempItem = Item.fromJson(value.docs.data());
+          Item tempItem = Item.fromJson(value);
           Cart cart = Cart.fromJson(element.data(), tempItem);
           print("ASDDAS AD AF  FGHG");
           cartList.add(cart);
+          print(cartList[0].getItemID);
         });
       });
     });

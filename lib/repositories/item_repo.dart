@@ -20,6 +20,6 @@ class ItemRepository {
 
   Future getItem(String id) async {
     var res = await collection.where('itemID', isEqualTo: id).get();
-    return Item.fromJson(res.docs[0].data());
+    return res.docs[0].data();
   }
 }
