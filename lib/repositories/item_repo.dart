@@ -17,4 +17,9 @@ class ItemRepository {
 
     return itemList;
   }
+
+  Future<Map> getItem(String id) async {
+    var res = await collection.where('itemID', isEqualTo: id).get();
+    return res.docs[0].data();
+  }
 }

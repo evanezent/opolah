@@ -17,7 +17,6 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.itemList.length);
   }
 
   @override
@@ -30,11 +29,11 @@ class _ShopScreenState extends State<ShopScreen> {
           children: [
             widget.itemList.length == 0
                 ? Center(
-                  child: CircularProgressIndicator(
+                    child: CircularProgressIndicator(
                       backgroundColor: Colors.white,
                       valueColor: AlwaysStoppedAnimation(colorPrimary),
                     ),
-                )
+                  )
                 : Container(
                     margin: EdgeInsets.only(top: 60),
                     child: StaggeredGridView.countBuilder(

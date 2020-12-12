@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/cart.dart';
+import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/cart_repo.dart';
+import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
@@ -10,12 +15,45 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<bool> isCheck = [false, false];
-  List<int> counter = [1, 1];
-  List<int> price = [100000, 100000];
+  CartRepository _cartRepository = CartRepository();
+  ItemRepository _itemRepository = ItemRepository();
   List<int> totalPerItem = List<int>();
-  int res = 0;
+  List<Item> cartItem = [];
+  List<Cart> cartList = [];
+  List<bool> isCheck = [];
+  List<int> counter = [];
   bool allCheck = false;
+  List<int> price = [];
+  int res = 0;
+
+  void getAllCart() async {
+    var data = await _cartRepository.getAllCart();
+
+    setState(() {
+      cartList = data;
+    });
+
+    for (var i = 0; i < cartList.length; i++) {
+      print(cartList[i].getID);
+      _itemRepository.getItem(cartList[i].getItemID).then((value) {
+        Item item = Item.fromJson(value);
+        initData(cartList[i], item);
+      });
+    }
+  }
+
+  void initData(cart, item) {
+    setState(() {
+      cartItem.add(item);
+      isCheck.add(false);
+      counter.add(int.parse(cart.qty));
+      int priceTemp = int.parse(cart.qty) * item.getPrice.toInt();
+      price.add(priceTemp);
+      totalPerItem.add(priceTemp);
+    });
+
+    updateTotal(totalPerItem, isCheck);
+  }
 
   void updateTotal(List<int> listItem, List<bool> listChecked) {
     /*
@@ -108,10 +146,8 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    for (var item in price) {
-      totalPerItem.add(item);
-    }
-    updateTotal(totalPerItem, isCheck);
+
+    getAllCart();
   }
 
   @override
@@ -127,55 +163,40 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: Container(
-          child: ListView(
-        children: [
-          CartItem(
-            size: size,
-            isCheck: isCheck[0],
-            qty: counter[0],
-            price: price[0],
-            callbackClick: (value) {
-              updateTotalEachItem(0, value, price[0]);
-            },
-            callbackType: (value) {
-              updateTotalEachItem(0, 'type', value, optionalValue: price[0]);
-            },
-            callbackChecked: (value) {
-              setState(() {
-                isCheck[0] = value;
-              });
-              if (isCheck[0]) {
-                unCheck(0);
-              } else {
-                updateTotal(totalPerItem, isCheck);
-              }
-            },
-          ),
-          CartItem(
-            size: size,
-            isCheck: isCheck[1],
-            qty: counter[1],
-            price: price[1],
-            callbackClick: (value) {
-              updateTotalEachItem(1, value, price[1]);
-            },
-            callbackType: (value) {
-              updateTotalEachItem(1, 'type', value, optionalValue: price[1]);
-            },
-            callbackChecked: (value) {
-              setState(() {
-                isCheck[1] = value;
-              });
-              if (isCheck[1]) {
-                unCheck(1);
-              } else {
-                updateTotal(totalPerItem, isCheck);
-              }
-            },
-          ),
-        ],
-      )),
+      body: cartItem.length == 0
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(colorPrimary),
+              ),
+            )
+          : Container(
+              child: ListView.builder(
+              itemCount: cartList.length,
+              itemBuilder: (context, index) => CartItem(
+                item: cartItem[index],
+                size: size,
+                isCheck: isCheck[index],
+                qty: int.parse(cartList[index].qty),
+                callbackClick: (value) {
+                  updateTotalEachItem(index, value, price[index]);
+                },
+                callbackType: (value) {
+                  updateTotalEachItem(index, 'type', value,
+                      optionalValue: price[index]);
+                },
+                callbackChecked: (value) {
+                  setState(() {
+                    isCheck[index] = value;
+                  });
+                  if (isCheck[index]) {
+                    unCheck(index);
+                  } else {
+                    updateTotal(totalPerItem, isCheck);
+                  }
+                },
+              ),
+            )),
       bottomNavigationBar: Container(
         height: 100,
         child: Column(

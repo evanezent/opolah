@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/item.dart';
 
 // ignore: must_be_immutable
 class CartItem extends StatelessWidget {
@@ -14,11 +15,13 @@ class CartItem extends StatelessWidget {
     this.callbackChecked,
     this.price,
     this.callbackType,
+    this.item,
   }) : super(key: key);
 
   final Size size;
   final bool isCheck;
   final int qty;
+  final Item item;
 
   final Function callbackClick;
   final Function callbackType;
@@ -26,11 +29,9 @@ class CartItem extends StatelessWidget {
 
   TextEditingController txtQty;
   final int price;
-  int localQty;
 
   @override
   Widget build(BuildContext context) {
-    localQty = qty;
     String casting = qty.toString();
     txtQty = TextEditingController(text: casting);
 
@@ -53,7 +54,7 @@ class CartItem extends StatelessWidget {
                     bottomLeft: Radius.circular(10),
                   ),
                   child: Image.network(
-                    'https://d19kzigy6tpscu.cloudfront.net/media/boutique/index/2019/05/03/Cool_Shirtz_8ZU0T.jpg',
+                    item.getImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,7 +65,7 @@ class CartItem extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      'Bomber Jacket - Death edition',
+                      item.getName,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: colorPrimary,
@@ -79,7 +80,7 @@ class CartItem extends StatelessWidget {
                         Container(
                           width: size.width * 0.25,
                           child: Text(
-                            'Rp 100.000',
+                            'Rp ${item.getPrice}',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
