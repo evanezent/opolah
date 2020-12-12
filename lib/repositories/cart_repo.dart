@@ -8,25 +8,26 @@ class CartRepository {
       FirebaseFirestore.instance.collection('cart');
   final ItemRepository _itemRepository = ItemRepository();
 
+  Stream<QuerySnapshot> getAll() {
+    return cartCollection.snapshots();
+  }
+
   Future<List<Cart>> getAllCart() async {
     List<Cart> cartList = [];
-
-    await cartCollection.get().then((value) {
-      print("1");
-      value.docs.forEach((element) async {
-        print("2");
-        await _itemRepository.getItem(element['itemID']).then((value) {
-          print("3");
-          Item tempItem = Item.fromJson(value);
-          Cart cart = Cart.fromJson(element.data(), tempItem);
-          print("ASDDAS AD AF  FGHG");
-          cartList.add(cart);
-          print(cartList[0].getItemID);
+    try {
+      await cartCollection.get().then((value) {
+        value.docs.forEach((element) {
+          cartList.add(Cart.fromJson(element.data()));
         });
       });
-    });
 
-    print('asd asd asf f s ${cartList.length}');
-    return cartList;
+      return cartList;
+    } catch (e) {
+      throw e;
+    }
   }
+
+  // Future getCarts() {
+  //   var itemData = _itemRepository.getItem(element['itemID']);
+  // }
 }

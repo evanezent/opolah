@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
-  CartRepository _cartRepository = CartRepository();
+  // CartRepository _cartRepository = CartRepository();
   List<Item> itemList = [];
   List<Cart> cartList = [];
 
@@ -34,24 +34,25 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void buildPage() {
-    print("======================");
+    print("MAIN");
+    print(itemList.length);
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
       pagesList[1] = ShopScreen(itemList: itemList);
     });
   }
 
-  void getAllCart() async {
-    var data = await _cartRepository.getAllCart();
+  // void getAllCart() async {
+  //   var data = await _cartRepository.getAllCart();
 
-    setState(() {
-      cartList = data;
-      pagesList[2] = CartScreen(cartList: cartList);
-    });
+  //   setState(() {
+  //     cartList = data;
+  //     pagesList[2] = CartScreen(cartList: cartList);
+  //   });
 
-    print("ASDASDADS");
-    print(cartList.length);
-  }
+  //   print("ASDASDADS");
+  //   print(cartList.length);
+  // }
 
   List<Widget> pagesList = [];
   int _currentPageIndex = 0;
@@ -61,10 +62,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
-    pagesList.add(CartScreen(cartList: cartList));
+    pagesList.add(CartScreen());
     pagesList.add(ProfileScreen());
     getShopItem();
-    getAllCart();
   }
 
   @override
