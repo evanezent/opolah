@@ -14,7 +14,8 @@ class CartItem extends StatelessWidget {
     this.callbackClick,
     this.callbackChecked,
     this.price,
-    this.callbackType, this.item,
+    this.callbackType,
+    this.item,
   }) : super(key: key);
 
   final Size size;

@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
-import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
@@ -18,7 +17,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
-  // CartRepository _cartRepository = CartRepository();
+  List<Widget> pagesList = [];
+  int _currentPageIndex = 0;
   List<Item> itemList = [];
   List<Cart> cartList = [];
 
@@ -34,28 +34,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void buildPage() {
-    print("MAIN");
-    print(itemList.length);
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
       pagesList[1] = ShopScreen(itemList: itemList);
     });
   }
-
-  // void getAllCart() async {
-  //   var data = await _cartRepository.getAllCart();
-
-  //   setState(() {
-  //     cartList = data;
-  //     pagesList[2] = CartScreen(cartList: cartList);
-  //   });
-
-  //   print("ASDASDADS");
-  //   print(cartList.length);
-  // }
-
-  List<Widget> pagesList = [];
-  int _currentPageIndex = 0;
 
   @override
   void initState() {

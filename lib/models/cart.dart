@@ -1,5 +1,3 @@
-import 'package:opolah/models/item.dart';
-
 class Cart {
   String itemID, type, qty, id;
 
