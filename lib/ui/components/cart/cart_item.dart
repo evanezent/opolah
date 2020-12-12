@@ -29,11 +29,9 @@ class CartItem extends StatelessWidget {
 
   TextEditingController txtQty;
   final int price;
-  int localQty;
 
   @override
   Widget build(BuildContext context) {
-    localQty = qty;
     String casting = qty.toString();
     txtQty = TextEditingController(text: casting);
 

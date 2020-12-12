@@ -34,6 +34,7 @@ class _CartScreenState extends State<CartScreen> {
     });
 
     for (var i = 0; i < cartList.length; i++) {
+      print(cartList[i].getID);
       _itemRepository.getItem(cartList[i].getItemID).then((value) {
         Item item = Item.fromJson(value);
         initData(cartList[i], item);
@@ -157,7 +158,7 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text(
-          "MY CART ${cartList.length}",
+          "MY CART",
           style: TextStyle(color: colorPrimary, fontWeight: FontWeight.bold),
         ),
       ),
@@ -176,8 +177,7 @@ class _CartScreenState extends State<CartScreen> {
                 item: cartItem[index],
                 size: size,
                 isCheck: isCheck[index],
-                qty: counter[index],
-                price: price[index],
+                qty: int.parse(cartList[index].qty),
                 callbackClick: (value) {
                   updateTotalEachItem(index, value, price[index]);
                 },

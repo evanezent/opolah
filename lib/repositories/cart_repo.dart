@@ -14,7 +14,9 @@ class CartRepository {
     try {
       await cartCollection.get().then((value) {
         value.docs.forEach((element) {
-          cartList.add(Cart.fromJson(element.data()));
+          Cart cart = Cart.fromJson(element.data());
+          cart.setID(element.id);
+          cartList.add(cart);
         });
       });
 

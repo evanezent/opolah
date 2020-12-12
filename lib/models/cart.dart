@@ -9,6 +9,10 @@ class Cart {
   String get getType => type;
   String get getQuantity => qty;
 
+  void setID(String id) {
+    this.id = id;
+  }
+
   // Convert a Note object into a Map object
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
