@@ -62,6 +62,7 @@ class _DetailItemState extends State<DetailItem> {
       temp.add(element.getValue);
     });
 
+    temp.sort();
     setState(() {
       types = temp;
       //Get Title

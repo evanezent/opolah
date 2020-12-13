@@ -40,8 +40,9 @@ class _CartScreenState extends State<CartScreen> {
   void initData(Cart cart) {
     setState(() {
       isCheck.add(false);
-      counter.add(int.parse(cart.qty));
-      int priceTemp = int.parse(cart.qty) * cart.getItem.getPrice.toInt();
+      counter.add(int.parse(cart.getQuantity));
+      int priceTemp =
+          int.parse(cart.getQuantity) * cart.getItem.getPrice.toInt();
       price.add(priceTemp);
       totalPerItem.add(priceTemp);
     });
@@ -171,7 +172,7 @@ class _CartScreenState extends State<CartScreen> {
                 item: cartList[index].getItem,
                 size: size,
                 isCheck: isCheck[index],
-                qty: int.parse(cartList[index].qty),
+                qty: counter[index],
                 callbackClick: (value) {
                   updateTotalEachItem(index, value, price[index]);
                 },
