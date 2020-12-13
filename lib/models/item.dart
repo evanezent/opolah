@@ -51,8 +51,8 @@ class Item {
     }
     map['name'] = item.getName;
     map['image'] = item.getImage;
-    map['price'] = item.getPrice;
-    map['rating'] = item.getStar;
+    map['price'] = item.getPrice.toString();
+    map['rating'] = item.getStar.toString();
     return map;
   }
 
