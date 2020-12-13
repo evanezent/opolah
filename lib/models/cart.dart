@@ -1,7 +1,10 @@
+import 'package:opolah/models/item.dart';
+
 class Cart {
   String itemID, type, qty, id;
+  Item item;
 
-  Cart(this.itemID, this.type, this.qty);
+  Cart(this.itemID, this.type, this.qty, this.item);
   Cart.withId(this.id, this.itemID, this.type, this.qty);
 
   String get getID => id;
@@ -13,14 +16,12 @@ class Cart {
     this.id = id;
   }
 
-  // Convert a Note object into a Map object
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson(Item item, String type, String qty) {
     var map = Map<String, dynamic>();
-    if (itemID != null) {
-      map['itemID'] = itemID;
-    }
+    map['itemID'] = item.getID;
     map['type'] = type;
     map['qty'] = qty;
+    map['item'] = item.toJson();
     return map;
   }
 

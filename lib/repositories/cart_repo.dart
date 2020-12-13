@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opolah/models/cart.dart';
+import 'package:opolah/models/item.dart';
 
 class CartRepository {
   final CollectionReference cartCollection =
@@ -24,5 +25,11 @@ class CartRepository {
     } catch (e) {
       throw e;
     }
+  }
+
+  addCart(Item item, String type, String qty) async {
+    Cart cart;
+    
+    await cartCollection.add(cart.toJson(item, type, qty));
   }
 }
