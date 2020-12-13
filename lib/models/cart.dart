@@ -11,21 +11,25 @@ class Cart {
   String get getItemID => itemID;
   String get getType => type;
   String get getQuantity => qty;
+  Item get getItem => item;
 
   void setID(String id) {
     this.id = id;
   }
 
-  Map<String, dynamic> toJson(Item item, String type, String qty) {
+  Map<String, dynamic> _cartToJson(Cart cart) {
     var map = Map<String, dynamic>();
-    map['itemID'] = item.getID;
-    map['type'] = type;
-    map['qty'] = qty;
-    map['item'] = item.toJson();
+    map['itemID'] = cart.item.getID;
+    map['type'] = cart.getType;
+    map['qty'] = cart.getQuantity;
+    map['item'] = cart.getItem.toJson();
     return map;
   }
 
+  Map<String, dynamic> toJson() => _cartToJson(this);
+
   Cart.fromJson(Map<String, dynamic> map) {
+    this.item = Item.fromJson(map['item']);
     this.itemID = map['itemID'];
     this.type = map['type'];
     this.qty = map['qty'];

@@ -16,9 +16,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartRepository _cartRepository = CartRepository();
-  ItemRepository _itemRepository = ItemRepository();
   List<int> totalPerItem = List<int>();
-  List<Item> cartItem = [];
   List<Cart> cartList = [];
   List<bool> isCheck = [];
   List<int> counter = [];
@@ -35,19 +33,15 @@ class _CartScreenState extends State<CartScreen> {
 
     for (var i = 0; i < cartList.length; i++) {
       print(cartList[i].getID);
-      _itemRepository.getItem(cartList[i].getItemID).then((value) {
-        Item item = Item.fromJson(value);
-        initData(cartList[i], item);
-      });
+      initData(cartList[i]);
     }
   }
 
-  void initData(cart, item) {
+  void initData(Cart cart) {
     setState(() {
-      cartItem.add(item);
       isCheck.add(false);
       counter.add(int.parse(cart.qty));
-      int priceTemp = int.parse(cart.qty) * item.getPrice.toInt();
+      int priceTemp = int.parse(cart.qty) * cart.getItem.getPrice.toInt();
       price.add(priceTemp);
       totalPerItem.add(priceTemp);
     });
@@ -163,7 +157,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: cartItem.length == 0
+      body: cartList.length == 0
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.white,
@@ -174,7 +168,7 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.builder(
               itemCount: cartList.length,
               itemBuilder: (context, index) => CartItem(
-                item: cartItem[index],
+                item: cartList[index].getItem,
                 size: size,
                 isCheck: isCheck[index],
                 qty: int.parse(cartList[index].qty),
