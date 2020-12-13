@@ -25,4 +25,11 @@ class CartRepository {
       throw e;
     }
   }
+
+  addCart(Cart cart) async {
+    await cartCollection
+        .add(cart.toJson())
+        .then((value) => print(value.toString()))
+        .catchError((onError) => print(onError.toString()));
+  }
 }

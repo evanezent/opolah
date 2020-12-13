@@ -6,10 +6,12 @@ import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 class BottomNavItem extends StatelessWidget {
   const BottomNavItem({
     Key key,
-    @required this.size,
+    @required this.size, this.callbackCart, this.callbackBuy,
   }) : super(key: key);
 
   final Size size;
+  final Function callbackCart;
+  final Function callbackBuy;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,7 @@ class BottomNavItem extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ShippingScreen()));
-              },
+              onTap: callbackBuy,
               child: Container(
                   height: 60,
                   width: size.width * 0.7,
@@ -37,9 +36,7 @@ class BottomNavItem extends StatelessWidget {
                     ),
                   ))),
           InkWell(
-              onTap: () {
-                print('ADD TO CHART');
-              },
+              onTap: callbackCart,
               child: Container(
                   width: size.width * 0.3,
                   height: 60,

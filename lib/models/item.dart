@@ -44,18 +44,19 @@ class Item {
     }
   }
 
-  // Convert a Note object into a Map object
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> _itemToJson(Item item) {
     var map = Map<String, dynamic>();
     if (id != null) {
-      map['id'] = id;
+      map['itemID'] = item.getID;
     }
-    map['name'] = name;
-    map['image'] = image;
-    map['price'] = price;
-    map['rating'] = star;
+    map['name'] = item.getName;
+    map['image'] = item.getImage;
+    map['price'] = item.getPrice.toString();
+    map['rating'] = item.getStar.toString();
     return map;
   }
+
+  Map<String, dynamic> toJson() => _itemToJson(this);
 
   Item.fromJson(Map<String, dynamic> map) {
     this.id = map['itemID'];

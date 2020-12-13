@@ -4,12 +4,16 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item-type.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
+import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class DetailItem extends StatefulWidget {
   const DetailItem({Key key, this.item}) : super(key: key);
@@ -61,17 +65,27 @@ class _DetailItemState extends State<DetailItem> {
     temp.sort();
     setState(() {
       types = temp;
+      //Get Title
       type = typeList[0].getName;
     });
   }
 
+  void addtoCart() {
+    Cart cart =
+        Cart(widget.item.getID, choosedType, qty.toString(), widget.item);
+    _cartRepository.addCart(cart);
+  }
+
   ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
+  CartRepository _cartRepository = CartRepository();
   List<ItemType> typeList = [];
   List<String> types = [];
   List images = [];
 
   int qty = 0;
+  String choosedType;
   String type;
+  bool lessThanZero = false;
   double _currentPageIndex;
   TextEditingController txtQty = TextEditingController(text: '0');
 
@@ -80,6 +94,7 @@ class _DetailItemState extends State<DetailItem> {
     super.initState();
     getItemTypes();
     buildCardSlider();
+    print(types.length);
   }
 
   @override
@@ -186,7 +201,9 @@ class _DetailItemState extends State<DetailItem> {
                                         buttonLables: types,
                                         buttonValues: types,
                                         radioButtonValue: (value) {
-                                          print(value);
+                                          setState(() {
+                                            choosedType = value;
+                                          });
                                         },
                                         selectedColor: colorPrimary,
                                         selectedBorderColor: colorPrimary,
@@ -275,14 +292,16 @@ class _DetailItemState extends State<DetailItem> {
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white,
                       ),
-                      child: TextField(
+                      child: TextFormField(
                         style: TextStyle(fontSize: 15),
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (value) {
-                          print(value);
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            qty = int.parse(value);
+                          });
                         },
                         decoration: InputDecoration(
-                            // contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            errorStyle: TextStyle(color: colorSecondary),
                             hintText: "Search",
                             hintStyle:
                                 TextStyle(color: colorPrimary.withOpacity(0.3)),
@@ -309,7 +328,40 @@ class _DetailItemState extends State<DetailItem> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavItem(size: size),
+      bottomNavigationBar: BottomNavItem(
+          size: size,
+          callbackBuy: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ShippingScreen()));
+          },
+          callbackCart: () {
+            if (qty <= 0) {
+              Fluttertoast.showToast(
+                msg: "Minimum value is bigger than 0 !",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                textColor: Colors.white,
+                backgroundColor: colorSecondary,
+              );
+            } else if (choosedType == null) {
+              Fluttertoast.showToast(
+                msg: "Please choose type !",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.white,
+                textColor: colorSecondary,
+              );
+            } else {
+              addtoCart();
+              Fluttertoast.showToast(
+                msg: "Added to Cart !",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.white,
+                textColor: colorPrimary,
+              );
+            }
+          }),
     );
   }
 }
