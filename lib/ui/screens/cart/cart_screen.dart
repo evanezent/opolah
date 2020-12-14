@@ -138,6 +138,25 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  void checkout() {
+    List<Cart> choosen = [];
+
+    isCheck.asMap().forEach((key, value) {
+      if (value) {
+        cartList[key].setQuantity(counter[key].toString());
+        choosen.add(cartList[key]);
+      }
+    });
+
+    if (choosen.isNotEmpty) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ShippingScreen(choosen: choosen, totalItemPrice: res)));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -246,12 +265,7 @@ class _CartScreenState extends State<CartScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     color: colorPrimary,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ShippingScreen()));
-                    },
+                    onPressed: checkout,
                     child: Text(
                       'Checkout',
                       style: TextStyle(

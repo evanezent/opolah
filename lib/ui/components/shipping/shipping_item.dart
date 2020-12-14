@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
+import 'package:opolah/models/cart.dart';
 
 // ignore: must_be_immutable
 class ShippingItem extends StatelessWidget {
   ShippingItem({
     Key key,
+    this.choosenItem,
   }) : super(key: key);
+
+  final Cart choosenItem;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class ShippingItem extends StatelessWidget {
                     bottomLeft: Radius.circular(10),
                   ),
                   child: Image.network(
-                    'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
+                    choosenItem.getItem.getImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -39,7 +43,7 @@ class ShippingItem extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      'Space-Star Art Tshirt',
+                      choosenItem.getItem.getName,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: colorPrimary,
@@ -52,7 +56,7 @@ class ShippingItem extends StatelessWidget {
                   SizedBox(height: 7),
                   Container(
                     child: Text(
-                      'Rp 75.000',
+                      'Rp ${choosenItem.getItem.getPrice}',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 12,
@@ -65,7 +69,7 @@ class ShippingItem extends StatelessWidget {
             ],
           ),
           Text(
-            "x 2",
+            "x ${choosenItem.getQuantity}",
             style: TextStyle(
                 color: colorPrimary, fontSize: 20, fontWeight: FontWeight.w700),
           )

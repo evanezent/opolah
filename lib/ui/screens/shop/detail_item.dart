@@ -76,6 +76,21 @@ class _DetailItemState extends State<DetailItem> {
     _cartRepository.addCart(cart);
   }
 
+  void checkout() {
+    Cart cart =
+        Cart(widget.item.getID, choosedType, qty.toString(), widget.item);
+
+    int totalPrice = widget.item.getPrice.toInt() * qty;
+
+    if (qty > 0) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ShippingScreen(choosen: [cart], totalItemPrice: totalPrice)));
+    }
+  }
+
   ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
   CartRepository _cartRepository = CartRepository();
   List<ItemType> typeList = [];
@@ -83,10 +98,10 @@ class _DetailItemState extends State<DetailItem> {
   List images = [];
 
   int qty = 0;
-  String choosedType;
   String type;
-  bool lessThanZero = false;
+  String choosedType;
   double _currentPageIndex;
+  bool lessThanZero = false;
   TextEditingController txtQty = TextEditingController(text: '0');
 
   @override
@@ -94,7 +109,6 @@ class _DetailItemState extends State<DetailItem> {
     super.initState();
     getItemTypes();
     buildCardSlider();
-    print(types.length);
   }
 
   @override
@@ -330,10 +344,7 @@ class _DetailItemState extends State<DetailItem> {
       ),
       bottomNavigationBar: BottomNavItem(
           size: size,
-          callbackBuy: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ShippingScreen()));
-          },
+          callbackBuy: checkout,
           callbackCart: () {
             if (qty <= 0) {
               Fluttertoast.showToast(
