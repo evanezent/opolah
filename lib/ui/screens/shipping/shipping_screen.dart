@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/cart.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
 import 'package:opolah/ui/components/shipping/address_card.dart';
@@ -8,8 +9,12 @@ import 'package:opolah/ui/components/shipping/shipping_item.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class ShippingScreen extends StatefulWidget {
+  const ShippingScreen({Key key, this.choosen}) : super(key: key);
+
   @override
   _ShippingScreenState createState() => _ShippingScreenState();
+
+  final List<Cart> choosen;
 }
 
 class _ShippingScreenState extends State<ShippingScreen> {
@@ -128,20 +133,25 @@ class _ShippingScreenState extends State<ShippingScreen> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      color: Colors.white,
-                      height: 200,
-                      child: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          ShippingItem(),
-                          ShippingItem(),
-                          ShippingItem(),
-                          ShippingItem(),
-                          ShippingItem(),
-                          ShippingItem(),
-                        ],
-                      )),
-                    ),
+                        color: Colors.white,
+                        height: 200,
+                        child: ListView.builder(
+                          itemCount: widget.choosen.length,
+                          itemBuilder: (context, index) =>
+                              ShippingItem(choosenItem: widget.choosen[index]),
+                        )
+                        // SingleChildScrollView(
+                        //     child: Column(
+                        //   children: [
+                        //     ShippingItem(),
+                        //     ShippingItem(),
+                        //     ShippingItem(),
+                        //     ShippingItem(),
+                        //     ShippingItem(),
+                        //     ShippingItem(),
+                        //   ],
+                        // )),
+                        ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Row(

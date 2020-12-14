@@ -17,6 +17,10 @@ class Cart {
     this.id = id;
   }
 
+  void setQuantity(String qty) {
+    this.qty = qty;
+  }
+
   Map<String, dynamic> _cartToJson(Cart cart) {
     var map = Map<String, dynamic>();
     map['itemID'] = cart.item.getID;
