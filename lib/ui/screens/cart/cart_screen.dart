@@ -152,7 +152,8 @@ class _CartScreenState extends State<CartScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ShippingScreen(choosen: choosen)));
+              builder: (context) =>
+                  ShippingScreen(choosen: choosen, totalItemPrice: res)));
     }
   }
 
@@ -264,7 +265,7 @@ class _CartScreenState extends State<CartScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     color: colorPrimary,
-                    onPressed: () {},
+                    onPressed: checkout,
                     child: Text(
                       'Checkout',
                       style: TextStyle(

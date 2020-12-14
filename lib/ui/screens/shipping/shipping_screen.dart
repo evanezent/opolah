@@ -9,12 +9,14 @@ import 'package:opolah/ui/components/shipping/shipping_item.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class ShippingScreen extends StatefulWidget {
-  const ShippingScreen({Key key, this.choosen}) : super(key: key);
+  const ShippingScreen({Key key, this.choosen, this.totalItemPrice})
+      : super(key: key);
 
   @override
   _ShippingScreenState createState() => _ShippingScreenState();
 
   final List<Cart> choosen;
+  final int totalItemPrice;
 }
 
 class _ShippingScreenState extends State<ShippingScreen> {
@@ -204,7 +206,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                 fontSize: 20),
                           ),
                           Text(
-                            "Rp 600.000.00",
+                            "Rp ${widget.totalItemPrice + 20000}",
                             style: TextStyle(
                                 color: colorSecondary,
                                 fontWeight: FontWeight.w600,
