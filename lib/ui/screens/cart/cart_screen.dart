@@ -120,6 +120,7 @@ class _CartScreenState extends State<CartScreen> {
         });
       }
     } else {
+      print(value);
       if (value >= 0) {
         setState(() {
           counter[index] = value;
@@ -191,6 +192,7 @@ class _CartScreenState extends State<CartScreen> {
                   updateTotalEachItem(index, value, price[index]);
                 },
                 callbackType: (value) {
+                  print(value);
                   updateTotalEachItem(index, 'type', value,
                       optionalValue: price[index]);
                 },

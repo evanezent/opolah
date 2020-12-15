@@ -106,7 +106,10 @@ class CartItem extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 controller: txtQty,
                                 onChanged: (value) {
-                                  callbackType(value);
+                                    int passValue = int.parse(value);
+                                  txtQty.addListener(() {
+                                    callbackType(passValue);
+                                  });
                                 },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
