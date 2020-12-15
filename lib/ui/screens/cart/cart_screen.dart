@@ -29,7 +29,6 @@ class _CartScreenState extends State<CartScreen> {
     });
 
     for (var i = 0; i < cartList.length; i++) {
-      print(cartList[i].getID);
       initData(cartList[i]);
     }
   }
