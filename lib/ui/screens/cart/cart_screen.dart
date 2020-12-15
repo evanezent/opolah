@@ -38,9 +38,9 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       isCheck.add(false);
       counter.add(int.parse(cart.getQuantity));
+      price.add(cart.getItem.getPrice.toInt());
       int priceTemp =
           int.parse(cart.getQuantity) * cart.getItem.getPrice.toInt();
-      price.add(priceTemp);
       totalPerItem.add(priceTemp);
     });
 
