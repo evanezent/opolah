@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
@@ -16,6 +17,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  CartRepository _cartRepository = CartRepository();
   ItemRepository _itemRepository = ItemRepository();
   List<Widget> pagesList = [];
   int _currentPageIndex = 0;
@@ -33,6 +35,20 @@ class _MainScreenState extends State<MainScreen> {
     buildPage();
   }
 
+  void getAllCart() async {
+    var data = _cartRepository.getAllCart();
+
+    await data.then((value) {
+      setState(() {
+        cartList = value;
+      });
+    });
+
+    setState(() {
+      pagesList[2] = CartScreen(cartList: cartList);
+    });
+  }
+
   void buildPage() {
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
@@ -45,9 +61,10 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
-    pagesList.add(CartScreen());
+    pagesList.add(CartScreen(cartList: cartList));
     pagesList.add(ProfileScreen());
     getShopItem();
+    getAllCart();
   }
 
   @override
@@ -67,6 +84,11 @@ class _MainScreenState extends State<MainScreen> {
           setState(() {
             _currentPageIndex = index;
           });
+          if (index < 2) {
+            getShopItem();
+          } else if (index == 2) {
+            getAllCart();
+          }
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

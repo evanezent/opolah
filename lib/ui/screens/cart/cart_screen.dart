@@ -1,21 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
-import 'package:opolah/models/item.dart';
-import 'package:opolah/repositories/cart_repo.dart';
-import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({Key key, this.cartList}) : super(key: key);
+
   @override
   _CartScreenState createState() => _CartScreenState();
+  final List<Cart> cartList;
 }
 
 class _CartScreenState extends State<CartScreen> {
-  CartRepository _cartRepository = CartRepository();
   List<int> totalPerItem = List<int>();
   List<Cart> cartList = [];
   List<bool> isCheck = [];
@@ -24,30 +22,31 @@ class _CartScreenState extends State<CartScreen> {
   List<int> price = [];
   int res = 0;
 
-  void getAllCart() async {
-    var data = await _cartRepository.getAllCart();
+  void initData() {
+    /*
+      Init all important data
+      And refresh if there is new item
+    */
 
-    setState(() {
-      cartList = data;
-    });
+    for (var i = 0; i < widget.cartList.length; i++) {
+      setState(() {
+        // Handle each checklist box every item
+        isCheck.add(false);
 
-    for (var i = 0; i < cartList.length; i++) {
-      print(cartList[i].getID);
-      initData(cartList[i]);
+        // Handle each quantity every item
+        counter.add(int.parse(widget.cartList[i].getQuantity));
+
+        // Handle each price every item
+        price.add(widget.cartList[i].getItem.getPrice.toInt());
+
+        // Handle each total price every item
+        int priceTemp = int.parse(widget.cartList[i].getQuantity) *
+            widget.cartList[i].getItem.getPrice.toInt();
+        totalPerItem.add(priceTemp);
+      });
+
+      updateTotal(totalPerItem, isCheck);
     }
-  }
-
-  void initData(Cart cart) {
-    setState(() {
-      isCheck.add(false);
-      counter.add(int.parse(cart.getQuantity));
-      int priceTemp =
-          int.parse(cart.getQuantity) * cart.getItem.getPrice.toInt();
-      price.add(priceTemp);
-      totalPerItem.add(priceTemp);
-    });
-
-    updateTotal(totalPerItem, isCheck);
   }
 
   void updateTotal(List<int> listItem, List<bool> listChecked) {
@@ -133,6 +132,7 @@ class _CartScreenState extends State<CartScreen> {
       }
     }
 
+    // Handle if item is checked
     if (isCheck[index]) {
       updateTotal(totalPerItem, isCheck);
     }
@@ -143,8 +143,8 @@ class _CartScreenState extends State<CartScreen> {
 
     isCheck.asMap().forEach((key, value) {
       if (value) {
-        cartList[key].setQuantity(counter[key].toString());
-        choosen.add(cartList[key]);
+        widget.cartList[key].setQuantity(counter[key].toString());
+        choosen.add(widget.cartList[key]);
       }
     });
 
@@ -160,12 +160,11 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-
-    getAllCart();
   }
 
   @override
   Widget build(BuildContext context) {
+    initData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -177,7 +176,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: cartList.length == 0
+      body: widget.cartList.length == 0
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.white,
@@ -186,9 +185,9 @@ class _CartScreenState extends State<CartScreen> {
             )
           : Container(
               child: ListView.builder(
-              itemCount: cartList.length,
+              itemCount: widget.cartList.length,
               itemBuilder: (context, index) => CartItem(
-                item: cartList[index].getItem,
+                item: widget.cartList[index].getItem,
                 size: size,
                 isCheck: isCheck[index],
                 qty: counter[index],
