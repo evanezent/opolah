@@ -23,13 +23,25 @@ class _CartScreenState extends State<CartScreen> {
   int res = 0;
 
   void initData() {
+    /*
+      Init all important data
+      And refresh if there is new item
+    */
+
     for (var i = 0; i < widget.cartList.length; i++) {
       setState(() {
+        // Handle each checklist box every item
         isCheck.add(false);
+
+        // Handle each quantity every item
         counter.add(int.parse(widget.cartList[i].getQuantity));
+
+        // Handle each price every item
+        price.add(widget.cartList[i].getItem.getPrice.toInt());
+
+        // Handle each total price every item
         int priceTemp = int.parse(widget.cartList[i].getQuantity) *
             widget.cartList[i].getItem.getPrice.toInt();
-        price.add(widget.cartList[i].getItem.getPrice.toInt());
         totalPerItem.add(priceTemp);
       });
 
@@ -119,8 +131,8 @@ class _CartScreenState extends State<CartScreen> {
         });
       }
     }
-    print(index);
-    print(value);
+
+    // Handle if item is checked
     if (isCheck[index]) {
       updateTotal(totalPerItem, isCheck);
     }
