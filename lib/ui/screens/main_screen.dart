@@ -32,24 +32,27 @@ class _MainScreenState extends State<MainScreen> {
         itemList = value;
       });
     });
+    buildPage();
   }
 
   void getAllCart() async {
-    var data = await _cartRepository.getAllCart();
+    var data = _cartRepository.getAllCart();
+
+    await data.then((value) {
+      setState(() {
+        cartList = value;
+      });
+    });
 
     setState(() {
-      cartList = data;
+      pagesList[2] = CartScreen(cartList: cartList);
     });
   }
 
   void buildPage() {
-    getShopItem();
-    getAllCart();
-
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
       pagesList[1] = ShopScreen(itemList: itemList);
-      pagesList[2] = CartScreen(cartList: cartList);
     });
   }
 
@@ -60,7 +63,8 @@ class _MainScreenState extends State<MainScreen> {
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen(cartList: cartList));
     pagesList.add(ProfileScreen());
-    buildPage();
+    getShopItem();
+    getAllCart();
   }
 
   @override
@@ -80,6 +84,11 @@ class _MainScreenState extends State<MainScreen> {
           setState(() {
             _currentPageIndex = index;
           });
+          if (index < 2) {
+            getShopItem();
+          } else if (index == 2) {
+            getAllCart();
+          }
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

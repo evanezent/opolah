@@ -29,7 +29,7 @@ class _CartScreenState extends State<CartScreen> {
         counter.add(int.parse(widget.cartList[i].getQuantity));
         int priceTemp = int.parse(widget.cartList[i].getQuantity) *
             widget.cartList[i].getItem.getPrice.toInt();
-        price.add(priceTemp);
+        price.add(widget.cartList[i].getItem.getPrice.toInt());
         totalPerItem.add(priceTemp);
       });
 
@@ -119,7 +119,8 @@ class _CartScreenState extends State<CartScreen> {
         });
       }
     }
-
+    print(index);
+    print(value);
     if (isCheck[index]) {
       updateTotal(totalPerItem, isCheck);
     }
@@ -147,12 +148,11 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-
-    initData();
   }
 
   @override
   Widget build(BuildContext context) {
+    initData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -173,7 +173,7 @@ class _CartScreenState extends State<CartScreen> {
             )
           : Container(
               child: ListView.builder(
-              itemCount: cartList.length,
+              itemCount: widget.cartList.length,
               itemBuilder: (context, index) => CartItem(
                 item: widget.cartList[index].getItem,
                 size: size,
