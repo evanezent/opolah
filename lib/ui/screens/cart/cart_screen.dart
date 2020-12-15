@@ -18,7 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   List<Cart> cartList = [];
   List<bool> isCheck = [];
   List<int> counter = [];
-  bool allCheck;
+  bool allCheck = false;
   List<int> price = [];
   int res = 0;
 
@@ -27,7 +27,7 @@ class _CartScreenState extends State<CartScreen> {
       Init all important data
       And refresh if there is new item
     */
-    
+
     for (var i = 0; i < widget.cartList.length; i++) {
       setState(() {
         // Handle each checklist box every item
@@ -79,11 +79,9 @@ class _CartScreenState extends State<CartScreen> {
     */
 
     for (var i = 0; i < isCheck.length; i++) {
-      if (!isCheck[i]) {
-        setState(() {
-          isCheck[i] = value;
-        });
-      }
+      setState(() {
+        isCheck[i] = value;
+      });
       if (value) {
         updateTotal(totalPerItem, isCheck);
       } else {
@@ -134,7 +132,6 @@ class _CartScreenState extends State<CartScreen> {
       }
     }
 
-    // Handle if item is checked
     if (isCheck[index]) {
       updateTotal(totalPerItem, isCheck);
     }
@@ -162,7 +159,6 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    allCheck = false;
   }
 
   @override
@@ -231,6 +227,7 @@ class _CartScreenState extends State<CartScreen> {
                           setState(() {
                             allCheck = value;
                           });
+                          isCheckedAll(value);
                         },
                       ),
                       Text(
