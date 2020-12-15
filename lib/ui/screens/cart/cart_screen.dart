@@ -18,7 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   List<Cart> cartList = [];
   List<bool> isCheck = [];
   List<int> counter = [];
-  bool allCheck = false;
+  bool allCheck;
   List<int> price = [];
   int res = 0;
 
@@ -27,7 +27,7 @@ class _CartScreenState extends State<CartScreen> {
       Init all important data
       And refresh if there is new item
     */
-
+    
     for (var i = 0; i < widget.cartList.length; i++) {
       setState(() {
         // Handle each checklist box every item
@@ -79,9 +79,11 @@ class _CartScreenState extends State<CartScreen> {
     */
 
     for (var i = 0; i < isCheck.length; i++) {
-      setState(() {
-        isCheck[i] = value;
-      });
+      if (!isCheck[i]) {
+        setState(() {
+          isCheck[i] = value;
+        });
+      }
       if (value) {
         updateTotal(totalPerItem, isCheck);
       } else {
@@ -160,6 +162,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    allCheck = false;
   }
 
   @override
@@ -221,22 +224,22 @@ class _CartScreenState extends State<CartScreen> {
                   child: Row(
                     children: [
                       Checkbox(
-                          value: allCheck,
-                          activeColor: colorPrimary,
-                          checkColor: Colors.white,
-                          onChanged: (value) {
-                            setState(() {
-                              allCheck = value;
-                            });
-                            isCheckedAll(value);
-                          }),
+                        value: allCheck,
+                        activeColor: colorPrimary,
+                        checkColor: Colors.white,
+                        onChanged: (value) {
+                          setState(() {
+                            allCheck = value;
+                          });
+                        },
+                      ),
                       Text(
                         'Choose all item',
                         style: TextStyle(
                             color: colorPrimary,
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
-                      )
+                      ),
                     ],
                   ),
                 ),
