@@ -103,7 +103,6 @@ class _CartScreenState extends State<CartScreen> {
       {int optionalValue}) {
     /*
       update total each item, curly braces params or {params} above is optional parameter that not should be use
-
       First IF - for function when click for increase
       Second IF - for function when click for decrease
       Third IF - for function when type on the text field

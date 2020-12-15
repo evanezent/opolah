@@ -11,19 +11,16 @@ class CartRepository {
 
   Future<List<Cart>> getAllCart() async {
     List<Cart> cartList = [];
-    try {
-      await cartCollection.get().then((value) {
-        value.docs.forEach((element) {
-          Cart cart = Cart.fromJson(element.data());
-          cart.setID(element.id);
-          cartList.add(cart);
-        });
-      });
 
-      return cartList;
-    } catch (e) {
-      throw e;
-    }
+    await cartCollection.get().then((value) {
+      value.docs.forEach((element) {
+        Cart cart = Cart.fromJson(element.data());
+        cart.setID(element.id);
+        cartList.add(cart);
+      });
+    });
+
+    return cartList;
   }
 
   addCart(Cart cart) async {
