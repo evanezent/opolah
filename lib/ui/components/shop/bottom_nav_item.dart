@@ -5,9 +5,7 @@ import 'package:opolah/constant/constans.dart';
 class BottomNavItem extends StatelessWidget {
   const BottomNavItem({
     Key key,
-    @required this.size,
-    this.callbackCart,
-    this.callbackBuy,
+    @required this.size, this.callbackCart, this.callbackBuy,
   }) : super(key: key);
 
   final Size size;

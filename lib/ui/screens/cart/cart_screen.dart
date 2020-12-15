@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
+import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key key, this.cartList}) : super(key: key);
-
   @override
   _CartScreenState createState() => _CartScreenState();
-  final List<Cart> cartList;
 }
 
 class _CartScreenState extends State<CartScreen> {
+  CartRepository _cartRepository = CartRepository();
   List<int> totalPerItem = List<int>();
   List<Cart> cartList = [];
   List<bool> isCheck = [];
@@ -22,31 +21,30 @@ class _CartScreenState extends State<CartScreen> {
   List<int> price = [];
   int res = 0;
 
-  void initData() {
-    /*
-      Init all important data
-      And refresh if there is new item
-    */
+  void getAllCart() async {
+    var data = await _cartRepository.getAllCart();
 
-    for (var i = 0; i < widget.cartList.length; i++) {
-      setState(() {
-        // Handle each checklist box every item
-        isCheck.add(false);
+    setState(() {
+      cartList = data;
+    });
 
-        // Handle each quantity every item
-        counter.add(int.parse(widget.cartList[i].getQuantity));
-
-        // Handle each price every item
-        price.add(widget.cartList[i].getItem.getPrice.toInt());
-
-        // Handle each total price every item
-        int priceTemp = int.parse(widget.cartList[i].getQuantity) *
-            widget.cartList[i].getItem.getPrice.toInt();
-        totalPerItem.add(priceTemp);
-      });
-
-      updateTotal(totalPerItem, isCheck);
+    for (var i = 0; i < cartList.length; i++) {
+      print(cartList[i].getID);
+      initData(cartList[i]);
     }
+  }
+
+  void initData(Cart cart) {
+    setState(() {
+      isCheck.add(false);
+      counter.add(int.parse(cart.getQuantity));
+      price.add(cart.getItem.getPrice.toInt());
+      int priceTemp =
+          int.parse(cart.getQuantity) * cart.getItem.getPrice.toInt();
+      totalPerItem.add(priceTemp);
+    });
+
+    updateTotal(totalPerItem, isCheck);
   }
 
   void updateTotal(List<int> listItem, List<bool> listChecked) {
@@ -105,7 +103,6 @@ class _CartScreenState extends State<CartScreen> {
       {int optionalValue}) {
     /*
       update total each item, curly braces params or {params} above is optional parameter that not should be use
-
       First IF - for function when click for increase
       Second IF - for function when click for decrease
       Third IF - for function when type on the text field
@@ -132,7 +129,6 @@ class _CartScreenState extends State<CartScreen> {
       }
     }
 
-    // Handle if item is checked
     if (isCheck[index]) {
       updateTotal(totalPerItem, isCheck);
     }
@@ -143,8 +139,8 @@ class _CartScreenState extends State<CartScreen> {
 
     isCheck.asMap().forEach((key, value) {
       if (value) {
-        widget.cartList[key].setQuantity(counter[key].toString());
-        choosen.add(widget.cartList[key]);
+        cartList[key].setQuantity(counter[key].toString());
+        choosen.add(cartList[key]);
       }
     });
 
@@ -160,11 +156,12 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+
+    getAllCart();
   }
 
   @override
   Widget build(BuildContext context) {
-    initData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -176,7 +173,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: widget.cartList.length == 0
+      body: cartList.length == 0
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.white,
@@ -185,9 +182,9 @@ class _CartScreenState extends State<CartScreen> {
             )
           : Container(
               child: ListView.builder(
-              itemCount: widget.cartList.length,
+              itemCount: cartList.length,
               itemBuilder: (context, index) => CartItem(
-                item: widget.cartList[index].getItem,
+                item: cartList[index].getItem,
                 size: size,
                 isCheck: isCheck[index],
                 qty: counter[index],
