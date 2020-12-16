@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
@@ -183,7 +184,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Rp 20.000.00",
+                            "Rp ${FlutterMoneyFormatter(amount: 20000).output.nonSymbol}",
                             style: TextStyle(
                                 color: colorPrimary,
                                 fontWeight: FontWeight.bold,
@@ -219,7 +220,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                                 fontSize: 20),
                           ),
                           Text(
-                            "Rp ${widget.totalItemPrice + 20000}",
+                            "Rp ${FlutterMoneyFormatter(amount: (widget.totalItemPrice + 20000).toDouble()).output.nonSymbol}",
                             style: TextStyle(
                                 color: colorSecondary,
                                 fontWeight: FontWeight.w600,
