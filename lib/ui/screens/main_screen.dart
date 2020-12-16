@@ -11,16 +11,20 @@ import 'package:opolah/ui/screens/profile/profile_screen.dart';
 import 'package:opolah/ui/screens/shop/shop_screen.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({Key key, this.currentPageIndex = 0}) : super(key: key);
+
   @override
   _MainScreenState createState() => _MainScreenState();
+
+  final int currentPageIndex;
 }
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
   List<Widget> pagesList = [];
-  int _currentPageIndex = 0;
   List<Item> itemList = [];
   List<Cart> cartList = [];
+  int _currentPageIndex;
 
   void getShopItem() async {
     var data = _itemRepository.getStream();
@@ -43,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _currentPageIndex = widget.currentPageIndex;
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen());
