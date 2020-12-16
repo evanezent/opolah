@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/repositories/address_repo.dart';
@@ -25,14 +25,15 @@ class ShippingScreen extends StatefulWidget {
 
 class _ShippingScreenState extends State<ShippingScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Duration _duration = Duration(milliseconds: 500);
-  TextEditingController textName = new TextEditingController();
-  TextEditingController textPhone = new TextEditingController();
-  TextEditingController textAddress = new TextEditingController();
   Tween<Offset> _tween = Tween(begin: Offset(0, 1), end: Offset(0, 0));
+  TextEditingController textAddress = new TextEditingController();
+  TextEditingController textPhone = new TextEditingController();
+  TextEditingController textName = new TextEditingController();
   AddressRepository _addressRepository = AddressRepository();
+  Duration _duration = Duration(milliseconds: 500);
+  AnimationController _controller;
   List<Address> addressList = [];
+  Utils util = Utils();
   int choosedAddress;
 
   void getAllAddress() async {
@@ -388,30 +389,28 @@ class _ShippingScreenState extends State<ShippingScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                AnimatedBuilder(
-                                    animation: _controller,
-                                    builder: (context, child) => RaisedButton(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 15),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        color: colorSecondary,
-                                        onPressed: () {
-                                          _controller.reverse();
-                                        },
-                                        child: Container(
-                                          width: 150,
-                                          child: Center(
-                                            child: Text(
-                                              'Cancel',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ))),
+                                RaisedButton(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 15),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    color: colorSecondary,
+                                    onPressed: () {
+                                      _controller.reverse();
+                                    },
+                                    child: Container(
+                                      width: 150,
+                                      child: Center(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    )),
                                 RaisedButton(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 15),
@@ -429,21 +428,11 @@ class _ShippingScreenState extends State<ShippingScreen>
                                           .addAddress(newAddress);
 
                                       if (id == null) {
-                                        Fluttertoast.showToast(
-                                          msg: "Something Wrong when Added !",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          textColor: Colors.white,
-                                          backgroundColor: colorSecondary,
-                                        );
+                                        util.errorToast(
+                                            "Something Wrong when Added !");
                                       } else {
-                                        Fluttertoast.showToast(
-                                          msg: "Successfully Added !",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.white,
-                                          textColor: colorPrimary,
-                                        );
+                                        util.successToast(
+                                            "Successfully Added !");
                                         _controller.reverse();
                                         newAddress.setID(id);
                                         setState(() {

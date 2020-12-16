@@ -7,6 +7,29 @@ import 'package:opolah/constant/constans.dart';
 
 class Utils {
   /*
+  Utility for Show Toast
+  */
+  void successToast(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.white,
+      textColor: colorPrimary,
+    );
+  }
+
+  void errorToast(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      textColor: Colors.white,
+      backgroundColor: colorSecondary,
+    );
+  }
+
+  /*
   Utility for Star Counter
   */
   Widget starCounter({double size = 12, double nStar}) {
