@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/item.dart';
@@ -44,8 +45,8 @@ class CartItem extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 80,
-                height: 80,
+                width: 70,
+                height: 70,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -63,6 +64,7 @@ class CartItem extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 3),
                   Container(
                     child: Text(
                       item.getName,
@@ -73,16 +75,15 @@ class CartItem extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     ),
                   ),
-                  SizedBox(height: 7),
                   Container(
                     child: Row(
                       children: [
                         Container(
-                          width: size.width * 0.25,
+                          width: size.width * 0.3,
                           child: Text(
-                            'Rp ${item.getPrice}',
+                            'Rp ${FlutterMoneyFormatter(amount: item.getPrice).output.nonSymbol}',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: colorSecondary),
                           ),
@@ -106,7 +107,10 @@ class CartItem extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 controller: txtQty,
                                 onChanged: (value) {
-                                  callbackType(value);
+                                  int passValue = int.parse(value);
+                                  txtQty.addListener(() {
+                                    callbackType(passValue);
+                                  });
                                 },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(

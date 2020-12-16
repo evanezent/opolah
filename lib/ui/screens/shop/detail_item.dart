@@ -4,15 +4,16 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item-type.dart';
 import 'package:opolah/models/item.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class DetailItem extends StatefulWidget {
@@ -95,6 +96,7 @@ class _DetailItemState extends State<DetailItem> {
   CartRepository _cartRepository = CartRepository();
   List<ItemType> typeList = [];
   List<String> types = [];
+  Utils util = Utils();
   List images = [];
 
   int qty = 0;
@@ -329,7 +331,13 @@ class _DetailItemState extends State<DetailItem> {
                         FontAwesomeIcons.shoppingCart,
                         color: Colors.white,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    MainScreen(currentPageIndex: 2)));
+                      }),
                   IconButton(
                       icon: FaIcon(
                         FontAwesomeIcons.shareAlt,
@@ -347,30 +355,12 @@ class _DetailItemState extends State<DetailItem> {
           callbackBuy: checkout,
           callbackCart: () {
             if (qty <= 0) {
-              Fluttertoast.showToast(
-                msg: "Minimum value is bigger than 0 !",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                textColor: Colors.white,
-                backgroundColor: colorSecondary,
-              );
+              util.errorToast("Minimum value is bigger than 0 !");
             } else if (choosedType == null) {
-              Fluttertoast.showToast(
-                msg: "Please choose type !",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.white,
-                textColor: colorSecondary,
-              );
+              util.errorToast("Please choose type !");
             } else {
               addtoCart();
-              Fluttertoast.showToast(
-                msg: "Added to Cart !",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.white,
-                textColor: colorPrimary,
-              );
+              util.successToast("Added to Cart !");
             }
           }),
     );

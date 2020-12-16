@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/cart.dart';
@@ -56,7 +57,7 @@ class ShippingItem extends StatelessWidget {
                   SizedBox(height: 7),
                   Container(
                     child: Text(
-                      'Rp ${choosenItem.getItem.getPrice}',
+                      'Rp ${FlutterMoneyFormatter(amount: choosenItem.getItem.getPrice).output.nonSymbol}',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 12,

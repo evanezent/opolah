@@ -21,11 +21,10 @@ class AddressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onChoose,
       child: Container(
         width: size.width * 0.6,
-        height: 150,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: EdgeInsets.symmetric(horizontal: 10),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
             color: colorPrimary,
@@ -34,25 +33,30 @@ class AddressCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            Container(
+              width: size.width * 0.5,
               child: Text(name,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14)),
+                      fontSize: 15)),
             ),
-            Text('($phone)',
+            Text('( ${phone} )',
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w300,
                     fontSize: 14)),
             SizedBox(height: 8),
-            Text(address,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14)),
+            Container(
+              height: 50,
+              child: Text(address,
+                  overflow: TextOverflow.fade,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14)),
+            ),
             Container(
               width: size.width,
               child: Row(
