@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                           },
                           decoration: InputDecoration(
-                              labelStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(color: Colors.white), 
                               hintText: 'Name',
                               hintStyle: TextStyle(color: Colors.white),
                               focusColor: Colors.white,

@@ -6,6 +6,8 @@ class Address {
   String get getAddress => address;
   String get getID => id;
 
+  Address({this.receiver, this.phone, this.address});
+
   void setID(String id) {
     this.id = id;
   }

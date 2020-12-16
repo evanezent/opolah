@@ -13,6 +13,7 @@ import 'package:opolah/models/item.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class DetailItem extends StatefulWidget {
@@ -329,7 +330,13 @@ class _DetailItemState extends State<DetailItem> {
                         FontAwesomeIcons.shoppingCart,
                         color: Colors.white,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    MainScreen(currentPageIndex: 2)));
+                      }),
                   IconButton(
                       icon: FaIcon(
                         FontAwesomeIcons.shareAlt,
