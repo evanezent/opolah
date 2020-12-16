@@ -5,15 +5,19 @@ class AddressRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('address');
 
-  Future registerUser(Address data) async {
+  Future addAddress(Address data) async {
     var newAddress = data.toJson();
+    String iD = null;
 
     await collection.add(newAddress).then((value) {
-      return value.id;
+      print(value.id);
+      iD = value.id;
     }).catchError((err) {
       print(err);
       return null;
     });
+
+    return iD;
   }
 
   Future<List<Address>> getStream() async {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
+import 'package:opolah/repositories/address_repo.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
 import 'package:opolah/ui/components/shipping/address_card.dart';
@@ -29,10 +31,22 @@ class _ShippingScreenState extends State<ShippingScreen>
   TextEditingController textPhone = new TextEditingController();
   TextEditingController textAddress = new TextEditingController();
   Tween<Offset> _tween = Tween(begin: Offset(0, 1), end: Offset(0, 0));
+  AddressRepository _addressRepository = AddressRepository();
+  List<Address> addressList = [];
+  int choosedAddress;
+
+  void getAllAddress() async {
+    var data = await _addressRepository.getStream();
+    setState(() {
+      addressList = data;
+      choosedAddress = 0;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getAllAddress();
     _controller = AnimationController(vsync: this, duration: _duration);
   }
 
@@ -41,20 +55,9 @@ class _ShippingScreenState extends State<ShippingScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Container(
+      body: SafeArea(
         child: Stack(
           children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                backgroundColor: colorSecondary,
-                child: FaIcon(FontAwesomeIcons.times, color: Colors.white),
-              ),
-            ),
             Center(
               child: Container(
                 height: size.height * 0.7,
@@ -91,6 +94,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                             color: colorPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
+                    SizedBox(height: 5),
                     Container(
                       child: Row(
                         children: [
@@ -105,7 +109,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                               child: AnimatedBuilder(
                                   animation: _controller,
                                   builder: (context, child) => Container(
-                                        height: 150,
+                                        height: 140,
                                         margin: EdgeInsets.only(right: 10),
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),
@@ -118,40 +122,37 @@ class _ShippingScreenState extends State<ShippingScreen>
                                             child: FaIcon(FontAwesomeIcons.plus,
                                                 color: Colors.white)),
                                       ))),
-                          Container(
-                            width: size.width * 0.65,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  AddressCard(
-                                      size: size,
-                                      name: 'Pratama Yoga',
-                                      phone: '0812378234',
-                                      address:
-                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
-                                      choose: true,
-                                      onChoose: () {}),
-                                  AddressCard(
-                                      size: size,
-                                      name: 'Santosa Mike',
-                                      phone: '0812378234',
-                                      address:
-                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
-                                      choose: false,
-                                      onChoose: () {}),
-                                  AddressCard(
-                                      size: size,
-                                      name: 'Billie Joe',
-                                      phone: '0812378234',
-                                      address:
-                                          'Jl Sukabirus No 22, Sukabirus, Citeureup, Dayeuhkolot, Kabupaten Bandung, Jawa Barat. 4027',
-                                      choose: false,
-                                      onChoose: () {}),
-                                ],
-                              ),
-                            ),
-                          ),
+                          addressList.length == 0
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                    valueColor:
+                                        AlwaysStoppedAnimation(colorPrimary),
+                                  ),
+                                )
+                              : Container(
+                                  color: Colors.white,
+                                  width: size.width * 0.65,
+                                  height: 140,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: addressList.length,
+                                    itemBuilder: (context, index) =>
+                                        AddressCard(
+                                            size: size,
+                                            name:
+                                                addressList[index].getReceiver,
+                                            phone: addressList[index].getPhone,
+                                            address:
+                                                addressList[index].getAddress,
+                                            choose: choosedAddress == index,
+                                            onChoose: () {
+                                              setState(() {
+                                                choosedAddress = index;
+                                              });
+                                            }),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
@@ -160,6 +161,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                         color: Colors.white,
                         height: 200,
                         child: ListView.builder(
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           itemCount: widget.choosen.length,
                           itemBuilder: (context, index) =>
                               ShippingItem(choosenItem: widget.choosen[index]),
@@ -229,6 +231,17 @@ class _ShippingScreenState extends State<ShippingScreen>
                 ),
               ),
             ),
+            Positioned(
+              top: 60,
+              right: 0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                backgroundColor: colorSecondary,
+                child: FaIcon(FontAwesomeIcons.times, color: Colors.white),
+              ),
+            ),
             Container(
               child: SlideTransition(
                 position: _tween.animate(_controller),
@@ -239,8 +252,19 @@ class _ShippingScreenState extends State<ShippingScreen>
                     return SingleChildScrollView(
                       controller: scrollController,
                       child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  colorPrimary,
+                                  colorPrimary,
+                                  Colors.grey[100]
+                                ]),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
                         padding: EdgeInsets.only(bottom: 30),
-                        color: colorPrimary,
                         child: Column(
                           children: [
                             SizedBox(height: 30),
@@ -395,12 +419,37 @@ class _ShippingScreenState extends State<ShippingScreen>
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     color: Colors.white,
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Address newAddress = Address(
-                                        receiver: textName.text,
-                                        phone: textName.text,
-                                        address: textAddress.text
-                                      );
+                                          receiver: textName.text,
+                                          phone: textPhone.text,
+                                          address: textAddress.text);
+
+                                      var id = await _addressRepository
+                                          .addAddress(newAddress);
+
+                                      if (id == null) {
+                                        Fluttertoast.showToast(
+                                          msg: "Something Wrong when Added !",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          textColor: Colors.white,
+                                          backgroundColor: colorSecondary,
+                                        );
+                                      } else {
+                                        Fluttertoast.showToast(
+                                          msg: "Successfully Added !",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          backgroundColor: Colors.white,
+                                          textColor: colorPrimary,
+                                        );
+                                        _controller.reverse();
+                                        newAddress.setID(id);
+                                        setState(() {
+                                          addressList.add(newAddress);
+                                        });
+                                      }
                                     },
                                     child: Container(
                                       width: 150,
