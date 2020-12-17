@@ -1,13 +1,13 @@
 import 'package:opolah/models/address.dart';
-import 'package:opolah/models/item.dart';
+import 'package:opolah/models/cart.dart';
 
-class Transaction {
+class TransactionClass {
   String id, total, paymentProof, bank, shippingCost;
   Address address;
-  List<Item> items;
+  List<Cart> carts;
 
-  Transaction(this.total, this.bank, this.paymentProof, this.address,
-      this.items, this.shippingCost);
+  TransactionClass(this.total, this.bank, this.paymentProof, this.address,
+      this.carts, this.shippingCost);
 
   String get getID => id;
   String get getBank => bank;
@@ -15,11 +15,15 @@ class Transaction {
   String get getProof => paymentProof;
   String get getCost => shippingCost;
   Address get getAddress => address;
-  List<Item> get getItems => items;
+  List<Cart> get getCarts => carts;
+
+  void setID(String id) {
+    this.id = id;
+  }
 
   Map<String, dynamic> toJson() => transactionToJson(this);
 
-  Map<String, dynamic> transactionToJson(Transaction data) {
+  Map<String, dynamic> transactionToJson(TransactionClass data) {
     var map = Map<String, dynamic>();
 
     map['total'] = data.getTotal;
@@ -27,41 +31,41 @@ class Transaction {
     map['proof'] = data.getProof;
     map['cost'] = data.getCost;
     map['addres'] = data.getAddress.toJson();
-    map['items'] = _itemListing(data.getItems);
+    map['carts'] = _cartListing(data.getCarts);
 
     return map;
   }
 
-  List<Map<String, dynamic>> _itemListing(List<Item> items) {
-    if (items == null) {
+  List<Map<String, dynamic>> _cartListing(List<Cart> carts) {
+    if (carts == null) {
       return null;
     }
-    List<Map<String, dynamic>> itemMap = List<Map<String, dynamic>>();
-    items.forEach((item) {
-      itemMap.add(item.toJson());
+    List<Map<String, dynamic>> cartMap = List<Map<String, dynamic>>();
+    carts.forEach((cart) {
+      cartMap.add(cart.toJson());
     });
 
-    return itemMap;
+    return cartMap;
   }
 
-  Transaction.fromJson(Map<String, dynamic> map) {
+  TransactionClass.fromJson(Map<String, dynamic> map) {
     this.address = Address.fromJson(map['address']);
     this.bank = map['bank'];
     this.total = map['total'];
     this.shippingCost = map['cost'];
     this.paymentProof = map['proof'];
-    this.items = _convertItems(map['items']);
+    this.carts = _convertCarts(map['carts']);
   }
 
-  List<Item> _convertItems(List itemMap) {
-    if (itemMap == null) {
+  List<Cart> _convertCarts(List cartMap) {
+    if (cartMap == null) {
       return null;
     }
-    List<Item> items = List<Item>();
-    itemMap.forEach((value) {
-      items.add(Item.fromJson(value));
+    List<Cart> carts = List<Cart>();
+    cartMap.forEach((value) {
+      carts.add(Cart.fromJson(value));
     });
 
-    return items;
+    return carts;
   }
 }

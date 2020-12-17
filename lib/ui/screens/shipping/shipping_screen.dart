@@ -6,7 +6,10 @@ import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
+import 'package:opolah/models/transaction.dart';
 import 'package:opolah/repositories/address_repo.dart';
+import 'package:opolah/repositories/cart_repo.dart';
+import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
 import 'package:opolah/ui/components/shipping/address_card.dart';
@@ -36,6 +39,10 @@ class _ShippingScreenState extends State<ShippingScreen>
   List<Address> addressList = [];
   Utils util = Utils();
   int choosedAddress;
+  bool loading = false;
+
+  TransactionRepository _transactionRepository = TransactionRepository();
+  CartRepository _cartRepository = CartRepository();
 
   void getAllAddress() async {
     var data = await _addressRepository.getStream();
@@ -43,6 +50,47 @@ class _ShippingScreenState extends State<ShippingScreen>
       addressList = data;
       choosedAddress = 0;
     });
+  }
+
+  Future<bool> deleteCarts() async {
+    bool isDeleted = false;
+    for (var cart in widget.choosen) {
+      var res = await _cartRepository.deleteCart(cart.getID);
+
+      isDeleted = res;
+      if (isDeleted == false) break;
+    }
+
+    return isDeleted;
+  }
+
+  void confirmPayment() async {
+    setState(() {
+      loading = true;
+    });
+
+    TransactionClass newData = TransactionClass(
+        (widget.totalItemPrice + 20000).toString(),
+        '', //bank
+        '', //paymentProof
+        addressList[choosedAddress],
+        widget.choosen,
+        '20000');
+
+    var id = await _transactionRepository.addTransaction(newData);
+    var isDeleted = await deleteCarts();
+
+    if (id == '') {
+    } else {
+      if (isDeleted) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PaymentScreen(
+                    total: (widget.totalItemPrice + 20000).toDouble(),
+                    transactionID: id)));
+      }
+    }
   }
 
   @override
@@ -470,10 +518,8 @@ class _ShippingScreenState extends State<ShippingScreen>
         text: "CONFIRM",
         bgColor: colorPrimary,
         textColor: Colors.white,
-        onClick: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => PaymentScreen()));
-        },
+        isLoading: loading,
+        onClick: confirmPayment
       ),
     );
   }
