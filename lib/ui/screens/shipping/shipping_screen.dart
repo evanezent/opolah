@@ -519,41 +519,7 @@ class _ShippingScreenState extends State<ShippingScreen>
         bgColor: colorPrimary,
         textColor: Colors.white,
         isLoading: loading,
-        onClick: () async {
-          setState(() {
-            loading = true;
-          });
-
-          TransactionClass newData = TransactionClass(
-              (widget.totalItemPrice + 20000).toString(),
-              '', //bank
-              '', //paymentProof
-              addressList[choosedAddress],
-              widget.choosen,
-              '20000');
-          var id = await _transactionRepository.addTransaction(newData);
-
-          bool isDeleted = false;
-          for (var cart in widget.choosen) {
-            var res = await _cartRepository.deleteCart(cart.getID);
-
-            isDeleted = res;
-            if (isDeleted == false) break;
-          }
-
-          if (id == '') {
-          } else {
-            if (isDeleted) {
-              newData.setID(id);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PaymentScreen(
-                          total: (widget.totalItemPrice + 20000).toDouble(),
-                          transactionID: id)));
-            }
-          }
-        },
+        onClick: confirmPayment
       ),
     );
   }

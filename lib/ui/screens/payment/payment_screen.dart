@@ -11,6 +11,7 @@ import 'package:opolah/models/payment_card.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/payment/payment_item.dart';
 import 'package:opolah/ui/components/payment/payment_text_item.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:random_string/random_string.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -210,7 +211,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
       bottomNavigationBar: MainBottomNav(
         bgColor: colorPrimary,
         textColor: Colors.white,
-        onClick: () {},
+        onClick: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MainScreen(currentPageIndex: 3)));
+        },
         text: "DONE",
       ),
     );
