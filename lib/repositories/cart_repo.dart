@@ -29,4 +29,15 @@ class CartRepository {
         .then((value) => print(value.toString()))
         .catchError((onError) => print(onError.toString()));
   }
+
+  Future deleteCart(String id) async {
+    bool deleted = false;
+    await cartCollection
+        .doc(id)
+        .delete()
+        .then((value) => deleted = true)
+        .catchError((onError) => print(onError.toString()));
+
+    return deleted;
+  }
 }

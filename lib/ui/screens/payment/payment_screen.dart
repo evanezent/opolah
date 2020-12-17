@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:opolah/constant/constans.dart';
@@ -10,22 +11,34 @@ import 'package:opolah/models/payment_card.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/payment/payment_item.dart';
 import 'package:opolah/ui/components/payment/payment_text_item.dart';
+import 'package:random_string/random_string.dart';
 
 class PaymentScreen extends StatefulWidget {
+  const PaymentScreen({Key key, this.total, this.transactionID})
+      : super(key: key);
+
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
+
+  final double total;
+  final String transactionID;
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
+    print(widget.transactionID);
+    totalCost = widget.total + double.parse(randomCode);
+    fmf = FlutterMoneyFormatter(amount: totalCost);
   }
 
-  double _currentPageIndex = 0;
-
   File _image;
+  double totalCost;
   final picker = ImagePicker();
+  FlutterMoneyFormatter fmf;
+  double _currentPageIndex = 0;
+  var randomCode = randomNumeric(3);
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -132,7 +145,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               children: [
                                 PaymentTextItem(
                                   text1: "Ammount ",
-                                  text2: "Rp 600.291,00",
+                                  text2: "Rp ${fmf.output.nonSymbol}",
                                 ),
                                 Container(
                                   child: Text(
