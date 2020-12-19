@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/components/see_all.dart';
 import 'package:opolah/ui/screens/profile/transaction_screen.dart';
@@ -30,18 +29,12 @@ class HistoryList extends StatelessWidget {
               }),
           SizedBox(height: 10),
           HistoryItem(
-              bgColor: Colors.white,
-              textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00'),
           HistoryItem(
-              bgColor: Colors.white,
-              textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00'),
           HistoryItem(
-              bgColor: Colors.white,
-              textColor: colorPrimary,
               name: 'Space Milk T-Shirt',
               price: '99.500,00'),
         ],

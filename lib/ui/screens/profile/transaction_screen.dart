@@ -36,14 +36,28 @@ class _TransactionScreenState extends State<TransactionScreen> {
   ];
 
   List<TransactionClass> transactionList = [];
+  List<TransactionClass> deliveryList = [];
+  List<TransactionClass> historyList = [];
 
   TransactionRepository _transactionRepository = TransactionRepository();
   void getAllTransaction() async {
     var data = await _transactionRepository.getStream();
-    setState(() {
-      transactionList = data;
-    });
-    print(transactionList.length);
+
+    for (var transaction in data) {
+      if (transaction.getProof == "") {
+        setState(() {
+          transactionList.add(transaction);
+        });
+      } else if (transaction.getProof != "") {
+        setState(() {
+          deliveryList.add(transaction);
+        });
+      } else {
+        setState(() {
+          historyList.add(transaction);
+        });
+      }
+    }
   }
 
   @override
@@ -67,7 +81,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         body: TabBarView(
           children: [
             PaymentList(transactionList: transactionList),
-            DeliveryList(),
+            DeliveryList(deliveryList: deliveryList),
             HistoryList()
           ],
         ),

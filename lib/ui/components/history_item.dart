@@ -3,22 +3,17 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/transaction.dart';
-import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 // ignore: must_be_immutable
 class HistoryItem extends StatelessWidget {
   HistoryItem({
     Key key,
-    this.bgColor,
-    this.textColor,
     this.name,
     this.price,
     this.tab = 'history',
     this.transactionItem, 
     this.clickCallback,
   }) : super(key: key);
-
-  final Color bgColor, textColor;
   final String name, price;
   final String tab;
   final TransactionClass transactionItem;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/history_item.dart';
 
 class HistoryList extends StatelessWidget {
@@ -12,21 +11,9 @@ class HistoryList extends StatelessWidget {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            HistoryItem(
-                bgColor: Colors.white,
-                textColor: colorPrimary,
-                name: 'Space Milk T-Shirt',
-                price: '99.500,00'),
-            HistoryItem(
-                bgColor: Colors.white,
-                textColor: colorPrimary,
-                name: 'Space Milk T-Shirt',
-                price: '99.500,00'),
-            HistoryItem(
-                bgColor: Colors.white,
-                textColor: colorPrimary,
-                name: 'Space Milk T-Shirt',
-                price: '99.500,00'),
+            HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
+            HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
+            HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
           ],
         ),
       ),

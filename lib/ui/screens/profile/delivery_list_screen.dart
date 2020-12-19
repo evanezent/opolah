@@ -1,41 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
 
+// ignore: must_be_immutable
 class DeliveryList extends StatelessWidget {
+  DeliveryList({Key key, this.deliveryList}) : super(key: key);
+
+  List<TransactionClass> deliveryList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
+      body: deliveryList.length == 0
+          ? Center(
+              child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation(colorPrimary),
+            ))
+          : Container(
+              padding: EdgeInsets.all(10),
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: deliveryList.length,
+                itemBuilder: (context, index) => HistoryItem(
+                  transactionItem: deliveryList[index],
+                  clickCallback: () {},
+                ),
+              ),
             ),
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
-            ),
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
