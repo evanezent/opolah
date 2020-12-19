@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
+import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 // ignore: must_be_immutable
@@ -11,15 +13,14 @@ class HistoryItem extends StatelessWidget {
     this.textColor,
     this.name,
     this.price,
-    // ignore: avoid_init_to_null
-    this.shadow = null,
     this.tab = 'history',
+    this.transactionItem,
   }) : super(key: key);
 
-  final List<BoxShadow> shadow;
   final Color bgColor, textColor;
   final String name, price;
   final String tab;
+  final TransactionClass transactionItem;
 
   Utils util = Utils();
 
@@ -48,6 +49,11 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String id = transactionItem == null ? "" : transactionItem.getID;
+    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+        amount: transactionItem == null
+            ? 0
+            : double.parse(transactionItem.getTotal));
     return Container(
       margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),
       padding: EdgeInsets.all(15),
@@ -66,14 +72,15 @@ class HistoryItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Transaction ID #",
+                    Text("Transaction ID #$id",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: colorPrimary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold)),
                     printStatus(tab),
                     SizedBox(height: 15),
-                    Text("Rp 400.000",
+                    Text("Rp ${fmf.output.nonSymbol}",
                         style: TextStyle(
                             color: colorBackup,
                             fontSize: 15,
