@@ -58,9 +58,10 @@ class TransactionRepository {
     String imageCode = randomAlphaNumeric(10) + ".png";
     Reference fireRef = _firebaseStorage.ref().child(imageCode);
 
-    await fireRef.putFile(image).then((res) {
-      urlRes = res.ref.getDownloadURL().toString();
-      print(res.ref.getDownloadURL().toString());
+    TaskSnapshot task = await fireRef.putFile(image);
+    await task.ref.getDownloadURL().then((value) {
+      print(value);
+      urlRes = value;
     });
 
     return urlRes;

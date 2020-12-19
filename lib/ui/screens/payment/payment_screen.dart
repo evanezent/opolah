@@ -29,7 +29,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.transactionID);
     totalCost = widget.total + double.parse(randomCode);
     fmf = FlutterMoneyFormatter(amount: totalCost);
   }
@@ -58,11 +57,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Future<bool> uploadAction() async {
     bool isSuccess;
-    var imgUrl = await _transactionRepository.uploadPaymentProof(_image);
+    var data = await _transactionRepository.uploadPaymentProof(_image);
 
-    if (imgUrl != "") {
+    if (data != "") {
+      print("SCREEN $data");
       var res = await _transactionRepository.updateTransaction(
-          widget.transactionID, imgUrl);
+          widget.transactionID, data);
       isSuccess = res;
     }
 
@@ -225,8 +225,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       bottomNavigationBar: MainBottomNav(
         bgColor: colorPrimary,
         textColor: Colors.white,
-        onClick: () async {
-          await uploadAction().then((value) {
+        onClick: () {
+          uploadAction().then((value) {
             if (value) {
               Navigator.pushReplacement(
                   context,
