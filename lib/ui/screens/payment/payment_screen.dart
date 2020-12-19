@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
@@ -8,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/payment_card.dart';
+import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/payment/payment_item.dart';
 import 'package:opolah/ui/components/payment/payment_text_item.dart';
@@ -29,7 +29,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.transactionID);
     totalCost = widget.total + double.parse(randomCode);
     fmf = FlutterMoneyFormatter(amount: totalCost);
   }
@@ -40,6 +39,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   FlutterMoneyFormatter fmf;
   double _currentPageIndex = 0;
   var randomCode = randomNumeric(3);
+  TransactionRepository _transactionRepository = TransactionRepository();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -53,6 +53,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
         print('No image selected.');
       }
     });
+  }
+
+  Future<bool> uploadAction() async {
+    bool isSuccess;
+    var data = await _transactionRepository.uploadPaymentProof(_image);
+
+    if (data != "") {
+      print("SCREEN $data");
+      var res = await _transactionRepository.updateTransaction(
+          widget.transactionID, data);
+      isSuccess = res;
+    }
+
+    return isSuccess;
   }
 
   @override
@@ -212,12 +226,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
         bgColor: colorPrimary,
         textColor: Colors.white,
         onClick: () {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MainScreen(currentPageIndex: 3)));
+          uploadAction().then((value) {
+            if (value) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MainScreen(currentPageIndex: 3)));
+            }
+          });
         },
-        text: "DONE",
+        text: "UPLOAD",
       ),
     );
   }

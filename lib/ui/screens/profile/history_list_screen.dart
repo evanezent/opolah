@@ -15,19 +15,16 @@ class HistoryList extends StatelessWidget {
             HistoryItem(
                 bgColor: Colors.white,
                 textColor: colorPrimary,
-                shadow: darkShadow,
                 name: 'Space Milk T-Shirt',
                 price: '99.500,00'),
             HistoryItem(
                 bgColor: Colors.white,
                 textColor: colorPrimary,
-                shadow: darkShadow,
                 name: 'Space Milk T-Shirt',
                 price: '99.500,00'),
             HistoryItem(
                 bgColor: Colors.white,
                 textColor: colorPrimary,
-                shadow: darkShadow,
                 name: 'Space Milk T-Shirt',
                 price: '99.500,00'),
           ],

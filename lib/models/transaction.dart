@@ -49,7 +49,7 @@ class TransactionClass {
   }
 
   TransactionClass.fromJson(Map<String, dynamic> map) {
-    this.address = Address.fromJson(map['address']);
+    this.address = Address.fromJson(map['addres']);
     this.bank = map['bank'];
     this.total = map['total'];
     this.shippingCost = map['cost'];
