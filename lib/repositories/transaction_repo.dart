@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:opolah/models/transaction.dart';
+import 'package:random_string/random_string.dart';
 
 class TransactionRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('transaction');
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   Future<List<TransactionClass>> getStream() async {
     List<TransactionClass> transactionList = [];
@@ -32,5 +37,32 @@ class TransactionRepository {
   Future<Map> getItem(String id) async {
     var res = await collection.where('itemID', isEqualTo: id).get();
     return res.docs[0].data();
+  }
+
+  Future<bool> updateTransaction(String id, String imgUrl) async {
+    bool success = false;
+    await collection
+        .doc(id)
+        .update({'proof': imgUrl})
+        .then((value) => success = true)
+        .catchError((onError) {
+          success = false;
+          print(onError);
+        });
+
+    return success;
+  }
+
+  Future<String> uploadPaymentProof(File image) async {
+    String urlRes = "";
+    String imageCode = randomAlphaNumeric(10) + ".png";
+    Reference fireRef = _firebaseStorage.ref().child(imageCode);
+
+    await fireRef.putFile(image).then((res) {
+      urlRes = res.ref.getDownloadURL().toString();
+      print(res.ref.getDownloadURL().toString());
+    });
+
+    return urlRes;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
+import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class PaymentList extends StatelessWidget {
   const PaymentList({Key key, this.transactionList}) : super(key: key);
@@ -24,30 +25,15 @@ class PaymentList extends StatelessWidget {
             name: 'Space Milk T-Shirt',
             price: '99.500,00',
             tab: 'payment',
+            clickCallback: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                          total: double.parse(transactionList[index].getTotal),
+                          transactionID: transactionList[index].getID)));
+            },
           ),
-          // children: [
-          //   HistoryItem(
-          //     bgColor: Colors.transparent,
-          //     textColor: colorPrimary,
-          //     name: 'Space Milk T-Shirt',
-          //     price: '99.500,00',
-          //     tab: 'payment',
-          //   ),
-          //   HistoryItem(
-          //     bgColor: Colors.transparent,
-          //     textColor: colorPrimary,
-          //     name: 'Space Milk T-Shirt',
-          //     price: '99.500,00',
-          //     tab: 'payment',
-          //   ),
-          //   HistoryItem(
-          //     bgColor: Colors.transparent,
-          //     textColor: colorPrimary,
-          //     name: 'Space Milk T-Shirt',
-          //     price: '99.500,00',
-          //     tab: 'payment',
-          //   ),
-          // ],
         ),
       ),
     );

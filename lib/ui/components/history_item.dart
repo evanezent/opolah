@@ -14,13 +14,15 @@ class HistoryItem extends StatelessWidget {
     this.name,
     this.price,
     this.tab = 'history',
-    this.transactionItem,
+    this.transactionItem, 
+    this.clickCallback,
   }) : super(key: key);
 
   final Color bgColor, textColor;
   final String name, price;
   final String tab;
   final TransactionClass transactionItem;
+  final Function clickCallback;
 
   Utils util = Utils();
 
@@ -92,7 +94,7 @@ class HistoryItem extends StatelessWidget {
           ),
           if (tab == 'payment')
             RaisedButton(
-              onPressed: () {},
+              onPressed: clickCallback,
               padding: EdgeInsets.symmetric(vertical: 10),
               color: colorPrimary,
               shape: RoundedRectangleBorder(
