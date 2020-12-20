@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
+import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 // ignore: must_be_immutable
 class DeliveryList extends StatelessWidget {
@@ -24,6 +24,18 @@ class DeliveryList extends StatelessWidget {
                   transactionItem: deliveryList[index],
                   tab: "delivery",
                   clickCallback: () {},
+                  cardClicked: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShippingScreen(
+                                viewOnly: true,
+                                address: deliveryList[index].getAddress,
+                                choosen: deliveryList[index].getCarts,
+                                totalItemPrice: int.parse(
+                                        deliveryList[index].getTotal) -
+                                    int.parse(deliveryList[index].getCost))));
+                  },
                 ),
               ),
             ),
