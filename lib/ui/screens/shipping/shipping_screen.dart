@@ -75,7 +75,10 @@ class _ShippingScreenState extends State<ShippingScreen>
         '', //paymentProof
         addressList[choosedAddress],
         widget.choosen,
-        '20000');
+        '20000',
+        '', //date
+        false, //done
+        );
 
     var id = await _transactionRepository.addTransaction(newData);
     var isDeleted = await deleteCarts();

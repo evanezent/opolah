@@ -2,19 +2,22 @@ import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
 
 class TransactionClass {
-  String id, total, paymentProof, bank, shippingCost;
+  String id, total, paymentProof, bank, shippingCost, date;
   Address address;
   List<Cart> carts;
+  bool done;
 
   TransactionClass(this.total, this.bank, this.paymentProof, this.address,
-      this.carts, this.shippingCost);
+      this.carts, this.shippingCost, this.date, this.done);
 
   String get getID => id;
   String get getBank => bank;
+  String get getDate => date;
   String get getTotal => total;
   String get getProof => paymentProof;
   String get getCost => shippingCost;
   Address get getAddress => address;
+  bool get getStatus => done;
   List<Cart> get getCarts => carts;
 
   void setID(String id) {
@@ -28,6 +31,8 @@ class TransactionClass {
 
     map['total'] = data.getTotal;
     map['bank'] = data.getBank;
+    map['done'] = data.getStatus;
+    map['date'] = data.getDate;
     map['proof'] = data.getProof;
     map['cost'] = data.getCost;
     map['addres'] = data.getAddress.toJson();
@@ -52,6 +57,8 @@ class TransactionClass {
     this.address = Address.fromJson(map['addres']);
     this.bank = map['bank'];
     this.total = map['total'];
+    this.done = map['done'];
+    this.date = map['date'];
     this.shippingCost = map['cost'];
     this.paymentProof = map['proof'];
     this.carts = _convertCarts(map['carts']);

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:random_string/random_string.dart';
 
@@ -39,11 +40,18 @@ class TransactionRepository {
     return res.docs[0].data();
   }
 
-  Future<bool> updateTransaction(String id, String imgUrl) async {
+  Future<bool> updateTransaction(String id, String imgUrl, String bank) async {
     bool success = false;
+    String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    Map upData = {
+      'proof': imgUrl,
+      'date': now,
+      'bank':bank
+    };
+
     await collection
         .doc(id)
-        .update({'proof': imgUrl})
+        .update(upData)
         .then((value) => success = true)
         .catchError((onError) {
           success = false;

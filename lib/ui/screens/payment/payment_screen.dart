@@ -62,7 +62,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (data != "") {
       print("SCREEN $data");
       var res = await _transactionRepository.updateTransaction(
-          widget.transactionID, data);
+          widget.transactionID, 
+          data, 
+          cards[_currentPageIndex.toInt()].title);
+          
       isSuccess = res;
     }
 
