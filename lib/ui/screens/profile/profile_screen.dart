@@ -1,8 +1,11 @@
+import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/components/profile/history_list.dart';
 import 'package:opolah/ui/components/profile/profile_header.dart';
+import 'package:opolah/ui/screens/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -36,18 +39,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            PorfileHeader(size: size),
-            SizedBox(height: 50),
-            HistoryList(
-              size: size,
-              historyList: historyList,
-            )
-          ],
-        ),
+      body: Stack(
+        children: [
+          Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  PorfileHeader(size: size),
+                  SizedBox(height: 50),
+                  HistoryList(
+                    size: size,
+                    historyList: historyList,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            child: CircularMenu(
+              toggleButtonColor: colorPrimary,
+              alignment: Alignment.bottomRight,
+              startingAngleInRadian: 3.35,
+              endingAngleInRadian: 5.5,
+              items: [
+                CircularMenuItem(
+                  icon: Icons.logout,
+                  onTap: () {},
+                  color: colorSecondary,
+                  iconColor: Colors.white,
+                ),
+                CircularMenuItem(
+                  icon: Icons.settings,
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditProfile()));
+                  },
+                  color: colorPrimary,
+                  iconColor: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

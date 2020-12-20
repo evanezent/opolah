@@ -45,6 +45,7 @@ dependencies:
   random_string:
   firebase_storage:
   intl:
+  circular_menu:
   
 dev_dependencies:
   flutter_test:

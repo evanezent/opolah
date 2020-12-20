@@ -28,19 +28,6 @@ class PorfileHeader extends StatelessWidget {
             ),
           ),
           Positioned(
-              right: 10,
-              top: 20,
-              child: Container(
-                decoration: BoxDecoration(boxShadow: wideShadow),
-                child: IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.solidEdit,
-                      color: Colors.white60,
-                      size: 30,
-                    ),
-                    onPressed: () {}),
-              )),
-          Positioned(
             bottom: 0,
             left: 0,
             right: 0,
