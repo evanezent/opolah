@@ -14,11 +14,7 @@ class DeliveryList extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: deliveryList.length == 0
-          ? Center(
-              child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-              valueColor: AlwaysStoppedAnimation(colorPrimary),
-            ))
+          ? Container()
           : Container(
               padding: EdgeInsets.all(10),
               child: ListView.builder(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/components/see_all.dart';
 import 'package:opolah/ui/screens/profile/transaction_screen.dart';
 
 class HistoryList extends StatelessWidget {
-  const HistoryList({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
+  HistoryList({Key key, @required this.size, this.historyList})
+      : super(key: key);
 
   final Size size;
+  List<TransactionClass> historyList;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +28,9 @@ class HistoryList extends StatelessWidget {
                         builder: (context) => TransactionScreen(tabIndex: 2)));
               }),
           SizedBox(height: 10),
-          HistoryItem(
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00'),
-          HistoryItem(
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00'),
-          HistoryItem(
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00'),
+          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
+          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
+          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
         ],
       ),
     );

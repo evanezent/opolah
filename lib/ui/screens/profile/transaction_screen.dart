@@ -48,11 +48,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
         setState(() {
           transactionList.add(transaction);
         });
-      } else if (transaction.getProof != "") {
+      } else if (transaction.getStatus != false) {
         setState(() {
           deliveryList.add(transaction);
         });
-      } else {
+      } else if (transaction.getStatus) {
         setState(() {
           historyList.add(transaction);
         });
@@ -82,7 +82,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           children: [
             PaymentList(transactionList: transactionList),
             DeliveryList(deliveryList: deliveryList),
-            HistoryList()
+            HistoryList(historyList: historyList)
           ],
         ),
       ),

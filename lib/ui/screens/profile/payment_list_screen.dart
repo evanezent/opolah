@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
@@ -15,11 +14,7 @@ class PaymentList extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: transactionList.length == 0
-          ? Center(
-              child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-              valueColor: AlwaysStoppedAnimation(colorPrimary),
-            ))
+          ? Container()
           : Container(
               padding: EdgeInsets.all(10),
               child: ListView.builder(
