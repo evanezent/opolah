@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
+import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
+// ignore: must_be_immutable
 class DeliveryList extends StatelessWidget {
+  DeliveryList({Key key, this.deliveryList}) : super(key: key);
+
+  List<TransactionClass> deliveryList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
+      body: deliveryList.length == 0
+          ? Container()
+          : Container(
+              padding: EdgeInsets.all(10),
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: deliveryList.length,
+                itemBuilder: (context, index) => HistoryItem(
+                  transactionItem: deliveryList[index],
+                  tab: "delivery",
+                  clickCallback: () {},
+                  cardClicked: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShippingScreen(
+                                viewOnly: true,
+                                address: deliveryList[index].getAddress,
+                                choosen: deliveryList[index].getCarts,
+                                totalItemPrice: int.parse(
+                                        deliveryList[index].getTotal) -
+                                    int.parse(deliveryList[index].getCost))));
+                  },
+                ),
+              ),
             ),
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
-            ),
-            HistoryItem(
-              bgColor: Colors.transparent,
-              textColor: colorPrimary,
-              name: 'Space Milk T-Shirt',
-              price: '99.500,00',
-              tab: 'delivery',
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

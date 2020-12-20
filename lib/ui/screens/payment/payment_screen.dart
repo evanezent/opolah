@@ -33,6 +33,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     fmf = FlutterMoneyFormatter(amount: totalCost);
   }
 
+  bool loading = false;
   File _image;
   double totalCost;
   final picker = ImagePicker();
@@ -62,7 +63,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (data != "") {
       print("SCREEN $data");
       var res = await _transactionRepository.updateTransaction(
-          widget.transactionID, data);
+          widget.transactionID, data, cards[_currentPageIndex.toInt()].title);
+
       isSuccess = res;
     }
 
@@ -225,7 +227,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       bottomNavigationBar: MainBottomNav(
         bgColor: colorPrimary,
         textColor: Colors.white,
+        isLoading: loading,
         onClick: () {
+          setState(() {
+            loading = true;
+          });
           uploadAction().then((value) {
             if (value) {
               Navigator.pushReplacement(

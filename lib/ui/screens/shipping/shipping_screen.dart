@@ -14,10 +14,17 @@ import 'package:opolah/ui/components/bottom_nav_button.dart';
 import 'package:opolah/ui/components/horizontal_divider.dart';
 import 'package:opolah/ui/components/shipping/address_card.dart';
 import 'package:opolah/ui/components/shipping/shipping_item.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class ShippingScreen extends StatefulWidget {
-  const ShippingScreen({Key key, this.choosen, this.totalItemPrice})
+  const ShippingScreen(
+      {Key key,
+      this.choosen,
+      this.totalItemPrice,
+      this.viewOnly = false,
+      // ignore: avoid_init_to_null
+      this.address = null})
       : super(key: key);
 
   @override
@@ -25,6 +32,8 @@ class ShippingScreen extends StatefulWidget {
 
   final List<Cart> choosen;
   final int totalItemPrice;
+  final bool viewOnly;
+  final Address address;
 }
 
 class _ShippingScreenState extends State<ShippingScreen>
@@ -70,12 +79,15 @@ class _ShippingScreenState extends State<ShippingScreen>
     });
 
     TransactionClass newData = TransactionClass(
-        (widget.totalItemPrice + 20000).toString(),
-        '', //bank
-        '', //paymentProof
-        addressList[choosedAddress],
-        widget.choosen,
-        '20000');
+      (widget.totalItemPrice + 20000).toString(),
+      '', //bank
+      '', //paymentProof
+      addressList[choosedAddress],
+      widget.choosen,
+      '20000',
+      '', //date
+      false, //done
+    );
 
     var id = await _transactionRepository.addTransaction(newData);
     var isDeleted = await deleteCarts();
@@ -145,67 +157,86 @@ class _ShippingScreenState extends State<ShippingScreen>
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
                     SizedBox(height: 5),
-                    Container(
-                      child: Row(
-                        children: [
-                          InkWell(
-                              onTap: () async {
-                                if (_controller.isDismissed) {
-                                  _controller.forward();
-                                } else if (_controller.isCompleted) {
-                                  _controller.reverse();
-                                }
-                              },
-                              child: AnimatedBuilder(
-                                  animation: _controller,
-                                  builder: (context, child) => Container(
-                                        height: 140,
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        decoration: BoxDecoration(
-                                          color: colorPrimary,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                    widget.viewOnly
+                        ? Center(
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10),
+                              color: Colors.white,
+                              width: size.width * 0.65,
+                              height: 140,
+                              child: AddressCard(
+                                  size: size,
+                                  name: widget.address.getReceiver,
+                                  phone: widget.address.getPhone,
+                                  address: widget.address.getAddress,
+                                  choose: true),
+                            ),
+                          )
+                        : Container(
+                            child: Row(
+                              children: [
+                                InkWell(
+                                    onTap: () async {
+                                      if (_controller.isDismissed) {
+                                        _controller.forward();
+                                      } else if (_controller.isCompleted) {
+                                        _controller.reverse();
+                                      }
+                                    },
+                                    child: AnimatedBuilder(
+                                        animation: _controller,
+                                        builder: (context, child) => Container(
+                                              height: 140,
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 10),
+                                              decoration: BoxDecoration(
+                                                color: colorPrimary,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                  child: FaIcon(
+                                                      FontAwesomeIcons.plus,
+                                                      color: Colors.white)),
+                                            ))),
+                                addressList.length == 0
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.white,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              colorPrimary),
                                         ),
-                                        child: Center(
-                                            child: FaIcon(FontAwesomeIcons.plus,
-                                                color: Colors.white)),
-                                      ))),
-                          addressList.length == 0
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    valueColor:
-                                        AlwaysStoppedAnimation(colorPrimary),
-                                  ),
-                                )
-                              : Container(
-                                  color: Colors.white,
-                                  width: size.width * 0.65,
-                                  height: 140,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: addressList.length,
-                                    itemBuilder: (context, index) =>
-                                        AddressCard(
-                                            size: size,
-                                            name:
-                                                addressList[index].getReceiver,
-                                            phone: addressList[index].getPhone,
-                                            address:
-                                                addressList[index].getAddress,
-                                            choose: choosedAddress == index,
-                                            onChoose: () {
-                                              setState(() {
-                                                choosedAddress = index;
-                                              });
-                                            }),
-                                  ),
-                                ),
-                        ],
-                      ),
-                    ),
+                                      )
+                                    : Container(
+                                        color: Colors.white,
+                                        width: size.width * 0.65,
+                                        height: 140,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: addressList.length,
+                                          itemBuilder: (context, index) =>
+                                              AddressCard(
+                                                  size: size,
+                                                  name: addressList[index]
+                                                      .getReceiver,
+                                                  phone: addressList[index]
+                                                      .getPhone,
+                                                  address: addressList[index]
+                                                      .getAddress,
+                                                  choose:
+                                                      choosedAddress == index,
+                                                  onChoose: () {
+                                                    setState(() {
+                                                      choosedAddress = index;
+                                                    });
+                                                  }),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
                     SizedBox(height: 10),
                     Container(
                         color: Colors.white,
@@ -514,13 +545,24 @@ class _ShippingScreenState extends State<ShippingScreen>
           ],
         ),
       ),
-      bottomNavigationBar: MainBottomNav(
-        text: "CONFIRM",
-        bgColor: colorPrimary,
-        textColor: Colors.white,
-        isLoading: loading,
-        onClick: confirmPayment
-      ),
+      bottomNavigationBar: widget.viewOnly
+          ? MainBottomNav(
+              text: "DONE",
+              bgColor: colorPrimary,
+              textColor: Colors.white,
+              isLoading: loading,
+              onClick: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MainScreen(currentPageIndex: 3)));
+              })
+          : MainBottomNav(
+              text: "CONFIRM",
+              bgColor: colorPrimary,
+              textColor: Colors.white,
+              isLoading: loading,
+              onClick: confirmPayment),
     );
   }
 }

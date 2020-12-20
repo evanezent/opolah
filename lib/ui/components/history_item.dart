@@ -3,26 +3,23 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/transaction.dart';
-import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 // ignore: must_be_immutable
 class HistoryItem extends StatelessWidget {
   HistoryItem({
     Key key,
-    this.bgColor,
-    this.textColor,
     this.name,
     this.price,
     this.tab = 'history',
-    this.transactionItem, 
+    this.transactionItem,
     this.clickCallback,
+    this.cardClicked,
   }) : super(key: key);
-
-  final Color bgColor, textColor;
   final String name, price;
   final String tab;
   final TransactionClass transactionItem;
   final Function clickCallback;
+  final Function cardClicked;
 
   Utils util = Utils();
 
@@ -49,6 +46,37 @@ class HistoryItem extends StatelessWidget {
     }
   }
 
+  String getMonth(String date) {
+    switch (date.substring(3, 5)) {
+      case "01":
+        return "JAN";
+      case "02":
+        return "FEB";
+      case "03":
+        return "MAR";
+      case "04":
+        return "APR";
+      case "05":
+        return "MAY";
+      case "06":
+        return "JUN";
+      case "07":
+        return "JUL";
+      case "08":
+        return "AUG";
+      case "09":
+        return "SEP";
+      case "10":
+        return "OKT";
+      case "11":
+        return "NOV";
+      case "12":
+        return "DES";
+      default:
+        return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String id = transactionItem == null ? "" : transactionItem.getID;
@@ -56,57 +84,84 @@ class HistoryItem extends StatelessWidget {
         amount: transactionItem == null
             ? 0
             : double.parse(transactionItem.getTotal));
-    return Container(
-      margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              util.verticalLineMarker(
-                  height: 70, color: colorPrimary, width: 5),
-              SizedBox(width: 20),
-              Container(
-                width: 225,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Transaction ID #$id",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: colorPrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                    printStatus(tab),
-                    SizedBox(height: 15),
-                    Text("Rp ${fmf.output.nonSymbol}",
-                        style: TextStyle(
-                            color: colorBackup,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                  ],
+
+    return InkWell(
+      onTap: cardClicked,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                util.verticalLineMarker(
+                    height: 70, color: colorPrimary, width: 5),
+                SizedBox(width: 20),
+                Container(
+                  width: 225,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Transaction ID #$id",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: colorPrimary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      printStatus(tab),
+                      SizedBox(height: 15),
+                      Text("Rp ${fmf.output.nonSymbol}",
+                          style: TextStyle(
+                              color: colorBackup,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          if (tab == 'payment')
-            RaisedButton(
-              onPressed: clickCallback,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              color: colorPrimary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              child: Text("Pay Now",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold)),
+              ],
             ),
-          if (tab == 'delivery')
-            Container(
+            if (tab == 'payment')
+              RaisedButton(
+                onPressed: clickCallback,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                color: colorPrimary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                child: Text("Pay Now",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold)),
+              ),
+            if (tab == 'delivery')
+              Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: colorPrimary, boxShadow: bottomDarkShadow),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "ON",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      Text(
+                        "GOING",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200),
+                      ),
+                    ],
+                  )),
+            if (tab == 'history')
+              Container(
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     color: colorPrimary, boxShadow: bottomDarkShadow),
@@ -114,204 +169,33 @@ class HistoryItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "ON",
+                      transactionItem.getDate.substring(0, 2),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      getMonth(transactionItem.getDate),
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      "GOING",
+                      transactionItem.getDate
+                          .substring(transactionItem.getDate.length - 2),
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w200),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700),
                     ),
                   ],
-                )),
-          if (tab == 'history')
-            Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: colorPrimary, boxShadow: bottomDarkShadow),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "22",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "NOV",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "2020",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
-      // child: Stack(
-      //   children: [
-      //     Container(
-      //       padding: EdgeInsets.all(10),
-      //       decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(10), color: bgColor),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: [
-      //           Row(
-      //             children: [
-      //               Container(
-      //                 width: 60,
-      //                 height: 60,
-      //                 child: ClipRRect(
-      //                   borderRadius: BorderRadius.only(
-      //                     topLeft: Radius.circular(10),
-      //                     topRight: Radius.circular(10),
-      //                     bottomRight: Radius.circular(10),
-      //                     bottomLeft: Radius.circular(10),
-      //                   ),
-      //                   child: Image.network(
-      //                     'https://ae01.alicdn.com/kf/HTB1mF5aKFXXXXbOXFXXq6xXFXXXk/2-colors-2014-summer-mens-quick-dry-shirts-original-design-boys-cool-t-shirt-free-shipping.jpg',
-      //                     fit: BoxFit.cover,
-      //                   ),
-      //                 ),
-      //               ),
-      //               SizedBox(width: 20),
-      //               Column(
-      //                 crossAxisAlignment: CrossAxisAlignment.start,
-      //                 children: [
-      //                   Container(
-      //                     child: Text(
-      //                       name,
-      //                       overflow: TextOverflow.ellipsis,
-      //                       style: TextStyle(
-      //                           color: colorPrimary,
-      //                           fontSize: 15,
-      //                           fontWeight: FontWeight.w700),
-      //                     ),
-      //                   ),
-      //                   SizedBox(height: 7),
-      //                   Util.starCounter(nStar: 5),
-      //                   SizedBox(height: 7),
-      //                   Container(
-      //                     child: Text(
-      //                       'Rp $price',
-      //                       overflow: TextOverflow.ellipsis,
-      //                       style: TextStyle(
-      //                           fontSize: 15,
-      //                           fontWeight: FontWeight.w700,
-      //                           color: colorSecondary),
-      //                     ),
-      //                   )
-      //                 ],
-      //               ),
-      //             ],
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     if (tab == 'history')
-      //       Positioned(
-      //         top: 0,
-      //         right: 20,
-      //         child: Container(
-      //           padding: EdgeInsets.all(5),
-      //           decoration: BoxDecoration(
-      //               color: colorPrimary, boxShadow: bottomDarkShadow),
-      //           child: Column(
-      //             mainAxisAlignment: MainAxisAlignment.start,
-      //             children: [
-      //               Text(
-      //                 "22",
-      //                 style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 15,
-      //                     fontWeight: FontWeight.w700),
-      //               ),
-      //               Text(
-      //                 "NOV",
-      //                 style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 20,
-      //                     fontWeight: FontWeight.w700),
-      //               ),
-      //               Text(
-      //                 "2020",
-      //                 style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 15,
-      //                     fontWeight: FontWeight.w700),
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     if (tab == 'payment')
-      //       Positioned(
-      //           top: 20,
-      //           right: 20,
-      //           child: RaisedButton(
-      //               color: colorPrimary,
-      //               shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(20),
-      //               ),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                         builder: (context) => PaymentScreen()));
-      //               },
-      //               child: Text(
-      //                 'Pay',
-      //                 style: TextStyle(
-      //                   color: Colors.white,
-      //                 ),
-      //               ))),
-      //     if (tab == 'delivery')
-      //       Positioned(
-      //         top: 20,
-      //         right: 20,
-      //         child: Container(
-      //           padding: EdgeInsets.all(5),
-      //           decoration: BoxDecoration(
-      //               color: colorPrimary, boxShadow: bottomDarkShadow),
-      //           child: Column(
-      //             mainAxisAlignment: MainAxisAlignment.start,
-      //             children: [
-      //               Text(
-      //                 "ON",
-      //                 style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 20,
-      //                     fontWeight: FontWeight.w700),
-      //               ),
-      //               Text(
-      //                 "GOING",
-      //                 style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 14,
-      //                     fontWeight: FontWeight.w200),
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //   ],
-      // ),
     );
   }
 }
