@@ -43,7 +43,7 @@ class TransactionRepository {
   Future<bool> updateTransaction(String id, String imgUrl, String bank) async {
     bool success = false;
     String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
-    Map upData = {
+    Map<String, dynamic> upData = {
       'proof': imgUrl,
       'date': now,
       'bank':bank

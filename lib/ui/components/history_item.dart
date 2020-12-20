@@ -133,7 +133,7 @@ class HistoryItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "22",
+                    transactionItem.getDate[0],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,

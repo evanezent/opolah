@@ -4,6 +4,7 @@ import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/components/see_all.dart';
 import 'package:opolah/ui/screens/profile/transaction_screen.dart';
 
+// ignore: must_be_immutable
 class HistoryList extends StatelessWidget {
   HistoryList({Key key, @required this.size, this.historyList})
       : super(key: key);
@@ -28,9 +29,19 @@ class HistoryList extends StatelessWidget {
                         builder: (context) => TransactionScreen(tabIndex: 2)));
               }),
           SizedBox(height: 10),
-          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
-          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
-          HistoryItem(name: 'Space Milk T-Shirt', price: '99.500,00'),
+          historyList.length == 0
+              ? Container()
+              : Container(
+                  padding: EdgeInsets.all(10),
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: 3,
+                    itemBuilder: (context, index) => HistoryItem(
+                      transactionItem: historyList[index],
+                      clickCallback: () {},
+                    ),
+                  ),
+                ),
         ],
       ),
     );

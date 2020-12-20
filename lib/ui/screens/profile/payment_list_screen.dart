@@ -7,7 +7,7 @@ import 'package:opolah/ui/screens/payment/payment_screen.dart';
 class PaymentList extends StatelessWidget {
   PaymentList({Key key, this.transactionList}) : super(key: key);
 
-  List<TransactionClass> transactionList = [];
+  List<TransactionClass> transactionList;
 
   @override
   Widget build(BuildContext context) {

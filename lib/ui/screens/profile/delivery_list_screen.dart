@@ -22,6 +22,7 @@ class DeliveryList extends StatelessWidget {
                 itemCount: deliveryList.length,
                 itemBuilder: (context, index) => HistoryItem(
                   transactionItem: deliveryList[index],
+                  tab: "delivery",
                   clickCallback: () {},
                 ),
               ),

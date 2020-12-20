@@ -48,7 +48,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         setState(() {
           transactionList.add(transaction);
         });
-      } else if (transaction.getStatus != false) {
+      } else if (transaction.getStatus == false) {
         setState(() {
           deliveryList.add(transaction);
         });
