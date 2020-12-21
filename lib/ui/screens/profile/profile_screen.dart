@@ -7,6 +7,7 @@ import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/profile/history_list.dart';
 import 'package:opolah/ui/components/profile/profile_header.dart';
+import 'package:opolah/ui/screens/login/login_screen.dart';
 import 'package:opolah/ui/screens/profile/edit_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -92,7 +93,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     items: [
                       CircularMenuItem(
                         icon: Icons.logout,
-                        onTap: () {},
+                        onTap: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.remove('userID');
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        },
                         color: colorSecondary,
                         iconColor: Colors.white,
                       ),
