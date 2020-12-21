@@ -8,6 +8,7 @@ import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/user_repo.dart';
+import 'package:opolah/ui/screens/main_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key key, this.currentUser}) : super(key: key);
@@ -36,19 +37,22 @@ class _EditProfileState extends State<EditProfile> {
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() async {
+    setState(() {
       if (pickedFile != null) {
         setState(() {
           _image = File(pickedFile.path);
         });
 
-        var data = await repository.uploadImage(_image);
-        
-        if(data != ""){
-          setState(() {
-            imgUrl = data;
-          });
-        }
+        var data = repository.uploadImage(_image);
+
+        data.then((value) {
+          if (value != "") {
+            print("IMAGE UPDATED !!!");
+            setState(() {
+              imgUrl = value;
+            });
+          }
+        });
       } else {
         print('No image selected.');
       }
@@ -85,9 +89,9 @@ class _EditProfileState extends State<EditProfile> {
                         width: 300,
                         height: 300,
                         decoration: BoxDecoration(
-                            boxShadow: wideShadow,
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(500)),
+                          boxShadow: wideShadow,
+                          color: Colors.grey[200],
+                        ),
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         child: _image == null
                             ? Image.network(
@@ -96,7 +100,10 @@ class _EditProfileState extends State<EditProfile> {
                                     : widget.currentUser.image,
                                 fit: BoxFit.cover,
                               )
-                            : Image.file(_image)),
+                            : Image.file(
+                                _image,
+                                fit: BoxFit.cover,
+                              )),
                     SizedBox(height: 10),
                     Text(
                       "Change Image",
@@ -209,10 +216,24 @@ class _EditProfileState extends State<EditProfile> {
               ),
               SizedBox(height: 40),
               RaisedButton(
-                  onPressed: () {
-                    var 
+                  onPressed: () async {
+                    User user = User.withId(
+                        widget.currentUser.id,
+                        textName.text,
+                        textEmail.text,
+                        imgUrl,
+                        widget.currentUser.password,
+                        textPhone.text);
+                    var res = await repository.updateUser(user);
 
-                    util.errorToast("Please choose type !");
+                    if (res) {
+                      util.successToast("Profile updated !");
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainScreen(
+                                  currentPageIndex: 3, activeUser: user)));
+                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(500)),
