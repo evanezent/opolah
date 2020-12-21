@@ -2,14 +2,18 @@ import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
+import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/components/profile/history_list.dart';
 import 'package:opolah/ui/components/profile/profile_header.dart';
 import 'package:opolah/ui/screens/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key key, this.activeUser}) : super(key: key);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
+  final User activeUser;
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -61,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               toggleButtonColor: colorPrimary,
               alignment: Alignment.bottomRight,
               startingAngleInRadian: 3.35,
-              endingAngleInRadian: 5.5,
+              endingAngleInRadian: 4.35,
               items: [
                 CircularMenuItem(
                   icon: Icons.logout,

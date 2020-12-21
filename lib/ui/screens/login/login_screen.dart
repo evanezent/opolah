@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
+import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/login-register/button_ok.dart';
 import 'package:opolah/ui/components/login-register/change_login_register.dart';
@@ -25,7 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     var res = repository.loginUser(textEmailUsername.text, textPassword.text);
     res.then((value) {
-      if (value != 'pass') {
+      if (value is User) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainScreen(activeUser: value)));
+      } else {
         if (value.contains('Password')) {
           setState(() {
             _passValidator = value;
@@ -38,9 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           this.loading = false;
         });
-      } else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainScreen()));
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
@@ -11,11 +12,13 @@ import 'package:opolah/ui/screens/profile/profile_screen.dart';
 import 'package:opolah/ui/screens/shop/shop_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key key, this.currentPageIndex = 0}) : super(key: key);
+  const MainScreen({Key key, this.currentPageIndex = 0, this.activeUser})
+      : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
 
+  final User activeUser;
   final int currentPageIndex;
 }
 
@@ -51,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen());
-    pagesList.add(ProfileScreen());
+    pagesList.add(ProfileScreen(activeUser: widget.activeUser));
     getShopItem();
   }
 
