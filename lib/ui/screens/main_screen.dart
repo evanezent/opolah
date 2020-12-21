@@ -4,11 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
+import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/item_repo.dart';
+import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
 import 'package:opolah/ui/screens/profile/profile_screen.dart';
 import 'package:opolah/ui/screens/shop/shop_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key key, this.currentPageIndex = 0}) : super(key: key);
@@ -25,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Item> itemList = [];
   List<Cart> cartList = [];
   int _currentPageIndex;
+  
 
   void getShopItem() async {
     var data = _itemRepository.getStream();
@@ -43,6 +47,8 @@ class _MainScreenState extends State<MainScreen> {
       pagesList[1] = ShopScreen(itemList: itemList);
     });
   }
+
+  
 
   @override
   void initState() {

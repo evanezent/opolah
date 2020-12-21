@@ -14,12 +14,12 @@ class User {
   String get phone => _phone;
   String get password => _password;
 
-  set setID(String newID) {
+  void setID(String newID) {
     if (newID.length > 0) {
       this._id = newID;
     }
   }
-  
+
   set setName(String newName) {
     if (100 >= newName.length && newName.length > 0) {
       this._name = newName;
@@ -54,12 +54,8 @@ class User {
   Map<String, dynamic> toJson(User data) {
     var map = Map<String, dynamic>();
 
-    if (data.id != null) {
-      map['id'] = data.id;
-    }
-    if (data.image == null) {
-      map['image'] = '';
-    }
+    map['id'] = data.id;
+    map['image'] = data.image;
     map['name'] = data.name;
     map['email'] = data.email;
     map['password'] = data.password;
@@ -69,7 +65,6 @@ class User {
   }
 
   User.fromJson(Map<String, dynamic> map) {
-    this._id = map['id'];
     this._name = map['name'];
     this._email = map['email'];
     this._password = map['password'];
