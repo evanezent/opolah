@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:opolah/models/user.dart';
+import 'package:random_string/random_string.dart';
 
 class DataRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('user');
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   Stream<QuerySnapshot> getStream() {
     return collection.snapshots();
@@ -70,5 +75,30 @@ class DataRepository {
         return "Password not match";
       }
     }
+  }
+
+  Future<String> uploadImage(File image) async {
+    String urlRes = "";
+    String imageCode = randomAlphaNumeric(10) + ".png";
+    Reference fireRef = _firebaseStorage.ref().child(imageCode);
+
+    TaskSnapshot task = await fireRef.putFile(image);
+    await task.ref.getDownloadURL().then((value) {
+      print(value);
+      urlRes = value;
+    });
+
+    return urlRes;
+  }
+
+  Future updateUser(User user) async {
+    bool success = false;
+    await collection
+        .doc(user.id)
+        .update(user.toJson(user))
+        .then((value) => success = true)
+        .catchError((onError) => success = false);
+
+    return success;
   }
 }

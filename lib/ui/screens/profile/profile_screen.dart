@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  PorfileHeader(size: size),
+                  PorfileHeader(size: size, user: widget.activeUser),
                   SizedBox(height: 50),
                   HistoryList(
                     size: size,
@@ -76,8 +76,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CircularMenuItem(
                   icon: Icons.settings,
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditProfile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditProfile(currentUser: widget.activeUser)));
                   },
                   color: colorPrimary,
                   iconColor: Colors.white,
