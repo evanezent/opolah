@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:opolah/models/user.dart';
 import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DataRepository {
   final CollectionReference collection =
@@ -61,6 +63,7 @@ class DataRepository {
     if (email.contains('@')) {
       query = 'email';
     }
+    final prefs = await SharedPreferences.getInstance();
 
     var res = await collection.where(query, isEqualTo: email).get();
 
@@ -70,6 +73,8 @@ class DataRepository {
       if (res.docs[0]['password'] == password) {
         User user = User.fromJson(res.docs[0].data());
         user.setID(res.docs[0].id);
+
+        prefs.setString("userID", res.docs[0].id);
         return user;
       } else {
         return "Password not match";
@@ -100,5 +105,18 @@ class DataRepository {
         .catchError((onError) => success = false);
 
     return success;
+  }
+
+  Future<User> getActiveUser(String id) async {
+    User user;
+    await collection.doc(id).get().then((value) {
+      user = User.fromJson(value.data());
+      user.setID(id);
+    }).catchError((onError) {
+      user = null;
+      print(onError.toString());
+    });
+
+    return user;
   }
 }

@@ -232,7 +232,7 @@ class _EditProfileState extends State<EditProfile> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => MainScreen(
-                                  currentPageIndex: 3, activeUser: user)));
+                                  currentPageIndex: 3)));
                     }
                   },
                   shape: RoundedRectangleBorder(

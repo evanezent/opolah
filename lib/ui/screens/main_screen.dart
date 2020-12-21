@@ -6,28 +6,30 @@ import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item.dart';
 import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/item_repo.dart';
+import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/screens/cart/cart_screen.dart';
 import 'package:opolah/ui/screens/home/home_screen.dart';
 import 'package:opolah/ui/screens/profile/profile_screen.dart';
 import 'package:opolah/ui/screens/shop/shop_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key key, this.currentPageIndex = 0, this.activeUser})
-      : super(key: key);
+  const MainScreen({Key key, this.currentPageIndex = 0}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
 
-  final User activeUser;
   final int currentPageIndex;
 }
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
+  DataRepository _userRepository = DataRepository();
   List<Widget> pagesList = [];
   List<Item> itemList = [];
   List<Cart> cartList = [];
   int _currentPageIndex;
+  User user;
 
   void getShopItem() async {
     var data = _itemRepository.getStream();
@@ -47,6 +49,18 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    var getUser = await _userRepository.getActiveUser(id);
+    if (getUser != null) {
+      setState(() {
+        user = getUser;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen());
-    pagesList.add(ProfileScreen(activeUser: widget.activeUser));
+    pagesList.add(ProfileScreen(activeUser: user));
     getShopItem();
   }
 

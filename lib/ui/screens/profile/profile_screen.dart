@@ -43,53 +43,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Stack(
-        children: [
-          Container(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  PorfileHeader(size: size, user: widget.activeUser),
-                  SizedBox(height: 50),
-                  HistoryList(
-                    size: size,
-                    historyList: historyList,
-                  )
-                ],
+      body: widget.activeUser == null
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(colorPrimary),
               ),
-            ),
-          ),
-          Container(
-            child: CircularMenu(
-              toggleButtonColor: colorPrimary,
-              alignment: Alignment.bottomRight,
-              startingAngleInRadian: 3.35,
-              endingAngleInRadian: 4.35,
-              items: [
-                CircularMenuItem(
-                  icon: Icons.logout,
-                  onTap: () {},
-                  color: colorSecondary,
-                  iconColor: Colors.white,
+            )
+          : Stack(
+              children: [
+                Container(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        PorfileHeader(size: size, user: widget.activeUser),
+                        SizedBox(height: 50),
+                        HistoryList(
+                          size: size,
+                          historyList: historyList,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                CircularMenuItem(
-                  icon: Icons.settings,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EditProfile(currentUser: widget.activeUser)));
-                  },
-                  color: colorPrimary,
-                  iconColor: Colors.white,
+                Container(
+                  child: CircularMenu(
+                    toggleButtonColor: colorPrimary,
+                    alignment: Alignment.bottomRight,
+                    startingAngleInRadian: 3.35,
+                    endingAngleInRadian: 4.35,
+                    items: [
+                      CircularMenuItem(
+                        icon: Icons.logout,
+                        onTap: () {},
+                        color: colorSecondary,
+                        iconColor: Colors.white,
+                      ),
+                      CircularMenuItem(
+                        icon: Icons.settings,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditProfile(
+                                      currentUser: widget.activeUser)));
+                        },
+                        color: colorPrimary,
+                        iconColor: Colors.white,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

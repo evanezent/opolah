@@ -46,6 +46,7 @@ dependencies:
   firebase_storage:
   intl:
   circular_menu:
+  shared_preferences:
   
 dev_dependencies:
   flutter_test:

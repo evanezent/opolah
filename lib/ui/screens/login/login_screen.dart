@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => MainScreen(activeUser: value)));
+                builder: (context) => MainScreen()));
       } else {
         if (value.contains('Password')) {
           setState(() {
