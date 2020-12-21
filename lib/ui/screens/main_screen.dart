@@ -24,12 +24,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ItemRepository _itemRepository = ItemRepository();
-  DataRepository _userRepository = DataRepository();
   List<Widget> pagesList = [];
   List<Item> itemList = [];
   List<Cart> cartList = [];
   int _currentPageIndex;
-  User user;
+  
 
   void getShopItem() async {
     var data = _itemRepository.getStream();
@@ -49,17 +48,7 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void getActiveUser() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
-
-    var getUser = await _userRepository.getActiveUser(id);
-    if (getUser != null) {
-      setState(() {
-        user = getUser;
-      });
-    }
-  }
+  
 
   @override
   void initState() {
@@ -68,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
     pagesList.add(HomeScreen(listItem: itemList));
     pagesList.add(ShopScreen(itemList: itemList));
     pagesList.add(CartScreen());
-    pagesList.add(ProfileScreen(activeUser: user));
+    pagesList.add(ProfileScreen());
     getShopItem();
   }
 

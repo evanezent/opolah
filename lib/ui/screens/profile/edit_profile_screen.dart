@@ -47,10 +47,13 @@ class _EditProfileState extends State<EditProfile> {
 
         data.then((value) {
           if (value != "") {
-            print("IMAGE UPDATED !!!");
+            util.successToast("Image Updated !");
+            print("IMAGE UPDATED !!! $value");
             setState(() {
               imgUrl = value;
             });
+          } else {
+            util.errorToast("Failed to update Image !");
           }
         });
       } else {
@@ -217,6 +220,7 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 40),
               RaisedButton(
                   onPressed: () async {
+                    print(imgUrl);
                     User user = User.withId(
                         widget.currentUser.id,
                         textName.text,
@@ -231,8 +235,8 @@ class _EditProfileState extends State<EditProfile> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MainScreen(
-                                  currentPageIndex: 3)));
+                              builder: (context) =>
+                                  MainScreen(currentPageIndex: 3)));
                     }
                   },
                   shape: RoundedRectangleBorder(

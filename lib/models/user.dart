@@ -54,12 +54,8 @@ class User {
   Map<String, dynamic> toJson(User data) {
     var map = Map<String, dynamic>();
 
-    if (data.id != null) {
-      map['id'] = data.id;
-    }
-    if (data.image == null) {
-      map['image'] = '';
-    }
+    map['id'] = data.id;
+    map['image'] = data.image;
     map['name'] = data.name;
     map['email'] = data.email;
     map['password'] = data.password;
