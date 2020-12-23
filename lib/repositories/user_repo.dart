@@ -18,6 +18,7 @@ class DataRepository {
   Future registerUser(User data) async {
     var resEmail = checkEmail(data.email);
     var resPhone = checkPhone(data.phone);
+    final prefs = await SharedPreferences.getInstance();
 
     bool decision = true;
 
@@ -25,6 +26,8 @@ class DataRepository {
       await resPhone.then((value2) async {
         if (!value2 && !value) {
           await collection.add(data.toJson(data)).then((value) {
+            prefs.setString("userID", value.id);
+
             decision = true;
           }).catchError((err) {
             print(err);
