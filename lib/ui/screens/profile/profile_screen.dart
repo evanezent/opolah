@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User user;
 
   void getAllHistory() async {
-    var data = await _transactionRepository.getStream();
+    var data = await _transactionRepository.getStream(user.id);
 
     for (var transaction in data) {
       if (transaction.getStatus) {
@@ -45,13 +45,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         user = getUser;
       });
+
+      getAllHistory();
     }
   }
 
   @override
   void initState() {
     super.initState();
-    getAllHistory();
     getActiveUser();
   }
 

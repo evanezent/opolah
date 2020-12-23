@@ -8,12 +8,14 @@ import 'package:opolah/ui/screens/profile/history_list_screen.dart';
 import 'package:opolah/ui/screens/profile/payment_list_screen.dart';
 
 class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({Key key, this.tabIndex = 0}) : super(key: key);
+  const TransactionScreen({Key key, this.tabIndex = 0, this.userID})
+      : super(key: key);
 
   @override
   _TransactionScreenState createState() => _TransactionScreenState();
 
   final int tabIndex;
+  final userID;
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
@@ -41,7 +43,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   TransactionRepository _transactionRepository = TransactionRepository();
   void getAllTransaction() async {
-    var data = await _transactionRepository.getStream();
+    var data = await _transactionRepository.getStream(widget.userID);
 
     for (var transaction in data) {
       if (transaction.getProof == "") {

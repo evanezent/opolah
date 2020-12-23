@@ -11,10 +11,10 @@ class TransactionRepository {
       FirebaseFirestore.instance.collection('transaction');
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Future<List<TransactionClass>> getStream() async {
+  Future<List<TransactionClass>> getStream(String id) async {
     List<TransactionClass> transactionList = [];
 
-    await collection.get().then((value) {
+    await collection.where("userID", isEqualTo: id).get().then((value) {
       value.docs.forEach((element) {
         TransactionClass transaction =
             TransactionClass.fromJson(element.data());
@@ -43,20 +43,16 @@ class TransactionRepository {
   Future<bool> updateTransaction(String id, String imgUrl, String bank) async {
     bool success = false;
     String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
-    Map<String, dynamic> upData = {
-      'proof': imgUrl,
-      'date': now,
-      'bank':bank
-    };
+    Map<String, dynamic> upData = {'proof': imgUrl, 'date': now, 'bank': bank};
 
     await collection
         .doc(id)
         .update(upData)
         .then((value) => success = true)
         .catchError((onError) {
-          success = false;
-          print(onError);
-        });
+      success = false;
+      print(onError);
+    });
 
     return success;
   }

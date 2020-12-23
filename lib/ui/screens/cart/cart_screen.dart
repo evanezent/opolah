@@ -6,6 +6,7 @@ import 'package:opolah/models/cart.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -20,14 +21,30 @@ class _CartScreenState extends State<CartScreen> {
   List<int> counter = [];
   bool allCheck = false;
   List<int> price = [];
+  String userID;
   int res = 0;
 
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    if (id != null) {
+      setState(() {
+        userID = id;
+      });
+    }
+
+    getAllCart();
+  }
+
   void getAllCart() async {
-    var data = await _cartRepository.getAllCart();
+    print(userID);
+    var data = await _cartRepository.getAllCart(userID);
 
     setState(() {
       cartList = data;
     });
+    print(cartList.length);
 
     for (var i = 0; i < cartList.length; i++) {
       initData(cartList[i]);
@@ -158,7 +175,7 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
 
-    getAllCart();
+    getActiveUser();
   }
 
   @override
