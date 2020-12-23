@@ -98,7 +98,8 @@ class _EditProfileState extends State<EditProfile> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         child: _image == null
                             ? Image.network(
-                                widget.currentUser.image == ""
+                                widget.currentUser.image == "" ||
+                                        widget.currentUser.image == null
                                     ? 'https://www.pngkit.com/png/full/301-3012694_account-user-profile-avatar-comments-fa-user-circle.png'
                                     : widget.currentUser.image,
                                 fit: BoxFit.cover,
