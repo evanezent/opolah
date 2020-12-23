@@ -16,6 +16,7 @@ import 'package:opolah/ui/components/shipping/address_card.dart';
 import 'package:opolah/ui/components/shipping/shipping_item.dart';
 import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShippingScreen extends StatefulWidget {
   const ShippingScreen(
@@ -46,9 +47,10 @@ class _ShippingScreenState extends State<ShippingScreen>
   Duration _duration = Duration(milliseconds: 500);
   AnimationController _controller;
   List<Address> addressList = [];
+  bool loading = false;
   Utils util = Utils();
   int choosedAddress;
-  bool loading = false;
+  String userID;
 
   TransactionRepository _transactionRepository = TransactionRepository();
   CartRepository _cartRepository = CartRepository();
@@ -73,12 +75,24 @@ class _ShippingScreenState extends State<ShippingScreen>
     return isDeleted;
   }
 
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    if (id != null) {
+      setState(() {
+        userID = id;
+      });
+    }
+  }
+
   void confirmPayment() async {
     setState(() {
       loading = true;
     });
 
     TransactionClass newData = TransactionClass(
+      userID,
       (widget.totalItemPrice + 20000).toString(),
       '', //bank
       '', //paymentProof
@@ -108,6 +122,7 @@ class _ShippingScreenState extends State<ShippingScreen>
   @override
   void initState() {
     super.initState();
+    getActiveUser();
     getAllAddress();
     _controller = AnimationController(vsync: this, duration: _duration);
   }
