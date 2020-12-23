@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getActiveUser();
   }
@@ -58,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         body: CustomSplash(
           imagePath: 'assets/images/logo.png',
-          // home: MainScreen(),
           home: available ? MainScreen() : LoginScreen(),
           animationEffect: 'zoom-in',
           duration: 2500,

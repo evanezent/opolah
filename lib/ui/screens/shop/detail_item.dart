@@ -15,6 +15,7 @@ import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
 import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailItem extends StatefulWidget {
   const DetailItem({Key key, this.item}) : super(key: key);
@@ -57,6 +58,17 @@ class _DetailItemState extends State<DetailItem> {
     });
   }
 
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    if (id != null) {
+      setState(() {
+        userID = id;
+      });
+    }
+  }
+
   void buildTypeChooser() {
     List<String> temp = [];
     typeList.forEach((element) {
@@ -71,15 +83,15 @@ class _DetailItemState extends State<DetailItem> {
     });
   }
 
-  void addtoCart() {
-    Cart cart =
-        Cart(widget.item.getID, choosedType, qty.toString(), widget.item);
+  void addtoCart() async {
+    Cart cart = Cart(
+        widget.item.getID, userID, choosedType, qty.toString(), widget.item);
     _cartRepository.addCart(cart);
   }
 
   void checkout() {
-    Cart cart =
-        Cart(widget.item.getID, choosedType, qty.toString(), widget.item);
+    Cart cart = Cart(
+        widget.item.getID, userID, choosedType, qty.toString(), widget.item);
 
     int totalPrice = widget.item.getPrice.toInt() * qty;
 
@@ -98,6 +110,7 @@ class _DetailItemState extends State<DetailItem> {
   List<String> types = [];
   Utils util = Utils();
   List images = [];
+  String userID;
 
   int qty = 0;
   String type;
@@ -109,6 +122,7 @@ class _DetailItemState extends State<DetailItem> {
   @override
   void initState() {
     super.initState();
+    getActiveUser();
     getItemTypes();
     buildCardSlider();
   }
