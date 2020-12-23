@@ -73,7 +73,8 @@ class PorfileHeader extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TransactionScreen()));
+                                  builder: (context) =>
+                                      TransactionScreen(userID: user.id)));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
