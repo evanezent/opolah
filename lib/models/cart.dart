@@ -25,7 +25,7 @@ class Cart {
   Map<String, dynamic> _cartToJson(Cart cart) {
     var map = Map<String, dynamic>();
     map['itemID'] = cart.item.getID;
-    map['userID'] = cart.item.getID;
+    map['userID'] = cart.getUserID;
     map['type'] = cart.getType;
     map['qty'] = cart.getQuantity;
     map['item'] = cart.getItem.toJson();
