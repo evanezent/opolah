@@ -28,9 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     res.then((value) {
       if (value is User) {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MainScreen()));
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
       } else {
         if (value.contains('Password')) {
           setState(() {

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
@@ -98,7 +97,8 @@ class _EditProfileState extends State<EditProfile> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         child: _image == null
                             ? Image.network(
-                                widget.currentUser.image == ""
+                                widget.currentUser.image == "" ||
+                                        widget.currentUser.image == null
                                     ? 'https://www.pngkit.com/png/full/301-3012694_account-user-profile-avatar-comments-fa-user-circle.png'
                                     : widget.currentUser.image,
                                 fit: BoxFit.cover,

@@ -25,7 +25,7 @@ class PorfileHeader extends StatelessWidget {
             height: size.height * 0.5 - 80,
             child: Container(
               child: Image.network(
-                user.image == ""
+                user.image == "" || user.image == null
                     ? 'https://www.pngkit.com/png/full/301-3012694_account-user-profile-avatar-comments-fa-user-circle.png'
                     : user.image,
                 fit: BoxFit.cover,
@@ -89,8 +89,8 @@ class PorfileHeader extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      TransactionScreen(tabIndex: 1)));
+                                  builder: (context) => TransactionScreen(
+                                      tabIndex: 1, userID: user.id)));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
