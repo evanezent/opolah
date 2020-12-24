@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool available;
+  bool available = false;
 
   void getActiveUser() async {
     var prefs = await SharedPreferences.getInstance();
