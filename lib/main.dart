@@ -2,6 +2,9 @@ import 'package:custom_splash/custom_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:opolah/blocs/item/item_bloc.dart';
+import 'package:opolah/blocs/item/item_event.dart';
+import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
 import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,10 +20,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'Barlow'),
-      home: MyHomePage(),
-    );
+    BlocProvider(
+        create: (context) =>
+            ItemBloc(itemRepository: ItemRepository())..add(LoadItems()),
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: 'Barlow'),
+          home: MyHomePage(),
+        ));
   }
 }
 

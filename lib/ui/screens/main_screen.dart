@@ -40,7 +40,6 @@ class _MainScreenState extends State<MainScreen> {
   void buildPage() {
     setState(() {
       pagesList[0] = HomeScreen(listItem: itemList);
-      pagesList[1] = ShopScreen(itemList: itemList);
     });
   }
 
@@ -49,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _currentPageIndex = widget.currentPageIndex;
     pagesList.add(HomeScreen(listItem: itemList));
-    pagesList.add(ShopScreen(itemList: itemList));
+    pagesList.add(ShopScreen());
     pagesList.add(CartScreen());
     pagesList.add(ProfileScreen());
     getShopItem();
