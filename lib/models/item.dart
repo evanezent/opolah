@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Item {
   String name, image, id;
   double price, star;
@@ -64,5 +66,13 @@ class Item {
     this.price = double.parse(map['price']);
     this.image = map['image'];
     this.star = double.parse(map['rating']);
+  }
+
+  Item.fromSnapshot(DocumentSnapshot map) {
+    this.id = map.data()['itemID'];
+    this.name = map.data()['name'];
+    this.price = double.parse(map.data()['price']);
+    this.image = map.data()['image'];
+    this.star = double.parse(map.data()['rating']);
   }
 }
