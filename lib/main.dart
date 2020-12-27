@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    BlocProvider(
+    return BlocProvider(
         create: (context) =>
             ItemBloc(itemRepository: ItemRepository())..add(LoadItems()),
         child: MaterialApp(

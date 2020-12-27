@@ -16,14 +16,14 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
         this._itemRepository = itemRepository,
         super(ItemsLoading());
 
-  Stream mapLoadState() async* {
+  Stream<ItemState> mapLoadState() async* {
     _subscription?.cancel();
     _subscription = _itemRepository.getItems().listen((data) {
       add(ItemsUpdated(data));
     });
   }
 
-  Stream mapUpdatingItems(ItemsUpdated event) async* {
+  Stream<ItemState> mapUpdatingItems(ItemsUpdated event) async* {
     yield ItemsLoaded(event.items);
   }
 
