@@ -3,8 +3,11 @@ import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/blocs/cart/cart_bloc.dart';
+import 'package:opolah/blocs/cart/cart_event.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/cart.dart';
@@ -86,7 +89,8 @@ class _DetailItemState extends State<DetailItem> {
   void addtoCart() async {
     Cart cart = Cart(
         widget.item.getID, userID, choosedType, qty.toString(), widget.item);
-    _cartRepository.addCart(cart);
+    BlocProvider.of<CartBloc>(context).add(AddCart(cart));
+    // _cartRepository.addCart(cart);
   }
 
   void checkout() {

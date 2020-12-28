@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/blocs/cart/cart_bloc.dart';
+import 'package:opolah/blocs/cart/cart_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/repositories/cart_repo.dart';
@@ -191,18 +194,22 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       backgroundColor: Colors.grey[100],
-      body: cartList.length == 0
-          ? Center(
+      body: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          if (state is CartLoading) {
+            return Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.white,
                 valueColor: AlwaysStoppedAnimation(colorPrimary),
               ),
-            )
-          : Container(
-              child: ListView.builder(
-              itemCount: cartList.length,
+            );
+          } else if (state is CartSuccessLoad) {
+            isCheck.fillRange(0, state.cartList.length - 1, false);
+            return Container(
+                child: ListView.builder(
+              itemCount: state.cartList.length,
               itemBuilder: (context, index) => CartItem(
-                item: cartList[index].getItem,
+                item: state.cartList[index].getItem,
                 size: size,
                 isCheck: isCheck[index],
                 qty: counter[index],
@@ -225,7 +232,45 @@ class _CartScreenState extends State<CartScreen> {
                   }
                 },
               ),
-            )),
+            ));
+          }
+        },
+      ),
+      // cartList.length == 0
+      //     ? Center(
+      //         child: CircularProgressIndicator(
+      //           backgroundColor: Colors.white,
+      //           valueColor: AlwaysStoppedAnimation(colorPrimary),
+      //         ),
+      //       )
+      //     : Container(
+      //         child: ListView.builder(
+      //         itemCount: cartList.length,
+      //         itemBuilder: (context, index) => CartItem(
+      //           item: cartList[index].getItem,
+      //           size: size,
+      //           isCheck: isCheck[index],
+      //           qty: counter[index],
+      //           callbackClick: (value) {
+      //             updateTotalEachItem(index, value, price[index]);
+      //           },
+      //           callbackType: (value) {
+      //             print(value);
+      //             updateTotalEachItem(index, 'type', value,
+      //                 optionalValue: price[index]);
+      //           },
+      //           callbackChecked: (value) {
+      //             setState(() {
+      //               isCheck[index] = value;
+      //             });
+      //             if (isCheck[index]) {
+      //               unCheck(index);
+      //             } else {
+      //               updateTotal(totalPerItem, isCheck);
+      //             }
+      //           },
+      //         ),
+      //       )),
       bottomNavigationBar: Container(
         height: 100,
         child: Column(

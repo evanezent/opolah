@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opolah/models/cart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartRepository {
   final CollectionReference cartCollection =
@@ -7,6 +8,13 @@ class CartRepository {
 
   Stream<QuerySnapshot> getAll() {
     return cartCollection.snapshots();
+  }
+
+  Future<String> getUserID() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    return id;
   }
 
   Future<List<Cart>> getAllCart(String id) async {
@@ -39,7 +47,13 @@ class CartRepository {
   }
 
   Stream<List<Cart>> getCarts() {
-    return cartCollection.snapshots().map((value) {
+    String id;
+    getUserID().then((value) => id = value);
+
+    return cartCollection
+        .where("userID", isEqualTo: id)
+        .snapshots()
+        .map((value) {
       return value.docs.map((data) => Cart.fromSnapshot(data)).toList();
     });
   }
