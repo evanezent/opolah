@@ -34,6 +34,16 @@ class CartRepository {
     return cartCollection.add(cart.toJson());
   }
 
+  Future<void> deleteTheCart(Cart cart) {
+    return cartCollection.doc(cart.getID).delete();
+  }
+
+  Stream<List<Cart>> getCarts() {
+    return cartCollection.snapshots().map((value) {
+      return value.docs.map((data) => Cart.fromSnapshot(data)).toList();
+    });
+  }
+
   Future deleteCart(String id) async {
     bool deleted = false;
     await cartCollection

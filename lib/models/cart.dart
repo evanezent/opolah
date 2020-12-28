@@ -44,6 +44,7 @@ class Cart {
   }
 
   Cart.fromSnapshot(DocumentSnapshot map) {
+    this.id = map.id;
     this.item = Item.fromJson(map.data()['item']);
     this.itemID = map.data()['itemID'];
     this.userID = map.data()['userID'];
