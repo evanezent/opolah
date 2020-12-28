@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opolah/models/item.dart';
 
 class Cart {
@@ -40,5 +41,13 @@ class Cart {
     this.userID = map['userID'];
     this.type = map['type'];
     this.qty = map['qty'];
+  }
+
+  Cart.fromSnapshot(DocumentSnapshot map) {
+    this.item = Item.fromJson(map.data()['item']);
+    this.itemID = map.data()['itemID'];
+    this.userID = map.data()['userID'];
+    this.type = map.data()['type'];
+    this.qty = map.data()['qty'];
   }
 }
