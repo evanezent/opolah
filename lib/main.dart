@@ -50,11 +50,11 @@ class MyApp extends StatelessWidget {
                 ..add(LoadCart(userID));
             },
           ),
-          userID != null ??
+         
               BlocProvider<UserBloc>(
                 create: (context) {
-                  return UserBloc(userRepo: DataRepository())
-                    ..add(LoadUser(userID));
+                  return  UserBloc(userRepo: DataRepository())
+                    ..add(userID != null ? LoadUser(userID):InitUser());
                 },
               )
         ],
