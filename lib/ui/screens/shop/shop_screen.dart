@@ -51,6 +51,7 @@ class _ShopScreenState extends State<ShopScreen> {
                           staggeredTileBuilder: (int index) =>
                               new StaggeredTile.fit(1)));
                 }
+                return Container();
               },
             ),
             SearchBar(),

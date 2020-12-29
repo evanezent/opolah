@@ -121,4 +121,10 @@ class DataRepository {
 
     return user;
   }
+
+  Stream<User> loadUser(String id) {
+    return collection.doc(id).snapshots().map((value) {
+      return User.fromSnapshot(value);
+    });
+  }
 }

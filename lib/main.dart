@@ -6,8 +6,11 @@ import 'package:opolah/blocs/cart/cart_bloc.dart';
 import 'package:opolah/blocs/cart/cart_event.dart';
 import 'package:opolah/blocs/item/item_bloc.dart';
 import 'package:opolah/blocs/item/item_event.dart';
+import 'package:opolah/blocs/profile/profile_bloc.dart';
+import 'package:opolah/blocs/profile/profile_event.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
+import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
 import 'package:opolah/ui/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,10 +22,20 @@ void main() async {
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
+  String userID;
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
+
+    userID = id;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    getActiveUser();
     return MultiBlocProvider(
         providers: [
           BlocProvider<ItemBloc>(
@@ -36,7 +49,14 @@ class MyApp extends StatelessWidget {
               return CartBloc(cartRepository: CartRepository())
                 ..add(LoadCart());
             },
-          )
+          ),
+          userID != null ??
+              BlocProvider<UserBloc>(
+                create: (context) {
+                  return UserBloc(userRepo: DataRepository())
+                    ..add(LoadUser(userID));
+                },
+              )
         ],
         child: MaterialApp(
           theme: ThemeData(fontFamily: 'Barlow'),
