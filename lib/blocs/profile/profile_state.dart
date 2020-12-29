@@ -9,7 +9,14 @@ abstract class ProfileState extends Equatable {
 
 class ProfileLoading extends ProfileState {}
 
-class ProfileFailLoad extends ProfileState {}
+class UserFail extends ProfileState {
+  final String msg;
+
+  UserFail({this.msg});
+  List<Object> get props => [msg];
+}
+
+class UserSuccess extends ProfileState {}
 
 class ProfileSuccessLoad extends ProfileState {
   final User profileList;

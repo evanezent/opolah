@@ -16,11 +16,21 @@ class UserBloc extends Bloc<ProfileEvent, ProfileState> {
         super(ProfileLoading());
 
   Stream<ProfileState> mapLogin(LoginUser event) async* {
-    _userRepository.loginUser(event.email, event.password);
+    var res = await _userRepository.loginUser(event.email, event.password);
+    if ((res.contains("Password")) || (res.contains("email"))) {
+      yield UserFail(msg: res);
+    } else {
+      yield UserSuccess();
+    }
   }
 
   Stream<ProfileState> mapRegister(RegisterUser event) async* {
-    _userRepository.registerUser(event.user);
+    var res = await _userRepository.registerUser(event.user);
+    if (res == false) {
+      yield UserFail();
+    } else {
+      yield UserSuccess();
+    }
   }
 
   Stream<ProfileState> mapLoadUser(LoadUser event) async* {

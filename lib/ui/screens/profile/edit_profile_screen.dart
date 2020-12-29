@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:opolah/blocs/profile/profile_bloc.dart';
+import 'package:opolah/blocs/profile/profile_event.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/user.dart';
@@ -228,6 +231,7 @@ class _EditProfileState extends State<EditProfile> {
                         imgUrl,
                         widget.currentUser.password,
                         textPhone.text);
+                    BlocProvider.of<UserBloc>(context).add(UpdateUser(user));
                     var res = await repository.updateUser(user);
 
                     if (res) {
