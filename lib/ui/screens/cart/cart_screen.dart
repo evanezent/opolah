@@ -177,7 +177,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    getActiveUser();
+    // getActiveUser();
   }
 
   @override
@@ -203,22 +203,27 @@ class _CartScreenState extends State<CartScreen> {
               ),
             );
           } else if (state is CartSuccessLoad) {
-            isCheck.fillRange(0, state.cartList.length - 1, false);
             return Container(
                 child: ListView.builder(
               itemCount: state.cartList.length,
               itemBuilder: (context, index) => CartItem(
                 item: state.cartList[index].getItem,
                 size: size,
-                isCheck: isCheck[index],
-                qty: counter[index],
+                isCheck: state.cartList[index].getChoosed,
+                qty: int.parse(state.cartList[index].getQuantity),
                 callbackClick: (value) {
-                  updateTotalEachItem(index, value, price[index]);
+                  updateTotalEachItem(
+                      index,
+                      value,
+                      int.parse(state.cartList[index].getQuantity) *
+                          state.cartList[index].getItem.getPrice.toInt());
                 },
                 callbackType: (value) {
                   print(value);
                   updateTotalEachItem(index, 'type', value,
-                      optionalValue: price[index]);
+                      optionalValue:
+                          int.parse(state.cartList[index].getQuantity) *
+                              state.cartList[index].getItem.getPrice.toInt());
                 },
                 callbackChecked: (value) {
                   setState(() {

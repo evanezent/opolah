@@ -38,7 +38,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   @override
   Stream<CartState> mapEventToState(CartEvent event) async* {
     if (event is LoadCart) {
-      yield* mapLoadState();
+      yield* mapLoadState(event);
     } else if (event is CartUpdated) {
       yield* mapUpdatingCarts(event);
     }

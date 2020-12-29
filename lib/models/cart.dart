@@ -3,6 +3,7 @@ import 'package:opolah/models/item.dart';
 
 class Cart {
   String itemID, type, qty, id, userID;
+  bool choosed;
   Item item;
 
   Cart(this.itemID, this.userID, this.type, this.qty, this.item);
@@ -14,6 +15,7 @@ class Cart {
   String get getType => type;
   String get getQuantity => qty;
   Item get getItem => item;
+  bool get getChoosed => choosed;
 
   void setID(String id) {
     this.id = id;
@@ -41,6 +43,7 @@ class Cart {
     this.userID = map['userID'];
     this.type = map['type'];
     this.qty = map['qty'];
+    this.choosed = false;
   }
 
   Cart.fromSnapshot(DocumentSnapshot map) {
@@ -50,5 +53,6 @@ class Cart {
     this.userID = map.data()['userID'];
     this.type = map.data()['type'];
     this.qty = map.data()['qty'];
+    this.choosed = false;
   }
 }
