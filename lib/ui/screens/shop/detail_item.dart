@@ -8,6 +8,7 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/blocs/cart/cart_bloc.dart';
 import 'package:opolah/blocs/cart/cart_event.dart';
+import 'package:opolah/blocs/cart/cart_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/cart.dart';
@@ -109,7 +110,6 @@ class _DetailItemState extends State<DetailItem> {
   }
 
   ItemTypeRepository _itemTypeRepository = ItemTypeRepository();
-  CartRepository _cartRepository = CartRepository();
   List<ItemType> typeList = [];
   List<String> types = [];
   Utils util = Utils();
@@ -137,250 +137,287 @@ class _DetailItemState extends State<DetailItem> {
         FlutterMoneyFormatter(amount: widget.item.getPrice);
 
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: SafeArea(
-        child: Stack(
-          children: [
-            typeList.length == 0
-                ? Center(
-                    child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(colorPrimary),
-                  ))
-                : Container(
-                    margin: EdgeInsets.only(top: 50),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
+    return BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is SuccessAdd) {
+            util.successToast("Successfully added !");
+          } else if (state is FailAdd) {
+            util.errorToast("Something error when add !");
+          }
+        },
+        child: BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) => Scaffold(
+                  backgroundColor: Colors.grey[200],
+                  body: SafeArea(
+                    child: Stack(
                       children: [
+                        typeList.length == 0
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                                valueColor:
+                                    AlwaysStoppedAnimation(colorPrimary),
+                              ))
+                            : Container(
+                                margin: EdgeInsets.only(top: 50),
+                                child: ListView(
+                                  scrollDirection: Axis.vertical,
+                                  children: [
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20),
+                                      child: Column(
+                                        children: [
+                                          CarouselSlider.builder(
+                                              itemCount: images.length,
+                                              options: CarouselOptions(
+                                                autoPlay: false,
+                                                autoPlayAnimationDuration:
+                                                    Duration(seconds: 2),
+                                                enlargeCenterPage: true,
+                                                viewportFraction: 0.9,
+                                                aspectRatio: 1,
+                                                initialPage: 0,
+                                                onPageChanged: (index, reason) {
+                                                  setState(() {
+                                                    _currentPageIndex =
+                                                        index.toDouble();
+                                                  });
+                                                },
+                                              ),
+                                              itemBuilder: (context, index) =>
+                                                  Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      boxShadow: darkShadow,
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: images[index],
+                                                  )),
+                                          Container(
+                                            child: DotsIndicator(
+                                              dotsCount: images.length,
+                                              position: _currentPageIndex,
+                                              decorator: DotsDecorator(
+                                                size: const Size.square(9.0),
+                                                activeSize:
+                                                    const Size(18.0, 9.0),
+                                                activeColor: colorPrimary,
+                                                activeShape:
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.0)),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Text(
+                                            widget.item.getName,
+                                            style: TextStyle(
+                                                color: colorPrimary,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Text(
+                                            "RP ${fmf.output.nonSymbol}",
+                                            style: TextStyle(
+                                                color: colorSecondary,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                type,
+                                                style: TextStyle(
+                                                    color: Colors.blueGrey[200],
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.all(10),
+                                                child: Container(
+                                                  child: CustomRadioButton(
+                                                    enableButtonWrap: true,
+                                                    unSelectedColor:
+                                                        Colors.white,
+                                                    unSelectedBorderColor:
+                                                        Colors.white,
+                                                    enableShape: true,
+                                                    buttonLables: types,
+                                                    buttonValues: types,
+                                                    radioButtonValue: (value) {
+                                                      setState(() {
+                                                        choosedType = value;
+                                                      });
+                                                    },
+                                                    selectedColor: colorPrimary,
+                                                    selectedBorderColor:
+                                                        colorPrimary,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            "Quantity",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[200],
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Container(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              IconButton(
+                                                  icon: FaIcon(
+                                                    FontAwesomeIcons.minus,
+                                                    size: 15,
+                                                  ),
+                                                  onPressed: () {
+                                                    qty =
+                                                        int.parse(txtQty.text);
+                                                    if (qty > 0)
+                                                      setState(() {
+                                                        qty--;
+                                                        txtQty.value =
+                                                            TextEditingValue(
+                                                                text: qty
+                                                                    .toString());
+                                                      });
+                                                  }),
+                                              SizedBox(
+                                                child: Container(
+                                                  width: 30,
+                                                  child: TextField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    textAlign: TextAlign.center,
+                                                    controller: txtQty,
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .allow(
+                                                              RegExp("[0-9]")),
+                                                    ],
+                                                    decoration: InputDecoration(
+                                                      hintStyle: TextStyle(
+                                                          color: colorPrimary
+                                                              .withOpacity(
+                                                                  0.3)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  icon: FaIcon(
+                                                    FontAwesomeIcons.plus,
+                                                    size: 15,
+                                                  ),
+                                                  onPressed: () {
+                                                    print(txtQty.text);
+                                                    qty =
+                                                        int.parse(txtQty.text);
+                                                    setState(() {
+                                                      qty++;
+                                                      txtQty.value =
+                                                          TextEditingValue(
+                                                              text: qty
+                                                                  .toString());
+                                                    });
+                                                  })
+                                            ],
+                                          ))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Column(
+                          decoration: BoxDecoration(
+                              color: colorPrimary, boxShadow: darkShadow),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Row(
                             children: [
-                              CarouselSlider.builder(
-                                  itemCount: images.length,
-                                  options: CarouselOptions(
-                                    autoPlay: false,
-                                    autoPlayAnimationDuration:
-                                        Duration(seconds: 2),
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 0.9,
-                                    aspectRatio: 1,
-                                    initialPage: 0,
-                                    onPageChanged: (index, reason) {
+                              Expanded(
+                                child: Container(
+                                  height: 40,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 7),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                  ),
+                                  child: TextFormField(
+                                    style: TextStyle(fontSize: 15),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
                                       setState(() {
-                                        _currentPageIndex = index.toDouble();
+                                        qty = int.parse(value);
                                       });
                                     },
-                                  ),
-                                  itemBuilder: (context, index) => Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: darkShadow,
-                                          color: Colors.white,
-                                        ),
-                                        child: images[index],
-                                      )),
-                              Container(
-                                child: DotsIndicator(
-                                  dotsCount: images.length,
-                                  position: _currentPageIndex,
-                                  decorator: DotsDecorator(
-                                    size: const Size.square(9.0),
-                                    activeSize: const Size(18.0, 9.0),
-                                    activeColor: colorPrimary,
-                                    activeShape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0)),
+                                    decoration: InputDecoration(
+                                        errorStyle:
+                                            TextStyle(color: colorSecondary),
+                                        hintText: "Search",
+                                        hintStyle: TextStyle(
+                                            color:
+                                                colorPrimary.withOpacity(0.3)),
+                                        enabledBorder: InputBorder.none,
+                                        focusedBorder: InputBorder.none),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 30),
-                              Text(
-                                widget.item.getName,
-                                style: TextStyle(
-                                    color: colorPrimary,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                "RP ${fmf.output.nonSymbol}",
-                                style: TextStyle(
-                                    color: colorSecondary,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 30),
-                              Column(
-                                children: [
-                                  Text(
-                                    type,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey[200],
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                              IconButton(
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.shoppingCart,
+                                    color: Colors.white,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Container(
-                                      child: CustomRadioButton(
-                                        enableButtonWrap: true,
-                                        unSelectedColor: Colors.white,
-                                        unSelectedBorderColor: Colors.white,
-                                        enableShape: true,
-                                        buttonLables: types,
-                                        buttonValues: types,
-                                        radioButtonValue: (value) {
-                                          setState(() {
-                                            choosedType = value;
-                                          });
-                                        },
-                                        selectedColor: colorPrimary,
-                                        selectedBorderColor: colorPrimary,
-                                      ),
-                                    ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MainScreen(
+                                                currentPageIndex: 2)));
+                                  }),
+                              IconButton(
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.shareAlt,
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ),
-                              Text(
-                                "Quantity",
-                                style: TextStyle(
-                                    color: Colors.blueGrey[200],
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Container(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.minus,
-                                        size: 15,
-                                      ),
-                                      onPressed: () {
-                                        qty = int.parse(txtQty.text);
-                                        if (qty > 0)
-                                          setState(() {
-                                            qty--;
-                                            txtQty.value = TextEditingValue(
-                                                text: qty.toString());
-                                          });
-                                      }),
-                                  SizedBox(
-                                    child: Container(
-                                      width: 30,
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        controller: txtQty,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp("[0-9]")),
-                                        ],
-                                        decoration: InputDecoration(
-                                          hintStyle: TextStyle(
-                                              color: colorPrimary
-                                                  .withOpacity(0.3)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.plus,
-                                        size: 15,
-                                      ),
-                                      onPressed: () {
-                                        print(txtQty.text);
-                                        qty = int.parse(txtQty.text);
-                                        setState(() {
-                                          qty++;
-                                          txtQty.value = TextEditingValue(
-                                              text: qty.toString());
-                                        });
-                                      })
-                                ],
-                              ))
+                                  onPressed: () {})
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-            Container(
-              decoration:
-                  BoxDecoration(color: colorPrimary, boxShadow: darkShadow),
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 7),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 15),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            qty = int.parse(value);
-                          });
-                        },
-                        decoration: InputDecoration(
-                            errorStyle: TextStyle(color: colorSecondary),
-                            hintText: "Search",
-                            hintStyle:
-                                TextStyle(color: colorPrimary.withOpacity(0.3)),
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.shoppingCart,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    MainScreen(currentPageIndex: 2)));
+                  bottomNavigationBar: BottomNavItem(
+                      size: size,
+                      callbackBuy: checkout,
+                      callbackCart: () {
+                        if (qty <= 0) {
+                          util.errorToast("Minimum value is bigger than 0 !");
+                        } else if (choosedType == null) {
+                          util.errorToast("Please choose type !");
+                        } else {
+                          addtoCart();
+                          util.successToast("Added to Cart !");
+                        }
                       }),
-                  IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.shareAlt,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {})
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavItem(
-          size: size,
-          callbackBuy: checkout,
-          callbackCart: () {
-            if (qty <= 0) {
-              util.errorToast("Minimum value is bigger than 0 !");
-            } else if (choosedType == null) {
-              util.errorToast("Please choose type !");
-            } else {
-              addtoCart();
-              util.successToast("Added to Cart !");
-            }
-          }),
-    );
+                )));
+    //
   }
 }

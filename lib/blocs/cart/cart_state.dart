@@ -11,6 +11,9 @@ class CartLoading extends CartState {}
 
 class CartFailLoad extends CartState {}
 
+class FailAdd extends CartState {}
+class SuccessAdd extends CartState {}
+
 class CartSuccessLoad extends CartState {
   final List<Cart> cartList;
 

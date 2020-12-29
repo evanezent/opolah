@@ -31,8 +31,13 @@ class CartRepository {
         .catchError((onError) => print(onError.toString()));
   }
 
-  Future<void> addNewCart(Cart cart) {
-    return cartCollection.add(cart.toJson());
+  Future<bool> addNewCart(Cart cart) async {
+    bool success = true;
+
+    await cartCollection
+        .add(cart.toJson())
+        .catchError((err) => success = false);
+    return success;
   }
 
   Future<void> deleteTheCart(Cart cart) {

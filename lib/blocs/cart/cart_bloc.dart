@@ -28,7 +28,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Stream<CartState> mapAddCart(AddCart event) async* {
-    _cartRepository.addNewCart(event.cart);
+    var res = await _cartRepository.addNewCart(event.cart);
+    if (res) {
+      yield SuccessAdd();
+    } else {
+      yield FailAdd();
+    }
   }
 
   Stream<CartState> mapDeleteCart(DeleteCart event) async* {
@@ -41,6 +46,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       yield* mapLoadState(event);
     } else if (event is CartUpdated) {
       yield* mapUpdatingCarts(event);
+    } else if (event is AddCart) {
+      yield* mapAddCart(event);
+    } else if (event is DeleteCart) {
+      yield* mapDeleteCart(event);
     }
   }
 
