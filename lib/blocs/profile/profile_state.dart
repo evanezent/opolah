@@ -13,7 +13,7 @@ class UserFail extends ProfileState {
   final String msg;
 
   UserFail({this.msg});
-  List<Object> get props => [msg];
+  List<Object> get props => [msg != null ?? msg];
 }
 
 class UserSuccess extends ProfileState {}
