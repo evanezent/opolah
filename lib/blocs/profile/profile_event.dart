@@ -9,7 +9,7 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class initUser extends ProfileEvent{}
+class InitUser extends ProfileEvent {}
 
 class LoadUser extends ProfileEvent {
   final String id;

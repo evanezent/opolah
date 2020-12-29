@@ -50,13 +50,12 @@ class MyApp extends StatelessWidget {
                 ..add(LoadCart(userID));
             },
           ),
-         
-              BlocProvider<UserBloc>(
-                create: (context) {
-                  return  UserBloc(userRepo: DataRepository())
-                    ..add(userID != null ? LoadUser(userID):InitUser());
-                },
-              )
+          BlocProvider<UserBloc>(
+            create: (context) {
+              return UserBloc(userRepo: DataRepository())
+                ..add(userID != null ? LoadUser(userID) : InitUser());
+            },
+          )
         ],
         child: MaterialApp(
           theme: ThemeData(fontFamily: 'Barlow'),

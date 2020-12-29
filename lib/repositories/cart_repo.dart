@@ -10,13 +10,6 @@ class CartRepository {
     return cartCollection.snapshots();
   }
 
-  Future<String> getUserID() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
-
-    return id;
-  }
-
   Future<List<Cart>> getAllCart(String id) async {
     List<Cart> cartList = [];
 

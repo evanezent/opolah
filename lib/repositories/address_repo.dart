@@ -10,7 +10,6 @@ class AddressRepository {
     String iD = null;
 
     await collection.add(newAddress).then((value) {
-      print(value.id);
       iD = value.id;
     }).catchError((err) {
       print(err);

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:opolah/blocs/profile/profile_event.dart';
 import 'package:opolah/blocs/profile/profile_state.dart';
+import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/user_repo.dart';
 
 class UserBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -17,10 +18,10 @@ class UserBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> mapLogin(LoginUser event) async* {
     var res = await _userRepository.loginUser(event.email, event.password);
-    if ((res.contains("Password")) || (res.contains("email"))) {
-      yield UserFail(msg: res);
-    } else {
+    if (res is User) {
       yield UserSuccess();
+    } else {
+      yield UserFail(msg: res);
     }
   }
 
@@ -41,11 +42,21 @@ class UserBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> mapUpdateUser(UpdateUser event) async* {
-    _userRepository.updateUser(event.user);
+    var res = await _userRepository.updateUser(event.user);
+    if (res) {
+      yield UserSuccess();
+    } else {
+      yield UserFail();
+    }
   }
 
   Stream<ProfileState> mapUpdateImage(UpdateImage event) async* {
-    _userRepository.uploadImage(event.image);
+    var res = await _userRepository.uploadImage(event.image);
+    if (res != "") {
+      yield ImageSuccess(res);
+    } else {
+      yield ImageFail();
+    }
   }
 
   Stream<ProfileState> mapUpdatingUserState(UserUpdated event) async* {

@@ -18,6 +18,15 @@ class UserFail extends ProfileState {
 
 class UserSuccess extends ProfileState {}
 
+class ImageSuccess extends ProfileState {
+  final String img;
+
+  ImageSuccess(this.img);
+  List<Object> get props => [img];
+}
+
+class ImageFail extends ProfileState {}
+
 class ProfileSuccessLoad extends ProfileState {
   final User profileList;
 

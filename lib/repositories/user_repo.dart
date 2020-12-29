@@ -98,6 +98,17 @@ class DataRepository {
     return urlRes;
   }
 
+  Future updateImage(String id, String image) async {
+    bool success = false;
+    await collection
+        .doc(id)
+        .update({'image': image})
+        .then((value) => success = true)
+        .catchError((onError) => success = false);
+
+    return success;
+  }
+
   Future updateUser(User user) async {
     bool success = false;
     await collection
