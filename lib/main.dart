@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<CartBloc>(
             create: (context) {
               return CartBloc(cartRepository: CartRepository())
-                ..add(LoadCart());
+                ..add(LoadCart(userID));
             },
           ),
           userID != null ??

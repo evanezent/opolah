@@ -16,9 +16,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         this._cartRepository = cartRepository,
         super(CartLoading());
 
-  Stream<CartState> mapLoadState() async* {
+  Stream<CartState> mapLoadState(LoadCart event) async* {
     _subscription?.cancel();
-    _subscription = _cartRepository.getCarts().listen((data) {
+    _subscription = _cartRepository.getCarts(event.userID).listen((data) {
       add(CartUpdated(data));
     });
   }

@@ -177,7 +177,6 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-
     getActiveUser();
   }
 
@@ -234,6 +233,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ));
           }
+          return Container();
         },
       ),
       // cartList.length == 0

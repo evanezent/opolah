@@ -46,10 +46,7 @@ class CartRepository {
     return cartCollection.doc(cart.getID).delete();
   }
 
-  Stream<List<Cart>> getCarts() {
-    String id;
-    getUserID().then((value) => id = value);
-
+  Stream<List<Cart>> getCarts(String id) {
     return cartCollection
         .where("userID", isEqualTo: id)
         .snapshots()
