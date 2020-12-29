@@ -14,7 +14,6 @@ import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/item-type.dart';
 import 'package:opolah/models/item.dart';
-import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_type_repo.dart';
 import 'package:opolah/ui/components/shop/bottom_nav_item.dart';
 import 'package:opolah/ui/screens/main_screen.dart';

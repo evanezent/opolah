@@ -5,7 +5,6 @@ import 'package:opolah/blocs/profile/profile_bloc.dart';
 import 'package:opolah/blocs/profile/profile_event.dart';
 import 'package:opolah/blocs/profile/profile_state.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/login-register/button_ok.dart';
 import 'package:opolah/ui/components/login-register/change_login_register.dart';

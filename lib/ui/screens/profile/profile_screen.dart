@@ -39,20 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void getActiveUser() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
-
-    var getUser = await _userRepository.getActiveUser(id);
-    if (getUser != null) {
-      setState(() {
-        user = getUser;
-      });
-
-      getAllHistory();
-    }
-  }
-
   @override
   void initState() {
     super.initState();

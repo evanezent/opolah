@@ -20,28 +20,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ItemRepository _itemRepository = ItemRepository();
   List<Widget> pagesList = [];
-  List<Item> itemList = [];
-  List<Cart> cartList = [];
   int _currentPageIndex;
 
-  void getShopItem() async {
-    var data = _itemRepository.getStream();
-
-    await data.then((value) {
-      setState(() {
-        itemList = value;
-      });
-    });
-    buildPage();
-  }
-
-  void buildPage() {
-    setState(() {
-      pagesList[0] = HomeScreen();
-    });
-  }
 
   @override
   void initState() {

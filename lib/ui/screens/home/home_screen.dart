@@ -129,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           openMore: () {},
                         );
                       }
+                      return Container();
                     },
                   ),
                   BlocBuilder<ItemBloc, ItemState>(
@@ -147,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           openMore: () {},
                         );
                       }
+                      return Container();
                     },
                   ),
                 ],

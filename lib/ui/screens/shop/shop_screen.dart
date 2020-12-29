@@ -4,7 +4,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:opolah/blocs/item/item_bloc.dart';
 import 'package:opolah/blocs/item/item_state.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/models/item.dart';
 import 'package:opolah/ui/components/card_item.dart';
 import 'package:opolah/ui/components/home/search_bar.dart';
 

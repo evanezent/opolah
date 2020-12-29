@@ -120,19 +120,6 @@ class DataRepository {
     return success;
   }
 
-  Future<User> getActiveUser(String id) async {
-    User user;
-    await collection.doc(id).get().then((value) {
-      user = User.fromJson(value.data());
-      user.setID(id);
-    }).catchError((onError) {
-      user = null;
-      print(onError.toString());
-    });
-
-    return user;
-  }
-
   Stream<User> loadUser(String id) {
     return collection.doc(id).snapshots().map((value) {
       return User.fromSnapshot(value);

@@ -6,19 +6,6 @@ class ItemRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('item');
 
-  Future<List<Item>> getStream() async {
-    List<Item> itemList = [];
-
-    await collection.get().then((value) {
-      value.docs.forEach((element) {
-        Item item = Item.fromJson(element.data());
-        itemList.add(item);
-      });
-    });
-
-    return itemList;
-  }
-
   Stream<List<Item>> getItems() {
     return collection.snapshots().map((value) {
       return value.docs.map((data) => Item.fromSnapshot(data)).toList();

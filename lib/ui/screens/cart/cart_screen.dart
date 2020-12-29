@@ -27,33 +27,6 @@ class _CartScreenState extends State<CartScreen> {
   String userID;
   int res = 0;
 
-  void getActiveUser() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
-
-    if (id != null) {
-      setState(() {
-        userID = id;
-      });
-    }
-
-    getAllCart();
-  }
-
-  void getAllCart() async {
-    print(userID);
-    var data = await _cartRepository.getAllCart(userID);
-
-    setState(() {
-      cartList = data;
-    });
-    print(cartList.length);
-
-    for (var i = 0; i < cartList.length; i++) {
-      initData(cartList[i]);
-    }
-  }
-
   void initData(Cart cart) {
     setState(() {
       isCheck.add(false);
@@ -177,7 +150,6 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    // getActiveUser();
   }
 
   @override

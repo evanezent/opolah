@@ -11,7 +11,6 @@ import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/user_repo.dart';
-import 'package:opolah/ui/screens/main_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key key, this.currentUser}) : super(key: key);
@@ -34,7 +33,6 @@ class _EditProfileState extends State<EditProfile> {
   File _image;
 
   Utils util = Utils();
-  DataRepository repository = DataRepository();
   String imgUrl;
 
   Future getImage() async {
