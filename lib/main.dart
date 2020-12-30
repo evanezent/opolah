@@ -25,6 +25,7 @@ void main() async {
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   String userID;
   void getActiveUser() async {

@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             setState(() {
               this.loading = false;
             });
-          } else {
+          } else if (state is UserSuccess) {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => MainScreen()));
           }

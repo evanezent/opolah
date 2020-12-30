@@ -69,9 +69,7 @@ class DataRepository {
       return "Email or phone doesn't exists";
     } else {
       if (res.docs[0]['password'] == password) {
-        User user = User.fromJson(res.docs[0].data());
-        user.setID(res.docs[0].id);
-
+        User user = User.fromSnapshot(res.docs[0]);
         prefs.setString("userID", res.docs[0].id);
         return user;
       } else {
