@@ -7,7 +7,6 @@ import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/transaction.dart';
 import 'package:opolah/models/user.dart';
 import 'package:opolah/repositories/transaction_repo.dart';
-import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/components/profile/history_list.dart';
 import 'package:opolah/ui/components/profile/profile_header.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
@@ -24,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   List<TransactionClass> historyList = [];
   TransactionRepository _transactionRepository = TransactionRepository();
-  DataRepository _userRepository = DataRepository();
   User user;
 
   void getAllHistory() async {

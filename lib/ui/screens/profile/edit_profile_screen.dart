@@ -10,7 +10,6 @@ import 'package:opolah/blocs/profile/profile_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/user.dart';
-import 'package:opolah/repositories/user_repo.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key key, this.currentUser}) : super(key: key);

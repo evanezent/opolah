@@ -6,10 +6,8 @@ import 'package:opolah/blocs/cart/cart_bloc.dart';
 import 'package:opolah/blocs/cart/cart_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
-import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -17,7 +15,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  CartRepository _cartRepository = CartRepository();
   List<int> totalPerItem = List<int>();
   List<Cart> cartList = [];
   List<bool> isCheck = [];
