@@ -20,26 +20,22 @@ class DataRepository {
     var resPhone = checkPhone(data.phone);
     final prefs = await SharedPreferences.getInstance();
 
-    bool decision = true;
+    String id = "";
 
     await resEmail.then((value) async {
       await resPhone.then((value2) async {
         if (!value2 && !value) {
           await collection.add(data.toJson(data)).then((value) {
             prefs.setString("userID", value.id);
-
-            decision = true;
+            id = value.id;
           }).catchError((err) {
             print(err);
-            decision = false;
           });
-        } else {
-          decision = false;
         }
       });
     });
 
-    return decision;
+    return id;
   }
 
   Future checkEmail(String email) async {

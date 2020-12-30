@@ -53,8 +53,6 @@ class User {
   // Convert a Note object into a Map object
   Map<String, dynamic> toJson(User data) {
     var map = Map<String, dynamic>();
-
-    map['id'] = data.id;
     map['image'] = data.image;
     map['name'] = data.name;
     map['email'] = data.email;

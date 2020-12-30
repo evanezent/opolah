@@ -72,6 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               this.loading = false;
             });
           } else if (state is UserSuccess) {
+            print(state.userID);
+            // Then go to 'MainScreen'
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => MainScreen()));
           }

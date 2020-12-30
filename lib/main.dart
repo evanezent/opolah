@@ -25,7 +25,6 @@ void main() async {
   runApp(MyApp());
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   String userID;
   void getActiveUser() async {
@@ -56,7 +55,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<UserBloc>(
             create: (context) {
               return UserBloc(userRepo: DataRepository())
-                ..add(userID != null ? LoadUser(userID) : InitUser());
+                ..add(LoadUser(userID));
             },
           ),
           BlocProvider<AddressBloc>(
@@ -67,51 +66,41 @@ class MyApp extends StatelessWidget {
           )
         ],
         child: MaterialApp(
-          theme: ThemeData(fontFamily: 'Barlow'),
-          home: MyHomePage(),
-        ));
+            theme: ThemeData(fontFamily: 'Barlow'),
+            home: CustomSplash(
+              imagePath: 'assets/images/logo.png',
+              home: userID != "" ? MainScreen() : LoginScreen(),
+              animationEffect: 'zoom-in',
+              duration: 2500,
+              type: CustomSplashType.StaticDuration,
+            )));
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({Key key, this.id = ""}) : super(key: key);
 
-class _MyHomePageState extends State<MyHomePage> {
-  bool available = false;
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+//   final String id;
+// }
 
-  void getActiveUser() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
+// class _MyHomePageState extends State<MyHomePage> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
 
-    if (id != null) {
-      setState(() {
-        available = true;
-      });
-    } else {
-      setState(() {
-        available = false;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getActiveUser();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: CustomSplash(
-          imagePath: 'assets/images/logo.png',
-          home: available ? MainScreen() : LoginScreen(),
-          animationEffect: 'zoom-in',
-          duration: 2500,
-          type: CustomSplashType.StaticDuration,
-        ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         backgroundColor: Colors.white,
+//         body: CustomSplash(
+//           imagePath: 'assets/images/logo.png',
+//           home: widget.id != "" ? MainScreen() : LoginScreen(),
+//           animationEffect: 'zoom-in',
+//           duration: 2500,
+//           type: CustomSplashType.StaticDuration,
+//         ));
+//   }
+// }

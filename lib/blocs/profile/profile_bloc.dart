@@ -27,10 +27,14 @@ class UserBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> mapRegister(RegisterUser event) async* {
     var res = await _userRepository.registerUser(event.user);
-    if (res == false) {
+    if (res == "") {
       yield UserFail();
     } else {
-      yield UserSuccess();
+      _subscription?.cancel();
+      _subscription = _userRepository
+          .loadUser(res)
+          .listen((data) => add(UserUpdated(data)));
+      yield UserSuccess(userID: res);
     }
   }
 

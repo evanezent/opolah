@@ -16,7 +16,12 @@ class UserFail extends ProfileState {
   List<Object> get props => [msg != null ?? msg];
 }
 
-class UserSuccess extends ProfileState {}
+class UserSuccess extends ProfileState {
+  final String userID;
+
+  UserSuccess({this.userID});
+  List<Object> get props => [userID != "" ?? userID];
+}
 
 class ImageSuccess extends ProfileState {
   final String img;
