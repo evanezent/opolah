@@ -1,61 +1,49 @@
 import 'package:equatable/equatable.dart';
-import 'package:opolah/models/cart.dart';
+import 'package:opolah/models/address.dart';
 
-abstract class CartEvent extends Equatable {
-  const CartEvent();
+abstract class AddressEvent extends Equatable {
+  const AddressEvent();
 
   List<Object> get props => [];
 }
 
-class LoadCart extends CartEvent {
+class LoadAddress extends AddressEvent {
   final String userID;
 
-  LoadCart(this.userID);
+  LoadAddress(this.userID);
   @override
   List<Object> get props => [userID];
 }
 
-class UpdateCart extends CartEvent {
-  final List<Cart> cart;
+class AddNewAddress extends AddressEvent {
+  final Address address;
 
-  const UpdateCart(this.cart);
-
-  @override
-  List<Object> get props => [cart];
+  const AddNewAddress(this.address);
 
   @override
-  String toString() => 'Update Cart { cart: $cart }';
+  List<Object> get props => [address];
+
+  @override
+  String toString() => 'Add address { address: $address }';
 }
 
-class AddCart extends CartEvent {
-  final Cart cart;
+class DeleteAddress extends AddressEvent {
+  final Address address;
 
-  const AddCart(this.cart);
-
-  @override
-  List<Object> get props => [cart];
+  const DeleteAddress(this.address);
 
   @override
-  String toString() => 'Add Cart { cart: $cart }';
+  List<Object> get props => [address];
+
+  @override
+  String toString() => 'Delete Cart { cart: $address }';
 }
 
-class DeleteCart extends CartEvent {
-  final Cart cart;
+class AddressUpdated extends AddressEvent {
+  final List<Address> address;
 
-  const DeleteCart(this.cart);
-
-  @override
-  List<Object> get props => [cart];
+  const AddressUpdated(this.address);
 
   @override
-  String toString() => 'Delete Cart { cart: $cart }';
-}
-
-class CartUpdated extends CartEvent {
-  final List<Cart> cart;
-
-  const CartUpdated(this.cart);
-
-  @override
-  List<Object> get props => [cart];
+  List<Object> get props => [address];
 }

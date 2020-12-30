@@ -90,7 +90,6 @@ class _DetailItemState extends State<DetailItem> {
     Cart cart = Cart(
         widget.item.getID, userID, choosedType, qty.toString(), widget.item);
     BlocProvider.of<CartBloc>(context).add(AddCart(cart));
-    // _cartRepository.addCart(cart);
   }
 
   void checkout() {

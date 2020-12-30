@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/blocs/address/address_bloc.dart';
+import 'package:opolah/blocs/address/address_event.dart';
+import 'package:opolah/blocs/address/address_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/constant/utils.dart';
 import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
 import 'package:opolah/models/transaction.dart';
-import 'package:opolah/repositories/address_repo.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/components/bottom_nav_button.dart';
@@ -43,25 +46,16 @@ class _ShippingScreenState extends State<ShippingScreen>
   TextEditingController textAddress = new TextEditingController();
   TextEditingController textPhone = new TextEditingController();
   TextEditingController textName = new TextEditingController();
-  AddressRepository _addressRepository = AddressRepository();
   Duration _duration = Duration(milliseconds: 500);
   AnimationController _controller;
-  List<Address> addressList = [];
   bool loading = false;
   Utils util = Utils();
   int choosedAddress;
+  Address address;
   String userID;
 
   TransactionRepository _transactionRepository = TransactionRepository();
   CartRepository _cartRepository = CartRepository();
-
-  void getAllAddress() async {
-    var data = await _addressRepository.getStream();
-    setState(() {
-      addressList = data;
-      choosedAddress = 0;
-    });
-  }
 
   Future<bool> deleteCarts() async {
     bool isDeleted = false;
@@ -86,6 +80,16 @@ class _ShippingScreenState extends State<ShippingScreen>
     }
   }
 
+  void addNewAddress() async {
+    Address newAddress = Address(
+        userID: userID,
+        receiver: textName.text,
+        phone: textPhone.text,
+        address: textAddress.text);
+
+    BlocProvider.of<AddressBloc>(context).add(AddNewAddress(newAddress));
+  }
+
   void confirmPayment() async {
     setState(() {
       loading = true;
@@ -96,7 +100,7 @@ class _ShippingScreenState extends State<ShippingScreen>
       (widget.totalItemPrice + 20000).toString(),
       '', //bank
       '', //paymentProof
-      addressList[choosedAddress],
+      address,
       widget.choosen,
       '20000',
       '', //date
@@ -123,7 +127,6 @@ class _ShippingScreenState extends State<ShippingScreen>
   void initState() {
     super.initState();
     getActiveUser();
-    getAllAddress();
     _controller = AnimationController(vsync: this, duration: _duration);
   }
 
@@ -216,39 +219,62 @@ class _ShippingScreenState extends State<ShippingScreen>
                                                       FontAwesomeIcons.plus,
                                                       color: Colors.white)),
                                             ))),
-                                addressList.length == 0
-                                    ? Center(
-                                        child: CircularProgressIndicator(
-                                          backgroundColor: Colors.white,
-                                          valueColor: AlwaysStoppedAnimation(
-                                              colorPrimary),
-                                        ),
-                                      )
-                                    : Container(
-                                        color: Colors.white,
-                                        width: size.width * 0.65,
-                                        height: 140,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: addressList.length,
-                                          itemBuilder: (context, index) =>
-                                              AddressCard(
-                                                  size: size,
-                                                  name: addressList[index]
-                                                      .getReceiver,
-                                                  phone: addressList[index]
-                                                      .getPhone,
-                                                  address: addressList[index]
-                                                      .getAddress,
-                                                  choose:
-                                                      choosedAddress == index,
-                                                  onChoose: () {
-                                                    setState(() {
-                                                      choosedAddress = index;
-                                                    });
-                                                  }),
-                                        ),
-                                      ),
+                                BlocListener<AddressBloc, AddressState>(
+                                  listener: (context, state) {
+                                    if (state is SuccessAdd) {
+                                      util.successToast("Successfully Added !");
+                                      _controller.reverse();
+                                    } else if (state is FailAdd) {
+                                      util.errorToast(
+                                          "Something Wrong when Added !");
+                                    }
+                                  },
+                                  child: BlocBuilder<AddressBloc, AddressState>(
+                                    builder: (context, state) {
+                                      if (state is AddressLoading) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: Colors.white,
+                                            valueColor: AlwaysStoppedAnimation(
+                                                colorPrimary),
+                                          ),
+                                        );
+                                      } else if (state is AddressSuccessLoad) {
+                                        return Container(
+                                          color: Colors.white,
+                                          width: size.width * 0.65,
+                                          height: 140,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: state.addressList.length,
+                                            itemBuilder: (context, index) =>
+                                                AddressCard(
+                                                    size: size,
+                                                    name: state
+                                                        .addressList[index]
+                                                        .getReceiver,
+                                                    phone: state
+                                                        .addressList[index]
+                                                        .getPhone,
+                                                    address: state
+                                                        .addressList[index]
+                                                        .getAddress,
+                                                    choose:
+                                                        choosedAddress == index,
+                                                    onChoose: () {
+                                                      setState(() {
+                                                        choosedAddress = index;
+                                                        address = state
+                                                            .addressList[index];
+                                                      });
+                                                    }),
+                                          ),
+                                        );
+                                      }
+                                      return Container();
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -513,28 +539,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     color: Colors.white,
-                                    onPressed: () async {
-                                      Address newAddress = Address(
-                                          receiver: textName.text,
-                                          phone: textPhone.text,
-                                          address: textAddress.text);
-
-                                      var id = await _addressRepository
-                                          .addAddress(newAddress);
-
-                                      if (id == null) {
-                                        util.errorToast(
-                                            "Something Wrong when Added !");
-                                      } else {
-                                        util.successToast(
-                                            "Successfully Added !");
-                                        _controller.reverse();
-                                        newAddress.setID(id);
-                                        setState(() {
-                                          addressList.add(newAddress);
-                                        });
-                                      }
-                                    },
+                                    onPressed: addNewAddress,
                                     child: Container(
                                       width: 150,
                                       child: Center(

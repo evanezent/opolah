@@ -2,12 +2,15 @@ import 'package:custom_splash/custom_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:opolah/blocs/address/address_bloc.dart';
+import 'package:opolah/blocs/address/address_event.dart';
 import 'package:opolah/blocs/cart/cart_bloc.dart';
 import 'package:opolah/blocs/cart/cart_event.dart';
 import 'package:opolah/blocs/item/item_bloc.dart';
 import 'package:opolah/blocs/item/item_event.dart';
 import 'package:opolah/blocs/profile/profile_bloc.dart';
 import 'package:opolah/blocs/profile/profile_event.dart';
+import 'package:opolah/repositories/address_repo.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
 import 'package:opolah/repositories/user_repo.dart';
@@ -54,6 +57,12 @@ class MyApp extends StatelessWidget {
             create: (context) {
               return UserBloc(userRepo: DataRepository())
                 ..add(userID != null ? LoadUser(userID) : InitUser());
+            },
+          ),
+          BlocProvider<AddressBloc>(
+            create: (context) {
+              return AddressBloc(addressRepository: AddressRepository())
+                ..add(LoadAddress(userID));
             },
           )
         ],
