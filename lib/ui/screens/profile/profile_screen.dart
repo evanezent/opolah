@@ -114,68 +114,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
             return Container();
           },
-        )
-        // user == null
-        //     ? Center(
-        //         child: CircularProgressIndicator(
-        //           backgroundColor: Colors.white,
-        //           valueColor: AlwaysStoppedAnimation(colorPrimary),
-        //         ),
-        //       )
-        //     : Stack(
-        //         children: [
-        //           Container(
-        //             child: SingleChildScrollView(
-        //               scrollDirection: Axis.vertical,
-        //               child: Column(
-        //                 children: [
-        //                   PorfileHeader(size: size, user: user),
-        //                   SizedBox(height: 50),
-        //                   HistoryList(
-        //                     size: size,
-        //                     historyList: historyList,
-        //                   )
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //           Container(
-        //             child: CircularMenu(
-        //               toggleButtonColor: colorPrimary,
-        //               alignment: Alignment.bottomRight,
-        //               startingAngleInRadian: 3.35,
-        //               endingAngleInRadian: 4.35,
-        //               items: [
-        //                 CircularMenuItem(
-        //                   icon: Icons.logout,
-        //                   onTap: () async {
-        //                     final prefs = await SharedPreferences.getInstance();
-        //                     prefs.remove('userID');
-        //                     Navigator.pushReplacement(
-        //                         context,
-        //                         MaterialPageRoute(
-        //                             builder: (context) => LoginScreen()));
-        //                   },
-        //                   color: colorSecondary,
-        //                   iconColor: Colors.white,
-        //                 ),
-        //                 CircularMenuItem(
-        //                   icon: Icons.settings,
-        //                   onTap: () {
-        //                     Navigator.push(
-        //                         context,
-        //                         MaterialPageRoute(
-        //                             builder: (context) =>
-        //                                 EditProfile(currentUser: user)));
-        //                   },
-        //                   color: colorPrimary,
-        //                   iconColor: Colors.white,
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        );
+        ));
   }
 }
