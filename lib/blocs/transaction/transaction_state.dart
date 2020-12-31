@@ -1,0 +1,29 @@
+import 'package:equatable/equatable.dart';
+import 'package:opolah/models/transaction.dart';
+
+abstract class TransactionState extends Equatable {
+  const TransactionState();
+
+  List<Object> get props => [];
+}
+
+class TransactionLoading extends TransactionState {}
+
+class TransactionFailLoad extends TransactionState {}
+
+class FailAdd extends TransactionState {}
+
+class SuccessAdd extends TransactionState {}
+
+class TransactionSuccessLoad extends TransactionState {
+  final List<TransactionClass> transctionList;
+
+  TransactionSuccessLoad(this.transctionList);
+
+  List<Object> get props => [transctionList];
+
+  @override
+  String toString() {
+    return 'Data : { Transaction List: $transctionList }';
+  }
+}

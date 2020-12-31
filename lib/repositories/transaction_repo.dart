@@ -11,6 +11,14 @@ class TransactionRepository {
       FirebaseFirestore.instance.collection('transaction');
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
+  Stream<List<TransactionClass>> getTransactions(String id) {
+    return collection.where("userID", isEqualTo: id).snapshots().map((value) {
+      return value.docs
+          .map((data) => TransactionClass.fromSnapshot(data))
+          .toList();
+    });
+  }
+
   Future<List<TransactionClass>> getStream(String id) async {
     List<TransactionClass> transactionList = [];
 
