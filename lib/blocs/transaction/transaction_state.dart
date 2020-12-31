@@ -13,7 +13,12 @@ class TransactionFailLoad extends TransactionState {}
 
 class TransactionFail extends TransactionState {}
 
-class TransactionSuccess extends TransactionState {}
+class TransactionSuccess extends TransactionState {
+  final String id;
+
+  TransactionSuccess({this.id});
+  List<Object> get props => [id];
+}
 
 class SuccessUpload extends TransactionState {
   final String imgUrl;

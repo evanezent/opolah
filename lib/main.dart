@@ -10,9 +10,12 @@ import 'package:opolah/blocs/item/item_bloc.dart';
 import 'package:opolah/blocs/item/item_event.dart';
 import 'package:opolah/blocs/profile/profile_bloc.dart';
 import 'package:opolah/blocs/profile/profile_event.dart';
+import 'package:opolah/blocs/transaction/transaction_bloc.dart';
+import 'package:opolah/blocs/transaction/transaction_event.dart';
 import 'package:opolah/repositories/address_repo.dart';
 import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/repositories/item_repo.dart';
+import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/repositories/user_repo.dart';
 import 'package:opolah/ui/screens/login/login_screen.dart';
 import 'package:opolah/ui/screens/main_screen.dart';
@@ -63,6 +66,13 @@ class MyApp extends StatelessWidget {
             create: (context) {
               return AddressBloc(addressRepository: AddressRepository())
                 ..add(LoadAddress(userID));
+            },
+          ),
+          BlocProvider<TransactionBloc>(
+            create: (context) {
+              return TransactionBloc(
+                  transactionRepository: TransactionRepository())
+                ..add(LoadTransaction(userID));
             },
           )
         ],
