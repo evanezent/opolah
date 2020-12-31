@@ -27,9 +27,29 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   Stream<TransactionState> mapAddTransaction(AddTransaction event) async* {
     var res = await _transactionRepository.addTransaction(event.transaction);
     if (res != "") {
-      yield SuccessAdd();
+      yield TransactionSuccess();
     } else {
-      yield FailAdd();
+      yield TransactionFail();
+    }
+  }
+
+  Stream<TransactionState> mapUploadPayment(UploadPayment event) async* {
+    var res = await _transactionRepository.uploadPaymentProof(event.image);
+    if (res != "") {
+      yield SuccessUpload(res);
+    } else {
+      yield FailUpload();
+    }
+  }
+
+  Stream<TransactionState> mapUpdateTranscation(
+      UpdateTransaction event) async* {
+    var res = await _transactionRepository.updateTransaction(
+        event.id, event.imgUrl, event.bank);
+    if (res) {
+      yield TransactionSuccess();
+    } else {
+      yield TransactionFail();
     }
   }
 
@@ -46,6 +66,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       yield* mapUpdatingTransaction(event);
     } else if (event is AddTransaction) {
       yield* mapAddTransaction(event);
+    } else if (event is UpdateTransaction) {
+      yield* mapUpdateTranscation(event);
+    } else if (event is UploadPayment) {
+      yield* mapUploadPayment(event);
     }
   }
 

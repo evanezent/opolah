@@ -11,9 +11,19 @@ class TransactionLoading extends TransactionState {}
 
 class TransactionFailLoad extends TransactionState {}
 
-class FailAdd extends TransactionState {}
+class TransactionFail extends TransactionState {}
 
-class SuccessAdd extends TransactionState {}
+class TransactionSuccess extends TransactionState {}
+
+class SuccessUpload extends TransactionState {
+  final String imgUrl;
+
+  SuccessUpload(this.imgUrl);
+
+  List<Object> get props => [imgUrl];
+}
+
+class FailUpload extends TransactionState {}
 
 class TransactionSuccessLoad extends TransactionState {
   final List<TransactionClass> transctionList;

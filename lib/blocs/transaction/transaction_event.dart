@@ -42,12 +42,12 @@ class UploadPayment extends TransactionEvent {
 }
 
 class UpdateTransaction extends TransactionEvent {
-  final TransactionClass transaction;
+  final String id, imgUrl, bank;
 
-  const UpdateTransaction(this.transaction);
+  const UpdateTransaction(this.id, this.imgUrl, this.bank);
 
   @override
-  List<Object> get props => [transaction];
+  List<Object> get props => [this.id, this.imgUrl, this.bank];
 }
 
 class TransactionUpdated extends TransactionEvent {
