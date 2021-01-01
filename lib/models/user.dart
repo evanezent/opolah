@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   String _id, _name, _email, _phone, _password, _image;
-  // int id, price, star;
-  // DateTime date;
 
   User(this._name, this._email, this._password, this._phone);
   User.withId(this._id, this._name, this._email, this._image, this._password,
@@ -53,8 +53,6 @@ class User {
   // Convert a Note object into a Map object
   Map<String, dynamic> toJson(User data) {
     var map = Map<String, dynamic>();
-
-    map['id'] = data.id;
     map['image'] = data.image;
     map['name'] = data.name;
     map['email'] = data.email;
@@ -70,5 +68,14 @@ class User {
     this._password = map['password'];
     this._phone = map['phone'];
     this._image = map['image'];
+  }
+
+  User.fromSnapshot(DocumentSnapshot map) {
+    this._id = map.id;
+    this._name = map.data()['name'];
+    this._email = map.data()['email'];
+    this._password = map.data()['password'];
+    this._phone = map.data()['phone'];
+    this._image = map.data()['image'];
   }
 }

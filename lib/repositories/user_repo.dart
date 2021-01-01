@@ -11,35 +11,27 @@ class DataRepository {
       FirebaseFirestore.instance.collection('user');
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Stream<QuerySnapshot> getStream() {
-    return collection.snapshots();
-  }
-
   Future registerUser(User data) async {
     var resEmail = checkEmail(data.email);
     var resPhone = checkPhone(data.phone);
     final prefs = await SharedPreferences.getInstance();
 
-    bool decision = true;
+    String id = "";
 
     await resEmail.then((value) async {
       await resPhone.then((value2) async {
         if (!value2 && !value) {
           await collection.add(data.toJson(data)).then((value) {
             prefs.setString("userID", value.id);
-
-            decision = true;
+            id = value.id;
           }).catchError((err) {
             print(err);
-            decision = false;
           });
-        } else {
-          decision = false;
         }
       });
     });
 
-    return decision;
+    return id;
   }
 
   Future checkEmail(String email) async {
@@ -73,9 +65,7 @@ class DataRepository {
       return "Email or phone doesn't exists";
     } else {
       if (res.docs[0]['password'] == password) {
-        User user = User.fromJson(res.docs[0].data());
-        user.setID(res.docs[0].id);
-
+        User user = User.fromSnapshot(res.docs[0]);
         prefs.setString("userID", res.docs[0].id);
         return user;
       } else {
@@ -98,6 +88,17 @@ class DataRepository {
     return urlRes;
   }
 
+  Future updateImage(String id, String image) async {
+    bool success = false;
+    await collection
+        .doc(id)
+        .update({'image': image})
+        .then((value) => success = true)
+        .catchError((onError) => success = false);
+
+    return success;
+  }
+
   Future updateUser(User user) async {
     bool success = false;
     await collection
@@ -109,16 +110,9 @@ class DataRepository {
     return success;
   }
 
-  Future<User> getActiveUser(String id) async {
-    User user;
-    await collection.doc(id).get().then((value) {
-      user = User.fromJson(value.data());
-      user.setID(id);
-    }).catchError((onError) {
-      user = null;
-      print(onError.toString());
+  Stream<User> loadUser(String id) {
+    return collection.doc(id).snapshots().map((value) {
+      return User.fromSnapshot(value);
     });
-
-    return user;
   }
 }

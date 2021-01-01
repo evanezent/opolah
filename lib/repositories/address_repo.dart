@@ -7,30 +7,21 @@ class AddressRepository {
 
   Future addAddress(Address data) async {
     var newAddress = data.toJson();
-    String iD = null;
+    String iD = "";
 
     await collection.add(newAddress).then((value) {
-      print(value.id);
       iD = value.id;
     }).catchError((err) {
       print(err);
-      return null;
+      return "";
     });
 
     return iD;
   }
 
-  Future<List<Address>> getStream() async {
-    List<Address> addressList = [];
-
-    await collection.get().then((value) {
-      value.docs.forEach((element) {
-        Address address = Address.fromJson(element.data());
-        address.setID(element.id);
-        addressList.add(address);
-      });
+  Stream<List<Address>> getStream(String id) {
+    return collection.where("userID", isEqualTo: id).snapshots().map((value) {
+      return value.docs.map((data) => Address.fromSnapshot(data)).toList();
     });
-
-    return addressList;
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/blocs/cart/cart_bloc.dart';
+import 'package:opolah/blocs/cart/cart_state.dart';
 import 'package:opolah/constant/constans.dart';
 import 'package:opolah/models/cart.dart';
-import 'package:opolah/repositories/cart_repo.dart';
 import 'package:opolah/ui/components/cart/cart_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  CartRepository _cartRepository = CartRepository();
   List<int> totalPerItem = List<int>();
   List<Cart> cartList = [];
   List<bool> isCheck = [];
@@ -24,31 +24,15 @@ class _CartScreenState extends State<CartScreen> {
   String userID;
   int res = 0;
 
-  void getActiveUser() async {
-    var prefs = await SharedPreferences.getInstance();
-    String id = prefs.getString("userID");
-
-    if (id != null) {
-      setState(() {
-        userID = id;
-      });
-    }
-
-    getAllCart();
-  }
-
-  void getAllCart() async {
-    print(userID);
-    var data = await _cartRepository.getAllCart(userID);
-
+  void resetData(List<Cart> carts) {
     setState(() {
-      cartList = data;
+      cartList = carts;
+      isCheck = [];
+      counter = [];
+      price = [];
+      totalPerItem = [];
+      allCheck = false;
     });
-    print(cartList.length);
-
-    for (var i = 0; i < cartList.length; i++) {
-      initData(cartList[i]);
-    }
   }
 
   void initData(Cart cart) {
@@ -174,125 +158,141 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-
-    getActiveUser();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          "MY CART",
-          style: TextStyle(color: colorPrimary, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: Colors.grey[100],
-      body: cartList.length == 0
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-                valueColor: AlwaysStoppedAnimation(colorPrimary),
-              ),
-            )
-          : Container(
-              child: ListView.builder(
-              itemCount: cartList.length,
-              itemBuilder: (context, index) => CartItem(
-                item: cartList[index].getItem,
-                size: size,
-                isCheck: isCheck[index],
-                qty: counter[index],
-                callbackClick: (value) {
-                  updateTotalEachItem(index, value, price[index]);
-                },
-                callbackType: (value) {
-                  print(value);
-                  updateTotalEachItem(index, 'type', value,
-                      optionalValue: price[index]);
-                },
-                callbackChecked: (value) {
-                  setState(() {
-                    isCheck[index] = value;
-                  });
-                  if (isCheck[index]) {
-                    unCheck(index);
-                  } else {
-                    updateTotal(totalPerItem, isCheck);
-                  }
-                },
-              ),
-            )),
-      bottomNavigationBar: Container(
-        height: 100,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Checkbox(
-                          value: allCheck,
-                          activeColor: colorPrimary,
-                          checkColor: Colors.white,
-                          onChanged: (value) {
-                            setState(() {
-                              allCheck = value;
-                            });
-                            isCheckedAll(value);
-                          }),
-                      Text(
-                        'Choose all item',
-                        style: TextStyle(
-                            color: colorPrimary,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
+    return BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is CartSuccessLoad) {
+            resetData(state.cartList);
+            for (var item in state.cartList) {
+              initData(item);
+            }
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            title: Text(
+              "MY CART",
+              style:
+                  TextStyle(color: colorPrimary, fontWeight: FontWeight.bold),
+            ),
+          ),
+          backgroundColor: Colors.grey[100],
+          body: BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              if (state is CartLoading) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation(colorPrimary),
                   ),
-                ),
-                Container(
-                    child: IconButton(
-                  icon: FaIcon(FontAwesomeIcons.trash, color: colorSecondary),
-                  onPressed: () {},
-                ))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                );
+              } else if (state is CartSuccessLoad) {
+                return Container(
+                    child: ListView.builder(
+                  itemCount: state.cartList.length,
+                  itemBuilder: (context, index) => CartItem(
+                    item: state.cartList[index].getItem,
+                    size: size,
+                    isCheck: isCheck[index],
+                    qty: counter[index],
+                    callbackClick: (value) {
+                      updateTotalEachItem(index, value, price[index]);
+                    },
+                    callbackType: (value) {
+                      print(value);
+                      updateTotalEachItem(index, 'type', value,
+                          optionalValue: price[index]);
+                    },
+                    callbackChecked: (value) {
+                      setState(() {
+                        isCheck[index] = value;
+                      });
+                      if (isCheck[index]) {
+                        unCheck(index);
+                      } else {
+                        updateTotal(totalPerItem, isCheck);
+                      }
+                    },
+                  ),
+                ));
+              }
+              return Container();
+            },
+          ),
+          bottomNavigationBar: Container(
+            height: 100,
+            child: Column(
               children: [
-                Container(
-                    child: Center(
-                        child: Text(
-                  'Rp ${FlutterMoneyFormatter(amount: res.toDouble()).output.nonSymbol}',
-                  style: TextStyle(
-                      color: colorSecondary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ))),
-                RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: colorPrimary,
-                    onPressed: checkout,
-                    child: Text(
-                      'Checkout',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                              value: allCheck,
+                              activeColor: colorPrimary,
+                              checkColor: Colors.white,
+                              onChanged: (value) {
+                                setState(() {
+                                  allCheck = value;
+                                });
+                                isCheckedAll(value);
+                              }),
+                          Text(
+                            'Choose all item',
+                            style: TextStyle(
+                                color: colorPrimary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                        child: IconButton(
+                      icon:
+                          FaIcon(FontAwesomeIcons.trash, color: colorSecondary),
+                      onPressed: () {},
                     ))
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                        child: Center(
+                            child: Text(
+                      'Rp ${FlutterMoneyFormatter(amount: res.toDouble()).output.nonSymbol}',
+                      style: TextStyle(
+                          color: colorSecondary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ))),
+                    RaisedButton(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        color: colorPrimary,
+                        onPressed: checkout,
+                        child: Text(
+                          'Checkout',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opolah/models/address.dart';
 import 'package:opolah/models/cart.dart';
 
@@ -65,6 +66,19 @@ class TransactionClass {
     this.shippingCost = map['cost'];
     this.paymentProof = map['proof'];
     this.carts = _convertCarts(map['carts']);
+  }
+
+  TransactionClass.fromSnapshot(DocumentSnapshot map) {
+    this.address = Address.fromJson(map.data()['addres']);
+    this.id = map.id;
+    this.bank = map.data()['bank'];
+    this.userID = map.data()['userID'];
+    this.total = map.data()['total'];
+    this.done = map.data()['done'];
+    this.date = map.data()['date'];
+    this.shippingCost = map.data()['cost'];
+    this.paymentProof = map.data()['proof'];
+    this.carts = _convertCarts(map.data()['carts']);
   }
 
   List<Cart> _convertCarts(List cartMap) {

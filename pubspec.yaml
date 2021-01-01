@@ -47,6 +47,8 @@ dependencies:
   intl:
   circular_menu:
   shared_preferences:
+  flutter_bloc:
+  equatable:
   
 dev_dependencies:
   flutter_test:

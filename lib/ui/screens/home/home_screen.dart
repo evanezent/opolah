@@ -1,17 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:opolah/models/item.dart';
+import 'package:opolah/blocs/item/item_bloc.dart';
+import 'package:opolah/blocs/item/item_state.dart';
+import 'package:opolah/constant/constans.dart';
 import 'package:opolah/ui/components/card_icon.dart';
 import 'package:opolah/ui/components/home/search_bar.dart';
 import 'package:opolah/ui/components/home/slider_item.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key, this.listItem}) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
-  final List<Item> listItem;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -113,18 +113,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  SliderItem(
-                    size: size,
-                    title: "Newcomer",
-                    listItem: widget.listItem,
-                    openMore: () {},
+                  BlocBuilder<ItemBloc, ItemState>(
+                    builder: (context, state) {
+                      if (state is ItemsLoading) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor: AlwaysStoppedAnimation(colorPrimary),
+                        ));
+                      } else if (state is ItemsLoaded) {
+                        return SliderItem(
+                          size: size,
+                          title: "Newcomer",
+                          listItem: state.itemList,
+                          openMore: () {},
+                        );
+                      }
+                      return Container();
+                    },
                   ),
-                  SliderItem(
-                    size: size,
-                    title: "Popular",
-                    listItem: widget.listItem,
-                    openMore: () {},
-                  )
+                  BlocBuilder<ItemBloc, ItemState>(
+                    builder: (context, state) {
+                      if (state is ItemsLoading) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor: AlwaysStoppedAnimation(colorPrimary),
+                        ));
+                      } else if (state is ItemsLoaded) {
+                        return SliderItem(
+                          size: size,
+                          title: "Popular",
+                          listItem: state.itemList,
+                          openMore: () {},
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
                 ],
               ),
             ),

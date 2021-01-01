@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/models/transaction.dart';
-import 'package:opolah/repositories/transaction_repo.dart';
 import 'package:opolah/ui/screens/profile/delivery_list_screen.dart';
 import 'package:opolah/ui/screens/profile/history_list_screen.dart';
 import 'package:opolah/ui/screens/profile/payment_list_screen.dart';
@@ -37,35 +35,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
     )
   ];
 
-  List<TransactionClass> transactionList = [];
-  List<TransactionClass> deliveryList = [];
-  List<TransactionClass> historyList = [];
-
-  TransactionRepository _transactionRepository = TransactionRepository();
-  void getAllTransaction() async {
-    var data = await _transactionRepository.getStream(widget.userID);
-
-    for (var transaction in data) {
-      if (transaction.getProof == "") {
-        setState(() {
-          transactionList.add(transaction);
-        });
-      } else if (transaction.getStatus == false) {
-        setState(() {
-          deliveryList.add(transaction);
-        });
-      } else if (transaction.getStatus) {
-        setState(() {
-          historyList.add(transaction);
-        });
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    getAllTransaction();
   }
 
   @override
@@ -82,9 +54,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
         ),
         body: TabBarView(
           children: [
-            PaymentList(transactionList: transactionList),
-            DeliveryList(deliveryList: deliveryList),
-            HistoryList(historyList: historyList)
+            PaymentList(),
+            DeliveryList(),
+            HistoryList()
           ],
         ),
       ),

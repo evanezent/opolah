@@ -11,19 +11,12 @@ class TransactionRepository {
       FirebaseFirestore.instance.collection('transaction');
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Future<List<TransactionClass>> getStream(String id) async {
-    List<TransactionClass> transactionList = [];
-
-    await collection.where("userID", isEqualTo: id).get().then((value) {
-      value.docs.forEach((element) {
-        TransactionClass transaction =
-            TransactionClass.fromJson(element.data());
-        transaction.setID(element.id);
-        transactionList.add(transaction);
-      });
+  Stream<List<TransactionClass>> getTransactions(String id) {
+    return collection.where("userID", isEqualTo: id).snapshots().map((value) {
+      return value.docs
+          .map((data) => TransactionClass.fromSnapshot(data))
+          .toList();
     });
-
-    return transactionList;
   }
 
   Future addTransaction(TransactionClass data) async {
@@ -33,11 +26,6 @@ class TransactionRepository {
     }).catchError((onError) => print(onError.toString()));
 
     return iD;
-  }
-
-  Future<Map> getItem(String id) async {
-    var res = await collection.where('itemID', isEqualTo: id).get();
-    return res.docs[0].data();
   }
 
   Future<bool> updateTransaction(String id, String imgUrl, String bank) async {
