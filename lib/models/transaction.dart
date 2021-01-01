@@ -70,6 +70,7 @@ class TransactionClass {
 
   TransactionClass.fromSnapshot(DocumentSnapshot map) {
     this.address = Address.fromJson(map.data()['addres']);
+    this.id = map.id;
     this.bank = map.data()['bank'];
     this.userID = map.data()['userID'];
     this.total = map.data()['total'];

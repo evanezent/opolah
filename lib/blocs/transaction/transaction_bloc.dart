@@ -26,6 +26,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   Stream<TransactionState> mapAddTransaction(AddTransaction event) async* {
     var res = await _transactionRepository.addTransaction(event.transaction);
+    
     if (res != "") {
       yield TransactionSuccess(id: res);
     } else {

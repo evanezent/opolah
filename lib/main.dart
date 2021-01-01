@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   String userID;
   void getActiveUser() async {
     var prefs = await SharedPreferences.getInstance();
+    print(prefs.getString("userID"));
     String id = prefs.getString("userID");
 
     userID = id;
@@ -77,41 +78,52 @@ class MyApp extends StatelessWidget {
           )
         ],
         child: MaterialApp(
-            theme: ThemeData(fontFamily: 'Barlow'),
-            home: CustomSplash(
-              imagePath: 'assets/images/logo.png',
-              home: userID != "" ? MainScreen() : LoginScreen(),
-              animationEffect: 'zoom-in',
-              duration: 2500,
-              type: CustomSplashType.StaticDuration,
-            )));
+            theme: ThemeData(fontFamily: 'Barlow'), home: MyHomePage()));
   }
 }
 
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({Key key, this.id = ""}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key key, this.id = ""}) : super(key: key);
 
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-//   final String id;
-// }
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+  final String id;
+}
 
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
+class _MyHomePageState extends State<MyHomePage> {
+  bool available = false;
+  void getActiveUser() async {
+    var prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString("userID");
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         backgroundColor: Colors.white,
-//         body: CustomSplash(
-//           imagePath: 'assets/images/logo.png',
-//           home: widget.id != "" ? MainScreen() : LoginScreen(),
-//           animationEffect: 'zoom-in',
-//           duration: 2500,
-//           type: CustomSplashType.StaticDuration,
-//         ));
-//   }
-// }
+    if (id != null) {
+      setState(() {
+        available = true;
+      });
+    } else {
+      setState(() {
+        available = false;
+      });
+    }
+    print(available);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getActiveUser();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: CustomSplash(
+          imagePath: 'assets/images/logo.png',
+          home: available ? MainScreen() : LoginScreen(),
+          animationEffect: 'zoom-in',
+          duration: 2500,
+          type: CustomSplashType.StaticDuration,
+        ));
+  }
+}

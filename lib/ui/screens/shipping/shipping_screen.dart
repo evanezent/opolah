@@ -62,18 +62,15 @@ class _ShippingScreenState extends State<ShippingScreen>
 
   CartRepository _cartRepository = CartRepository();
 
-  void deleteCarts() async {
+  Future<bool> deleteCarts() async {
     bool deleted = false;
     for (var cart in widget.choosen) {
       var res = await _cartRepository.deleteCart(cart.getID);
-
       deleted = res;
       if (deleted == false) break;
     }
 
-    setState(() {
-      isDeleted = deleted;
-    });
+    return deleted;
   }
 
   void getActiveUser() async {
@@ -127,10 +124,13 @@ class _ShippingScreenState extends State<ShippingScreen>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return BlocListener<TransactionBloc, TransactionState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is TransactionSuccess) {
           //check are the carts have been deleted ?
-          deleteCarts();
+          var deleted = await deleteCarts();
+          setState(() {
+            isDeleted = deleted;
+          });
           if (isDeleted) {
             Navigator.pushReplacement(
                 context,
