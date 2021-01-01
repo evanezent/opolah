@@ -3,15 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:opolah/blocs/transaction/transaction_bloc.dart';
 import 'package:opolah/blocs/transaction/transaction_state.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
-// ignore: must_be_immutable
 class PaymentList extends StatelessWidget {
-  PaymentList({Key key, this.transactionList}) : super(key: key);
-
-  List<TransactionClass> transactionList;
 
   @override
   Widget build(BuildContext context) {
