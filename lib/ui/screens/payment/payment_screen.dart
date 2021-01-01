@@ -39,13 +39,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   File _image;
   double totalCost;
+  bool done = false;
   bool loading = false;
+  Utils util = Utils();
   FlutterMoneyFormatter fmf;
   double _currentPageIndex = 0;
   final picker = ImagePicker();
   var randomCode = randomNumeric(3);
-  Utils util = Utils();
-  TransactionRepository _transactionRepository = TransactionRepository();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -78,7 +78,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
             updateTransaction(state.imgUrl);
           } else if (state is TransactionFail) {
             util.errorToast("Something Wrong !");
+            setState(() {
+              loading = false;
+            });
           } else if (state is TransactionSuccess) {
+            setState(() {
+              done = true;
+              loading = false;
+            });
             util.successToast("Successfully Upload !");
           }
         },
@@ -240,13 +247,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             bgColor: colorPrimary,
             textColor: Colors.white,
             isLoading: loading,
-            onClick: () {
-              setState(() {
-                loading = true;
-              });
-              uploadAction();
-            },
-            text: "UPLOAD",
+            onClick: done
+                ? () {
+                    Navigator.pop(context);
+                  }
+                : () {
+                    setState(() {
+                      loading = true;
+                    });
+                    uploadAction();
+                  },
+            text: done ? "DONE" : "UPLOAD",
           ),
         ));
   }

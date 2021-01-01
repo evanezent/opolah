@@ -139,9 +139,15 @@ class _ShippingScreenState extends State<ShippingScreen>
                         total: (widget.totalItemPrice + 20000).toDouble(),
                         transactionID: state.id)));
           } else {
+            setState(() {
+              loading = false;
+            });
             util.errorToast("Something wrong !");
           }
         } else if (state is TransactionFail) {
+          setState(() {
+            loading = false;
+          });
           util.errorToast("Something wrong !");
         }
       },
