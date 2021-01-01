@@ -11,10 +11,6 @@ class DataRepository {
       FirebaseFirestore.instance.collection('user');
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Stream<QuerySnapshot> getStream() {
-    return collection.snapshots();
-  }
-
   Future registerUser(User data) async {
     var resEmail = checkEmail(data.email);
     var resPhone = checkPhone(data.phone);

@@ -21,21 +21,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  List<TransactionClass> historyList = [];
-  TransactionRepository _transactionRepository = TransactionRepository();
   User user;
 
-  void getAllHistory() async {
-    var data = await _transactionRepository.getStream(user.id);
-
-    for (var transaction in data) {
-      if (transaction.getStatus) {
-        setState(() {
-          historyList.add(transaction);
-        });
-      }
-    }
-  }
 
   @override
   void initState() {
@@ -68,7 +55,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(height: 50),
                           HistoryList(
                             size: size,
-                            historyList: historyList,
                           )
                         ],
                       ),

@@ -7,7 +7,6 @@ import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/screens/payment/payment_screen.dart';
 
 class PaymentList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,29 +50,6 @@ class PaymentList extends StatelessWidget {
             }
             return Container();
           },
-        )
-        // transactionList.length == 0
-        //     ? Container()
-        //     : Container(
-        //         padding: EdgeInsets.all(10),
-        //         child: ListView.builder(
-        //           scrollDirection: Axis.vertical,
-        //           itemCount: transactionList.length,
-        //           itemBuilder: (context, index) => HistoryItem(
-        //             transactionItem: transactionList[index],
-        //             tab: 'payment',
-        //             clickCallback: () {
-        //               Navigator.push(
-        //                   context,
-        //                   MaterialPageRoute(
-        //                       builder: (context) => PaymentScreen(
-        //                           total: double.parse(
-        //                               transactionList[index].getTotal),
-        //                           transactionID: transactionList[index].getID)));
-        //             },
-        //           ),
-        //         ),
-        //       ),
-        );
+        ));
   }
 }

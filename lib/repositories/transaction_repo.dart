@@ -19,21 +19,6 @@ class TransactionRepository {
     });
   }
 
-  Future<List<TransactionClass>> getStream(String id) async {
-    List<TransactionClass> transactionList = [];
-
-    await collection.where("userID", isEqualTo: id).get().then((value) {
-      value.docs.forEach((element) {
-        TransactionClass transaction =
-            TransactionClass.fromJson(element.data());
-        transaction.setID(element.id);
-        transactionList.add(transaction);
-      });
-    });
-
-    return transactionList;
-  }
-
   Future addTransaction(TransactionClass data) async {
     String iD = '';
     await collection.add(data.toJson()).then((value) {
@@ -41,11 +26,6 @@ class TransactionRepository {
     }).catchError((onError) => print(onError.toString()));
 
     return iD;
-  }
-
-  Future<Map> getItem(String id) async {
-    var res = await collection.where('itemID', isEqualTo: id).get();
-    return res.docs[0].data();
   }
 
   Future<bool> updateTransaction(String id, String imgUrl, String bank) async {

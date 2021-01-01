@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:opolah/blocs/transaction/transaction_bloc.dart';
 import 'package:opolah/blocs/transaction/transaction_state.dart';
 import 'package:opolah/constant/constans.dart';
-import 'package:opolah/models/transaction.dart';
 import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/components/see_all.dart';
 import 'package:opolah/ui/screens/profile/transaction_screen.dart';
@@ -11,11 +10,9 @@ import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 // ignore: must_be_immutable
 class HistoryList extends StatelessWidget {
-  HistoryList({Key key, @required this.size, this.historyList})
-      : super(key: key);
+  HistoryList({Key key, @required this.size}) : super(key: key);
 
   final Size size;
-  List<TransactionClass> historyList;
 
   @override
   Widget build(BuildContext context) {

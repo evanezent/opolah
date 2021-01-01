@@ -5,10 +5,6 @@ class CartRepository {
   final CollectionReference cartCollection =
       FirebaseFirestore.instance.collection('cart');
 
-  Stream<QuerySnapshot> getAll() {
-    return cartCollection.snapshots();
-  }
-
   Future<bool> addNewCart(Cart cart) async {
     bool success = true;
 

@@ -7,7 +7,6 @@ import 'package:opolah/ui/components/history_item.dart';
 import 'package:opolah/ui/screens/shipping/shipping_screen.dart';
 
 class DeliveryList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,32 +53,6 @@ class DeliveryList extends StatelessWidget {
           return Container();
         },
       ),
-      // deliveryList.length == 0
-      //     ? Container()
-      //     : Container(
-      //         padding: EdgeInsets.all(10),
-      //         child: ListView.builder(
-      //           scrollDirection: Axis.vertical,
-      //           itemCount: deliveryList.length,
-      //           itemBuilder: (context, index) => HistoryItem(
-      //             transactionItem: deliveryList[index],
-      //             tab: "delivery",
-      //             clickCallback: () {},
-      //             cardClicked: () {
-      //               Navigator.pushReplacement(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                       builder: (context) => ShippingScreen(
-      //                           viewOnly: true,
-      //                           address: deliveryList[index].getAddress,
-      //                           choosen: deliveryList[index].getCarts,
-      //                           totalItemPrice: int.parse(
-      //                                   deliveryList[index].getTotal) -
-      //                               int.parse(deliveryList[index].getCost))));
-      //             },
-      //           ),
-      //         ),
-      //       ),
     );
   }
 }
