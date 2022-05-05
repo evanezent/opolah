@@ -1,22 +1,16 @@
-# OPOLAH
+# opolah
 
-It just another hands-on project **Flutter** and **Firebase** in ecommerce version.
+A new Flutter project.
 
 ## Getting Started
 
-Make sure you have installing **flutter** on your machine, then run the app on connected device or emulator.
-1. Clone this repository
-`git clone https://github.com/evanezcent/opolah`
+This project is a starting point for a Flutter application.
 
-2. Install dependencies
-`flutter packages get` or  `flutter pub get`
+A few resources to get you started if this is your first Flutter project:
 
-3. Run this project
-`flutter run` or `f5`
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-Note: Run this command if there is some error
-**`flutter upgrade`**, but if you was in the latest version of flutter just run
-**`flutter clean`**
-
-## ToDo
-Check the [board](https://github.com/evanezcent/opolah/projects/1) for the on going, unfinished task, and others.
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
