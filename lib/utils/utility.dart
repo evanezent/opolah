@@ -1,9 +1,15 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:opolah/config/constants.dart';
+
+void initialization() async {
+  await Future.delayed(const Duration(seconds: 3));
+  FlutterNativeSplash.remove();
+}
 
 final listBulan = [
   "",
@@ -134,10 +140,10 @@ String returnBankName(String bank) {
   }
 }
 
-String formatterRupiah(int price) {
-  final oCcy = NumberFormat("#,##0", "en_US");
-  return oCcy.format(price);
-}
+// String formatterRupiah(int price) {
+//   final oCcy = NumberFormat("#,##0", "en_US");
+//   return oCcy.format(price);
+// }
 
 String linkOfImg(String? link) {
   if (link != null && link != "") {
@@ -167,19 +173,19 @@ Widget waitingWidget({double value = 100}) {
   );
 }
 
-String formatDateDayID(String date) {
-  String tanggal = "";
-  DateTime dt = DateTime.parse(date);
+// String formatDateDayID(String date) {
+//   String tanggal = "";
+//   DateTime dt = DateTime.parse(date);
 
-  String dayname = translateDay(DateFormat('EEEE').format(dt));
-  String day = dt.day <= 9 ? "0${dt.day}" : "${dt.day}";
-  String month = listBulan[dt.month];
-  String year = "${dt.year}";
+//   String dayname = translateDay(DateFormat('EEEE').format(dt));
+//   String day = dt.day <= 9 ? "0${dt.day}" : "${dt.day}";
+//   String month = listBulan[dt.month];
+//   String year = "${dt.year}";
 
-  tanggal = "$dayname, $day $month $year";
+//   tanggal = "$dayname, $day $month $year";
 
-  return tanggal;
-}
+//   return tanggal;
+// }
 
 String formatDateID(String date) {
   String tanggal = "";

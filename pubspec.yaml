@@ -1,5 +1,5 @@
 name: opolah
-description: A new Flutter project.
+description: MAIN APP.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -52,6 +52,9 @@ dependencies:
   firebase_storage:
   intl:
   circular_menu:
+
+  home:
+    path: modules/home
 
 dev_dependencies:
   flutter_test:

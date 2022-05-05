@@ -1,0 +1,29 @@
+name: home
+description: Home Module.
+version: 1.0.0+1
+
+homepage:
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  font_awesome_flutter:
+  carousel_slider:
+
+  # This is our modular
+  # dependencies:
+  #   path: ../dependencies
+  opolah:
+    path: ../../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: any
+  flutter_lints: ^1.0.0
+
+flutter:
