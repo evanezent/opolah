@@ -55,6 +55,8 @@ dependencies:
 
   home:
     path: modules/home
+  profile:
+    path: modules/profile
 
 dev_dependencies:
   flutter_test:

@@ -62,11 +62,10 @@ const width20 = SizedBox(width: 20);
 const width30 = SizedBox(width: 30);
 
 // Box Shadow
-const primaryShadow = BoxShadow(blurRadius: 8, color: colorPrimary);
 BoxShadow shadow1 =
+    BoxShadow(blurRadius: 6, color: colorDisable1.withOpacity(0.4));
+BoxShadow shadowWide =
     BoxShadow(blurRadius: 20, color: colorDisable4.withOpacity(0.4));
-BoxShadow shadowInput =
-    BoxShadow(blurRadius: 6, color: Color(0xFFE8D7D7).withOpacity(0.6));
 
 //Axis Alignment
 const crossAxisCenter = CrossAxisAlignment.center;
