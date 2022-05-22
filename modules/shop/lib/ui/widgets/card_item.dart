@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:home/models/item.dart';
 import 'package:opolah/config/constants.dart';
 
@@ -27,7 +26,6 @@ class CardItem extends StatelessWidget {
     price = item != null ? item!.price : price;
     imgUrl = item != null ? item!.image : imgUrl;
     double rate = item != null ? item!.star : nStar!;
-    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(amount: price);
 
     return InkWell(
       onTap: () {
@@ -74,7 +72,7 @@ class CardItem extends StatelessWidget {
                   const SizedBox(height: 5),
                   const SizedBox(height: 5),
                   Text(
-                    "RP ${fmf.output.nonSymbol}",
+                    "RP ${price}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: colorSecondary1),
                   ),

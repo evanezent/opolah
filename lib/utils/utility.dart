@@ -173,7 +173,6 @@ Widget waitingWidget({double value = 100}) {
   );
 }
 
-
 // String formatDateDayID(String date) {
 //   String tanggal = "";
 //   DateTime dt = DateTime.parse(date);

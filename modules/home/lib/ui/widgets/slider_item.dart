@@ -36,6 +36,7 @@ class SliderItem extends StatelessWidget {
                   : SizedBox(
                       height: 270,
                       child: ListView.builder(
+                        padding: EdgeInsets.only(top: 10),
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (context, index) => CardItem(

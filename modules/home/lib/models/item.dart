@@ -8,7 +8,7 @@ class Item {
   late DateTime date;
 
   Item(this.name, this.image, this.star, this.price);
-  Item.withId(this.id, this.name, this.image, this.star, this.date);
+  Item.withId(this.id, this.name, this.image, this.star, this.price, this.date);
 
   String get getID => id;
   double get getPrice => price;
