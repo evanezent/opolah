@@ -1,8 +1,9 @@
-name: home
-description: Home Module.
+name: shop
+description: Shop Module.
 version: 1.0.0+1
 
 homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.0.0"

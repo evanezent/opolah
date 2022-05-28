@@ -1,4 +1,4 @@
-import 'package:home/models/item.dart';
+import 'package:opolah/models/item.dart';
 
 final dummyItem = [
   Item.withId(

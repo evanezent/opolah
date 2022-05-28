@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home/models/item.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opolah/models/item.dart';
 import 'package:opolah/config/constants.dart';
 
 // ignore: must_be_immutable
@@ -37,7 +38,7 @@ class CardItem extends StatelessWidget {
         child: Container(
           width: size.width * 0.4,
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: colorWhite,
               boxShadow: [
                 BoxShadow(
                     offset: Offset.zero,
@@ -61,22 +62,56 @@ class CardItem extends StatelessWidget {
               ),
               Container(
                 width: size.width,
-                padding: const EdgeInsets.all(10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       name ?? '',
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: colorPrimary, fontWeight: FontWeight.w600),
+                      style: const TextStyle(color: colorPrimary),
                     ),
-                    const SizedBox(height: 10),
+                    height1,
                     Text(
                       "RP ${price}",
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: colorSecondary1),
+                      style: const TextStyle(
+                          color: colorSecondary1, fontWeight: FontWeight.w600),
                     ),
+                    height2,
+                    Wrap(
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.solidStar,
+                          color: colorYellow,
+                          size: 12,
+                        ),
+                        width1,
+                        const Text(
+                          "4.5",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: colorDisable1,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          color: colorDisable1,
+                          width: 1,
+                          height: 12,
+                        ),
+                        const Text(
+                          "Terjual 1.6k",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colorDisable1,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

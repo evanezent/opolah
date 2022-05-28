@@ -51,7 +51,7 @@ class PorfileHeader extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 23),
                   ),
-                  height5,
+                  height1,
                   Text(
                     user == null ? "-" : user!.phone,
                     style: const TextStyle(

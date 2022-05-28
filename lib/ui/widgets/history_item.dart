@@ -87,7 +87,7 @@ class HistoryItem extends StatelessWidget {
               children: [
                 // util.verticalLineMarker(
                 //     height: 70, color: colorPrimary, width: 5),
-                height20,
+                height5,
                 SizedBox(
                   width: 225,
                   child: Column(

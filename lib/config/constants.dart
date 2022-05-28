@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:opolah/config/size_config.dart';
 
 const String imageDirectory = 'assets/images/';
 const String imageURL = 'https://trustcollect.qrbdl.com/';
@@ -45,21 +46,24 @@ const weight800 = FontWeight.w800;
 const weightBold = FontWeight.bold;
 
 //SizedBox Height
-const height5 = SizedBox(height: 5);
-const height8 = SizedBox(height: 8);
-const height10 = SizedBox(height: 10);
-const height15 = SizedBox(height: 15);
-const height20 = SizedBox(height: 20);
-const height25 = SizedBox(height: 25);
-const height30 = SizedBox(height: 30);
+const height1 = SizedBox(height: 4);
+const height2 = SizedBox(height: 8);
+const height3 = SizedBox(height: 12);
+const height4 = SizedBox(height: 16);
+const height5 = SizedBox(height: 20);
+const height6 = SizedBox(height: 24);
+const height7 = SizedBox(height: 28);
+const height8 = SizedBox(height: 32);
 
 //SizedBox Width
-const width5 = SizedBox(width: 5);
-const width8 = SizedBox(width: 8);
-const width10 = SizedBox(width: 10);
-const width15 = SizedBox(width: 15);
-const width20 = SizedBox(width: 20);
-const width30 = SizedBox(width: 30);
+const width1 = SizedBox(width: 4);
+const width2 = SizedBox(width: 8);
+const width3 = SizedBox(width: 12);
+const width4 = SizedBox(width: 16);
+const width5 = SizedBox(width: 20);
+const width6 = SizedBox(width: 24);
+const width7 = SizedBox(width: 28);
+const width8 = SizedBox(width: 32);
 
 // Box Shadow
 BoxShadow shadow1 =
@@ -166,3 +170,75 @@ Widget refresherIOS(Widget child, {required Function callbackReload}) {
     ],
   );
 }
+
+final textTitleNormal = TextStyle(
+  fontSize: proportionalSizeWidth(34),
+);
+
+final textTitleBold = TextStyle(
+  fontWeight: weightBold,
+  fontSize: proportionalSizeWidth(34),
+);
+
+final textTitle1Normal = TextStyle(
+  fontSize: proportionalSizeWidth(28),
+);
+
+final textTitle1Bold = TextStyle(
+  fontWeight: weightBold,
+  fontSize: proportionalSizeWidth(28),
+);
+
+final textTitle2Normal = TextStyle(
+  fontSize: proportionalSizeWidth(22),
+);
+
+final textTitle2Bold = TextStyle(
+  fontWeight: weightBold,
+  fontSize: proportionalSizeWidth(22),
+);
+
+final textTitle3Normal = TextStyle(
+  fontSize: proportionalSizeWidth(20),
+);
+
+final textTitle3Bold = TextStyle(
+  fontWeight: weightBold,
+  fontSize: proportionalSizeWidth(20),
+);
+
+final textHeadline = TextStyle(
+  fontSize: proportionalSizeWidth(17),
+);
+
+final textCallout = TextStyle(
+  fontSize: proportionalSizeWidth(16),
+);
+
+final textSubhead = TextStyle(
+  fontSize: proportionalSizeWidth(15),
+);
+
+final textBody = TextStyle(
+  fontSize: proportionalSizeWidth(17),
+);
+
+final textButton = TextStyle(
+  fontSize: proportionalSizeWidth(14),
+);
+
+final textFootnote = TextStyle(
+  fontSize: proportionalSizeWidth(13),
+);
+
+final textCaption1 = TextStyle(
+  fontSize: proportionalSizeWidth(12),
+);
+
+final textCaption2 = TextStyle(
+  fontSize: proportionalSizeWidth(11),
+);
+
+final textLabel = TextStyle(
+  fontSize: proportionalSizeWidth(10),
+);

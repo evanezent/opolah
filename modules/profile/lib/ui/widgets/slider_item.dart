@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home/models/item.dart';
-import 'package:home/ui/widgets/card_item.dart';
 import 'package:opolah/config/constants.dart';
 import 'package:opolah/ui/widgets/see_all.dart';
+import 'package:profile/models/item.dart';
+import 'package:profile/ui/widgets/card_item.dart';
 
 class SliderItem extends StatelessWidget {
   const SliderItem({

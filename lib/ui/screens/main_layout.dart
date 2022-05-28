@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:home/ui/screens/home/home_screen.dart';
 import 'package:opolah/config/constants.dart';
+import 'package:opolah/config/size_config.dart';
 import 'package:profile/ui/screens/profile/profile_screen.dart';
+import 'package:shop/ui/screens/home/shop_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
   const MainLayoutScreen({Key? key, this.currentPageIndex = 0})
@@ -24,7 +26,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     super.initState();
     _currentPageIndex = widget.currentPageIndex;
     pagesList.add(const HomeScreen());
-    pagesList.add(const HomeScreen());
+    pagesList.add(const ShopScreen());
     pagesList.add(const HomeScreen());
     pagesList.add(const ProfileScreen());
     // pagesList.add(ShopScreen());
@@ -34,6 +36,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,

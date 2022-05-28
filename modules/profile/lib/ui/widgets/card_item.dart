@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home/models/item.dart';
 import 'package:opolah/config/constants.dart';
+import 'package:profile/models/item.dart';
 
 // ignore: must_be_immutable
 class CardItem extends StatelessWidget {

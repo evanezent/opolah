@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:home/ui/screens/home/home_screen.dart';
+import 'package:opolah/config/size_config.dart';
 import 'package:opolah/ui/screens/main_layout.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: "TEST", home:  MainLayoutScreen());
+    return const MaterialApp(title: "TEST", home: MainLayoutScreen());
   }
 }
 
