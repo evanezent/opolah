@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:opolah/config/constants.dart';
+import 'package:opolah/helper/models.dart';
+import 'package:opolah/ui/widgets/cards/card_item.dart';
 import 'package:opolah/ui/widgets/see_all.dart';
-import 'package:profile/models/item.dart';
-import 'package:profile/ui/widgets/card_item.dart';
 
 class SliderItem extends StatelessWidget {
   const SliderItem({
@@ -21,8 +21,8 @@ class SliderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           SeeAll(title: title, openMore: () => openMore),
@@ -33,8 +33,9 @@ class SliderItem extends StatelessWidget {
                       backgroundColor: Colors.white,
                       valueColor: AlwaysStoppedAnimation(colorPrimary),
                     )
-                  : SizedBox(
+                  : Container(
                       height: 270,
+                      margin: const EdgeInsets.only(top: 10),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,

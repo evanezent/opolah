@@ -12,9 +12,9 @@ const String kBase64Extend = 'data:image/jpeg;base64,';
 const String kBase64ExtendVideo = 'data:video/mp4;base64,';
 const String kBase64ExtendAudio = 'data:audio/mp3;base64,';
 
-const colorPrimary = Color(0xFFED3A69);
-const colorSecondary1 = Color(0xFFF16086);
-const colorSecondary2 = Color(0xFFFF0080);
+const colorPrimary = Color(0xFF293658);
+const colorSecondary1 = Color(0xFFEB3F4E);
+const colorSecondary2 = Color(0xFF422A42);
 const colorSecondary3 = Color(0xFFFAF1F5);
 const colorSecondary4 = Color(0xFFFEECF0);
 const colorWhite = Colors.white;

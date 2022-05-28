@@ -1,6 +1,6 @@
 import 'package:opolah/models/item.dart';
 
-final dummyItem = [
+final List<Item>? dummyItem = [
   Item.withId(
       "x80AN",
       "name 1",

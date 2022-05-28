@@ -57,7 +57,7 @@ class CardItem extends StatelessWidget {
                   imgUrl ?? '',
                   height: 170.0,
                   width: size.width,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Container(

@@ -34,7 +34,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,
                   children: [
-                    ...dummyItem.map((item) => CardItem(
+                    ...dummyItem!.map((item) => CardItem(
                           item: item,
                           size: size,
                         ))

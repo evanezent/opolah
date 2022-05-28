@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:home/ui/widgets/card_icon.dart';
+import 'package:opolah/ui/widgets/cards/card_icon.dart';
 import 'package:opolah/ui/widgets/search_bar.dart';
-import 'package:home/ui/widgets/slider_item.dart';
+import 'package:opolah/ui/widgets/slider_item.dart';
 import 'package:opolah/utils/utility.dart';
 import 'package:opolah/helper/dummy_data.dart';
 
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SliderItem(
                     size: size,
                     title: "Popular",
-                    listItem: dummyItem,
+                    listItem: dummyItem!,
                     openMore: () {},
                   )
                 ],
