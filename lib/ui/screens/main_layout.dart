@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:cart/ui/screens/home/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:home/ui/screens/home/home_screen.dart';
@@ -27,7 +28,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     _currentPageIndex = widget.currentPageIndex;
     pagesList.add(const HomeScreen());
     pagesList.add(const ShopScreen());
-    pagesList.add(const HomeScreen());
+    pagesList.add(const CartScreen());
     pagesList.add(const ProfileScreen());
     // pagesList.add(ShopScreen());
     // pagesList.add(CartScreen());

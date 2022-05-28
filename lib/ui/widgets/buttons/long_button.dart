@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:opolah/config/constants.dart';
 import 'package:opolah/config/size_config.dart';
 
-class LongButtonBordered extends StatelessWidget {
-  const LongButtonBordered(
+class LongButton extends StatelessWidget {
+  const LongButton(
       {Key? key,
       required this.width,
       required this.title,
@@ -64,18 +64,18 @@ class LongButtonBordered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    Size size = MediaQuery.of(context).size;
 
     return ElevatedButton(
       onPressed: onClick!(),
       style: buttonStyle(),
       child: AnimatedContainer(
           width: loading ? 80 : width,
-          height: SizeConfig().screenWidth! < 400
-              ? SizeConfig().screenWidth! * 0.09
-              : SizeConfig().screenWidth! > 660
-                  ? SizeConfig().screenWidth! * 0.05
-                  : SizeConfig().screenWidth! * 0.08,
+          height: size.width < 400
+              ? size.width * 0.09
+              : size.width > 660
+                  ? size.width * 0.05
+                  : size.width * 0.08,
           duration: const Duration(milliseconds: 600),
           curve: Curves.fastOutSlowIn,
           child: Center(

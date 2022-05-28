@@ -23,7 +23,10 @@ class SmallButton extends StatelessWidget {
 
   Widget children() {
     return append == null
-        ? Text(text)
+        ? Text(
+            text,
+            style: TextStyle(color: textColor),
+          )
         : Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             direction: Axis.horizontal,

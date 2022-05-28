@@ -58,6 +58,8 @@ dependencies:
     path: modules/profile
   shop:
     path: modules/shop
+  cart:
+    path: modules/cart
 
 dev_dependencies:
   flutter_test:
